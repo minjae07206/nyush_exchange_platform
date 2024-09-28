@@ -8,9 +8,11 @@ import SavedPage from 'routes/SavedPage';
 import MyPostsPage from 'routes/MyPostsPage';
 import SettingsPage from 'routes/SettingsPage';
 import PostPage from 'routes/PostPage';
+import Header from 'components/header/Header';
 function App() {
   return (
     <BrowserRouter>
+        <Header></Header>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/new-post" element={<NewPostPage />} />
