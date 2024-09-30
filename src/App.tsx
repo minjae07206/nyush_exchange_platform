@@ -16,6 +16,7 @@ function App() {
   return (
     <BrowserRouter>
         <Header></Header>
+        <main>
         <Routes>
           <Route path='/' element={<HomePage/>}></Route>
           <Route path="/market" element={<MarketPage />} />
@@ -24,7 +25,9 @@ function App() {
           <Route path="/myposts/*" element={<MyPostsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/post/*" element={<PostPage />} />
+          
         </Routes>
+        </main>
         <Footer></Footer>
         <MobileNavBar></MobileNavBar>
     </BrowserRouter>
