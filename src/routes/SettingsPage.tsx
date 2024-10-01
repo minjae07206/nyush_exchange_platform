@@ -1,5 +1,13 @@
 export default function SettingsPage() {
     return (
-        <div>This is the settings page</div>
+        <section>
+            <div>
+                <form>
+                   <div>
+                    <input type="text"></input>
+                    </div> 
+                </form>
+            </div>
+        </section>
     )
 }

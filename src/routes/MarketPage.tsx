@@ -1,8 +1,10 @@
-
+import FilterBar from "components/filterAndSort/FilterBar"
+import PostList from "components/PostList"
 export default function MarketPage () {
     return (
         <section>
-            market
+            <FilterBar></FilterBar>
+            <PostList></PostList>
         </section>
         
     )

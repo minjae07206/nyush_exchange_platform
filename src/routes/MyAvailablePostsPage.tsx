@@ -1,5 +1,5 @@
 import PostList from "components/PostList"
-export default function MyDraftPostsPage() {
+export default function MyAvailablePostsPage() {
     return (
         <section>
             <PostList></PostList>

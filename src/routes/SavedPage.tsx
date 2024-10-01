@@ -1,5 +1,8 @@
+import PostList from "components/PostList"
 export default function SavedPage() {
     return (
-        <div>This is the saved products page</div>
+        <section>
+            <PostList></PostList>
+        </section>
     )
 }

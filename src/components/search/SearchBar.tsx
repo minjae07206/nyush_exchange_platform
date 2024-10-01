@@ -16,7 +16,7 @@ export default function SearchBar({ className }: SearchBarProps) {
             {isSearchBarPopUpVisible && (
                 <>
                 {/* Grey translucent background */}
-                <div className="absolute top-14 inset-0 bg-gray-900 opacity-50 z-10" onClick={hideSearchBarPopUp}></div>
+                <div className="fixed top-14 inset-0 bg-gray-900 opacity-50 z-10" onClick={hideSearchBarPopUp}></div>
 
                 <div className="absolute min-w-[280px] top-0 left-0 w-screen h-14 bg-purple-800">
                     <form action="search" method="get" className='flex justify-end'>
