@@ -35,7 +35,7 @@ export default function NavigationBar ({className}:NavigationBarProps) {
                 </li>
                 </Link>
                 <Link to={'/myposts'}>
-                <li className={`${pathname === '/myposts' ? colorClassForSelectedli : ''} ${commonliClass}`}>
+                <li className={`${pathname.startsWith('/myposts') ? colorClassForSelectedli : ''} ${commonliClass}`}>
                     
                         <i className="fa-solid fa-user md:pr-2"></i>
                         <span className={commonspanClass}>My Posts</span>
