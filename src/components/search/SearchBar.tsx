@@ -16,14 +16,14 @@ export default function SearchBar({ className }: SearchBarProps) {
             {isSearchBarPopUpVisible && (
                 <>
                 {/* Grey translucent background */}
-                <div className="fixed top-14 inset-0 bg-gray-900 opacity-50 z-10" onClick={hideSearchBarPopUp}></div>
+                <div className="fixed top-14 inset-0 bg-gray-900 opacity-50 z-50" onClick={hideSearchBarPopUp}></div>
 
                 <div className="absolute min-w-[280px] top-0 left-0 w-screen h-14 bg-purple-800">
                     <form action="search" method="get" className='flex justify-end'>
                         <div className="w-11/12 h-14">
                             <input className="w-11/12 h-14 text-2xl pl-4 mr-14" type="text" />
                         </div>
-                        <div className="mr-4 mt-3 ml-4">
+                        <div className="mr-10 mt-3 ml-2">
                             <button type="submit" onClick={handleSearchClick}><i className="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>
