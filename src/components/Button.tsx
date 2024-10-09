@@ -4,7 +4,8 @@ interface ButtonProps {
     onClick?: Function
  }
 export default function Button ({customClass, buttonText}: ButtonProps) {
+    const defaultClass:string = "bg-purple-800 text-white rounded-md" // default styling for the button
     return (
-        <button className={`${customClass}`}>{buttonText}</button>
+        <button className={` ${defaultClass} ${customClass} `}>{buttonText}</button>
     )
 }

@@ -12,6 +12,8 @@ import Header from 'components/header/Header';
 import HomePage from 'routes/HomePage';
 import Footer from 'components/footer/Footer';
 import MobileNavBar from 'components/MobileNavBar';
+import LoginPage from 'routes/LoginPage';
+import SignupPage from 'routes/SignupPage';
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +28,9 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/post/*" element={<PostPage />} />
           
+          {/*Routes for login and signup */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
         </main>
         <Footer></Footer>
