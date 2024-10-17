@@ -1,8 +1,8 @@
-import Button from "components/Button"
+import LoginForm from "components/forms/LoginForm"
 export default function LoginPage() {
     return (
-        <div>
-            <Button buttonText="Login" customClass="w-20 h-12"></Button>
+        <div className="h-screen bg-slate-200 pt-4 min-w-[280px]">
+            <LoginForm></LoginForm>
         </div>
     )
 }
