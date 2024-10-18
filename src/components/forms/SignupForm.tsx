@@ -8,6 +8,7 @@ import Input from "./Input";
 import InputError from "./InputError";
 
 import { useSignupFormStore } from "stores/useSignupFormStore";
+import InputDescription from "./InputDescription";
 export default function SignupForm () {
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const emailInput:string = useSignupFormStore((state)=>state.email);
@@ -42,6 +43,7 @@ export default function SignupForm () {
         } else {
             onEmailErrorChange(null);
         }
+
         if (!allowedUsernamePattern.test(usernameInput)) {
             onUsernameErrorChange("Username should only contain alphanumerical values and underscores.")
             CAN_PROCEED_TO_MAKING_POST_REQUEST = false;
@@ -77,11 +79,14 @@ export default function SignupForm () {
             <FormItem>
                 <FormLabel htmlFor="username">Username</FormLabel>
                 <Input type="text" id="username" name='username' placeholder="Username" required maxlength={30} onInputChange={onUsernameChange}></Input>
+                <InputDescription inputDescriptionText="Username should be 1-30 characters long."></InputDescription>
                 <InputError errorText={usernameError}/>
             </FormItem>
             <FormItem>
                 <FormLabel htmlFor="password">Password</FormLabel>
-                <Input type="password" id="password" name='password' placeholder="Password" required maxlength={128} onInputChange={onPasswordChange}></Input>
+                <Input type="password" id="password" name='password' placeholder="Password" required minlength={8} maxlength={128} onInputChange={onPasswordChange}></Input>
+                <InputDescription inputDescriptionText="Password should be 8-128 characters long."/>
+                <InputDescription inputDescriptionText="The password cannot contain &lt;, &gt;, &quot;, &#39;, `, ;, &amp;, $, /, \\ (, ), {, }"/>
                 <InputError errorText={passwordError}/>
             </FormItem>
             <FormItem>

@@ -1,8 +1,8 @@
 import React from "react"
 interface FormProps {
     children: React.ReactNode;
-    action: string;
-    method: string;
+    action?: string;
+    method?: string;
     handleSubmit: (e:React.FormEvent<HTMLFormElement>) => void
   }
   
