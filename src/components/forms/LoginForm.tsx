@@ -47,15 +47,15 @@ export default function LoginForm() {
     return (
         <div className={commonClassName}>
         <FormHeader formTitle="Login"></FormHeader>
-        <Form action="/api/login" method="post" handleSubmit={handleLoginFormSubmit}>
+        <Form action="/api/login" method="get" handleSubmit={handleLoginFormSubmit}>
             <FormItem>
                 <FormLabel htmlFor="username">Username</FormLabel>
-                <Input type="text" id="username" name='username' placeholder="Username" required maxlength={20} onInputChange={onUsernameChange}></Input>
+                <Input type="text" id="username" name='username' placeholder="Username" required maxlength={30} onInputChange={onUsernameChange}></Input>
                 <InputError errorText={usernameError}/>
             </FormItem>
             <FormItem>
                 <FormLabel htmlFor="password">Password</FormLabel>
-                <Input type="password" id="password" name="password" placeholder="Password" required maxlength={20} onInputChange={onPasswordChange}></Input>
+                <Input type="password" id="password" name="password" placeholder="Password" required maxlength={128} onInputChange={onPasswordChange}></Input>
                 <InputError errorText={passwordError}/>
             </FormItem>
 
