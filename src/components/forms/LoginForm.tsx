@@ -6,8 +6,9 @@ import Input from "./Input";
 import InputError from "./InputError";
 import { useLoginFormStore } from "stores/useLoginFormStore";
 import FormHeader from "./FormHeader";
+import FormFooter from "./FormFooter";
 export default function LoginForm() {
-    const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md';
+    const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const usernameInput:string = useLoginFormStore((state)=>state.username);
     const onUsernameChange = useLoginFormStore((state)=>state.setUsername);
     const passwordInput:string = useLoginFormStore((state)=>state.password);
@@ -60,6 +61,8 @@ export default function LoginForm() {
 
             <Button buttonText="Login" customClass="w-20 h-12"></Button>
         </Form>
+        <FormFooter linkTo="/signup" footerText="Don't have an account?"></FormFooter>
+        <FormFooter linkTo="/forgot_username_password" footerText="Forgot username or password?"></FormFooter>
         </div>
     )
 }
