@@ -8,10 +8,10 @@ export default function FilterBar() {
     const DropDownMenuClass = 'w-full text-[8px] larger-phones:text-[9px] sm:text-sm md:text-base border-solid border-stone-800 rounded-md border-2 m-[1px] h-6 md:h-8';
     return (
         <div className="flex justify-start mt-1 mb-1 min-w-[280px]">
-            <DropDownMenu className={DropDownMenuClass} options={postStatusOptions}></DropDownMenu>
-            <DropDownMenu className={DropDownMenuClass} options={categoryOptions}></DropDownMenu>
-            <DropDownMenu className={DropDownMenuClass} options={negotiabilityOptions}></DropDownMenu>
-            <DropDownMenu className={DropDownMenuClass} options={sortOptions}></DropDownMenu>
+            <DropDownMenu name="postStatusOption" className={DropDownMenuClass} options={postStatusOptions}></DropDownMenu>
+            <DropDownMenu name="categoryOption" className={DropDownMenuClass} options={categoryOptions}></DropDownMenu>
+            <DropDownMenu name="negotiabilityOption" className={DropDownMenuClass} options={negotiabilityOptions}></DropDownMenu>
+            <DropDownMenu name="sortOption" className={DropDownMenuClass} options={sortOptions}></DropDownMenu>
 
         </div>
     )
