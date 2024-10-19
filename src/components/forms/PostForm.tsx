@@ -33,6 +33,7 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
     const sellBuyByDateInput: string = usePostFormStore((state) => state.sellBuyByDate);
     const onSellBuyByDateChange = usePostFormStore((state) => state.setSellBuyByDate);
     const [openToNegotiate, setOpenToNegotiate] = useState(false);
+    const [postTypeIsSell, setPostTypeIsSell] = useState(true);
 
     const handlePostFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -43,7 +44,12 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
             <Form method={newOrEditFlag === "new" ? "POST" : "PATCH"} handleSubmit={handlePostFormSubmit}>
                 <FormItem>
                     <FormLabel htmlFor="postType">Post type</FormLabel>
-                    <Input type="radio" id="postType" name='postType' required maxlength={100} customClassname="w-11/12 md:w-2/3" onInputChange={onTitleChange}></Input>
+                    <div className="flex justify-start text-center">
+                    <div onClick={()=>{setPostTypeIsSell(true)}} className={`border border-purple-700 w-1/6 mx-2 mb-1 rounded-md hover:bg-purple-700 hover:text-white cursor-pointer ${postTypeIsSell && 'bg-purple-700 text-white'}`}>Sell</div>
+                    <Input type="radio" id="postType" value="sell" name='postType' customClassname="hidden" checked={postTypeIsSell}></Input>
+                    <div onClick={()=>{setPostTypeIsSell(false)}} className={`border border-purple-700 w-1/6 mx-2 mb-1 rounded-md hover:bg-purple-700 hover:text-white cursor-pointer  ${!postTypeIsSell && 'bg-purple-700 text-white'}`}>Buy</div>
+                    <Input type="radio" id="postType" value="buy" name='postType' customClassname="hidden" checked={!postTypeIsSell}></Input>
+                    </div>
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="title">Title</FormLabel>
