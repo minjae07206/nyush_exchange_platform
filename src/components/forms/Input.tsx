@@ -8,6 +8,7 @@ interface InputProps {
     minlength?:number;
     value?:string;
     min?:string;
+    max?:string;
     customClassname?: string;
     checked?: boolean;
     onInputChange?: (input:string) => void;
@@ -23,6 +24,7 @@ export default function Input({
     minlength,
     value,
     min,
+    max,
     checked,
     customClassname,
     onInputChange,
@@ -39,6 +41,7 @@ export default function Input({
     minLength={minlength}
     value={value}
     min={min}
+    max={max}
     checked={checked}
     onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
         // e.preventDefault causes the checkbox to be needed to click twice before it gets toggled.

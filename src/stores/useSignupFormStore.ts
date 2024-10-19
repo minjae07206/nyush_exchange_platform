@@ -25,7 +25,7 @@ export const useSignupFormStore = create<UseSignupFormState>((set) => ({
     setEmail: (inpuString:string) => set({ email: inpuString }),
     setUsername: (inputString:string) => set({ username: inputString }),
     setPassword: (inputString:string) => set({ password: inputString }),
-    setConfirmPassword: (inputString:string) => set({ password: inputString }),
+    setConfirmPassword: (inputString:string) => set({ confirmPassword: inputString }),
     emailError: null,
     usernameError: null,
     passwordError: null,

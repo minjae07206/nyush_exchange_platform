@@ -51,16 +51,20 @@ export default function SignupForm () {
             onUsernameErrorChange(null);
         }
         if (!allowedPasswordPattern.test(passwordInput)) {
-            onPasswordErrorChange("The password cannot contain <, >, \", ', `, ;, &, $, /, \\, (, ), {, }")
+            onPasswordErrorChange("The password cannot contain <, >, \", ', `, ;, &, $, /, \\, (, ), {, }");
+            CAN_PROCEED_TO_MAKING_POST_REQUEST = false;
+        } else if (passwordInput != confirmPasswordInput) {
+            // check if password matches confirmPassword.
+            onPasswordErrorChange("Password and Confirm Password do not match.");
             CAN_PROCEED_TO_MAKING_POST_REQUEST = false;
         } else {
             onPasswordErrorChange(null);
         }
-        // check if password matches confirmPassword.
-        if (passwordInput !== confirmPasswordInput) {
-            onPasswordErrorChange("Password and Confirm Password do not match.");
+        if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
+            // proceed with request to server
+            return;
         } else {
-            onPasswordErrorChange(null);
+            return new Error("Something wrong happened.")
         }
 
     }
@@ -90,8 +94,8 @@ export default function SignupForm () {
                 <InputError errorText={passwordError}/>
             </FormItem>
             <FormItem>
-                <FormLabel htmlFor="email">Confirm Password</FormLabel>
-                <Input type="password" id="confirmPassword" name='confirmPassword' placeholder="Confirm Password" required maxlength={128} onInputChange={onConfirmPasswordChange}></Input>
+                <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+                <Input type="password" id="confirmPassword" name='confirmPassword' placeholder="Confirm Password" required minlength={8} maxlength={128} onInputChange={onConfirmPasswordChange}></Input>
                 <InputError errorText={null}/>
             </FormItem>
             <Button buttonText="Signup" customClass="w-20 h-12"></Button>

@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 export default function Header () {
     const location = useLocation();
     const currentPath = location.pathname;
-    const LoginOutClassname:string = "w-2/12 sm:w-1/12 text-center content-center text-xs sm:text-base mr-2 my-2 border-8";
+    const LoginOutClassname:string = "w-2/12 sm:w-1/12 text-center content-center text-xs sm:text-base mr-2 my-2";
     return (
         // The z-10 z-index is so that the header comes on top of the myposts navbar below the header.
         // Setting the z-index of the SearchBar causes a problem where the myposts navbar comes on top of the grey background when search icon is clicked.
