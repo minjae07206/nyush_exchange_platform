@@ -17,7 +17,7 @@ export default function TextArea({
     minlength,
     onInputChange,
     }:TextAreaProps) {
-        const commonClassName = "w-11/12 min-w-[240px] m-2 pl-4 rounded-sm bg-gray-100 text-black placeholder:text-gray-400 resize-none";
+        const commonClassName = "h-32 w-11/12 min-w-[240px] m-2 pl-4 rounded-sm bg-gray-100 text-black placeholder:text-gray-400 resize-none";
     return <textarea 
     className={commonClassName}
     id={id} 
