@@ -22,7 +22,7 @@ interface UsePostFormState {
   setSellBuyByDateError: (inputValue: string | null) => void;
 
 }
-{/**Doesn't take any attributes. Returns the default date that should be shown on the calendar as the post end date. */}
+/**Doesn't take any attributes. Returns the default date that should be shown on the calendar as the post end date. */
 function getInitialSellBuyByDate() {
 // Get current date for calendar to set default value for "sell/buy by date" field.
 const currentDate = new Date(); 

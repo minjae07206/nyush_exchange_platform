@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom"
-
 export default function Footer() {
     const spanCommonClass = 'm-4 flex larger-phones:inline text-[12px] sm:text-base'
     return (

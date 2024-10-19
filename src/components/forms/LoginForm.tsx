@@ -25,7 +25,7 @@ export default function LoginForm() {
         const allowedUsernamePattern:RegExp = /^[a-zA-Z0-9_]+$/;
         // not allowing user to type submit certain special characters to prevent script attacks. 
         // the same pattern should be used in SignupPage to not allow users to create a username/password involving these characters.
-        const allowedPasswordPattern:RegExp = /^[^<>"'`;&$\/(){}]*$/;
+        const allowedPasswordPattern: RegExp = /^[^<>"'`;&$()/{}]*$/;
         let CAN_PROCEED_TO_MAKING_POST_REQUEST = true;
         
         if (!allowedUsernamePattern.test(usernameInput)) {

@@ -18,7 +18,7 @@ function App() {
   return (
     <BrowserRouter>
         <Header></Header>
-        <main>
+        <main className='min-h-screen'>
         <Routes>
           <Route path='/' element={<HomePage/>}></Route>
           <Route path="/market" element={<MarketPage />} />

@@ -35,7 +35,7 @@ export default function SignupForm () {
         const allowedUsernamePattern:RegExp = /^[a-zA-Z0-9_]+$/;
         // not allowing user to type submit certain special characters to prevent script attacks. 
         // the same pattern should be used in SignupPage to not allow users to create a username/password involving these characters.
-        const allowedPasswordPattern:RegExp = /^[^<>"'`;&$\/(){}]*$/;
+        const allowedPasswordPattern: RegExp = /^[^<>"'`;&$()/{}]*$/;
         let CAN_PROCEED_TO_MAKING_POST_REQUEST = true;
         if (!allowedEmailPattern.test(emailInput)) {
             onEmailErrorChange("Email should only contain alphabets, numbers and full stop(.) and should not begin with a full stop.");
@@ -53,7 +53,7 @@ export default function SignupForm () {
         if (!allowedPasswordPattern.test(passwordInput)) {
             onPasswordErrorChange("The password cannot contain <, >, \", ', `, ;, &, $, /, \\, (, ), {, }");
             CAN_PROCEED_TO_MAKING_POST_REQUEST = false;
-        } else if (passwordInput != confirmPasswordInput) {
+        } else if (passwordInput !== confirmPasswordInput) {
             // check if password matches confirmPassword.
             onPasswordErrorChange("Password and Confirm Password do not match.");
             CAN_PROCEED_TO_MAKING_POST_REQUEST = false;
