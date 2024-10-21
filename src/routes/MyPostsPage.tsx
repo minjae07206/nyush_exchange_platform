@@ -1,4 +1,4 @@
-import MyPostsNavBar from 'components/MyPostsNavBar';
+import MyPostsNavBar from 'components/post/MyPostsNavBar';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import MyDraftPostsPage from 'routes/MyDraftPostsPage';
 import MyArchivedPostsPage from 'routes/MyArchivedPostsPage';
