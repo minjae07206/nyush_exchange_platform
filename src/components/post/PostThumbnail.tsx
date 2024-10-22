@@ -12,7 +12,7 @@ export default function PostThumbnail({ PostThumbnailData }: PostThumbnailProps)
     const statusAvailable = false;
     // status can be available, pending approval, draft, archived(completed), in-progress, 
     return (
-        <div className="flex shadow-md bg-grey-100 h-28 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block">
+        <div className="flex shadow-md bg-grey-100 h-32 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block">
             <div className="w-full h-full larger-phones:w-5/12 md:w-full  md:h-4/6">
                 <img src="/book-example.jpg" alt="weew" className="object-cover w-full h-full p-1 rounded-md"></img>
             </div>
@@ -30,6 +30,7 @@ export default function PostThumbnail({ PostThumbnailData }: PostThumbnailProps)
                     <span className="hidden md:block text-sm mt-1 ml-1 text-gray-400">8</span>
                 </div>
                 {/* PostList's Save number before screen size is md. */}
+                {/* Another possible solution is delete this part and play around with the css of the 4 components in the flexbox above */}
                 <div className="flex justify-end larger-phones:mt-9 text-gray-400 md:hidden">
                     <i className="text-sm fa-regular fa-bookmark mt-1"></i>
                     <span className="text-sm ml-1">8</span>

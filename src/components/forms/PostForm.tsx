@@ -8,6 +8,7 @@ import InputDescription from "components/forms/InputDescription";
 import Button from "components/Button";
 import TextArea from "components/forms/TextArea";
 import DropDownMenu from "components/filterAndSort/DropDownMenu";
+import FileInput from "components/forms/FileInput";
 
 import { useState } from "react";
 import { usePostFormStore } from "stores/usePostFormStore";
@@ -133,6 +134,10 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                     <Input type="date" id="sellBuyByDate" name="sellBuyByDate" value={sellBuyByDateInput} onInputChange={onSellBuyByDateChange} />
                     <InputDescription inputDescriptionText="You may specify the end date of this post. Default is +4 months from today."/>
                     <InputError errorText={sellBuyByDateError}/>
+                </FormItem>
+                <FormItem>
+                    <FormLabel htmlFor="images">Images</FormLabel>
+                    <FileInput id="images" name="images"/>
                 </FormItem>
                 <div className="flex justify-around">
                     <Button buttonText="Post to market" customClass="p-2"></Button>

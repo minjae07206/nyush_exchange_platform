@@ -7,7 +7,11 @@ import InputError from "./InputError";
 import { useLoginFormStore } from "stores/useLoginFormStore";
 import FormHeader from "./FormHeader";
 import FormFooter from "./FormFooter";
+
+import axios from 'axios';
+
 export default function LoginForm() {
+    console.log(axios)
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const usernameInput:string = useLoginFormStore((state)=>state.username);
     const onUsernameChange = useLoginFormStore((state)=>state.setUsername);
@@ -41,13 +45,20 @@ export default function LoginForm() {
             onPasswordErrorChange(null);
         }
 
+        if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
+            axios.post('https://localhost:3001/api/auth/login', {
+                username: usernameInput,
+                password: passwordInput,
+            }).then(()=>console.log(1))
+        }
+
 
     }
 
     return (
         <div className={commonClassName}>
         <FormHeader formTitle="Login"></FormHeader>
-        <Form action="/api/login" method="get" handleSubmit={handleLoginFormSubmit}>
+        <Form action="/api/auth/login" method="post" handleSubmit={handleLoginFormSubmit}>
             <FormItem>
                 <FormLabel htmlFor="username">Username</FormLabel>
                 <Input type="text" id="username" name='username' placeholder="Username" required maxlength={30} onInputChange={onUsernameChange}></Input>
