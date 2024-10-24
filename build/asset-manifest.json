@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.0eef519e.css",
-    "main.js": "/static/js/main.6dc72df9.js",
-    "static/js/453.5b693c3a.chunk.js": "/static/js/453.5b693c3a.chunk.js",
-    "index.html": "/index.html",
-    "main.0eef519e.css.map": "/static/css/main.0eef519e.css.map",
-    "main.6dc72df9.js.map": "/static/js/main.6dc72df9.js.map",
-    "453.5b693c3a.chunk.js.map": "/static/js/453.5b693c3a.chunk.js.map"
+    "main.css": "../nyush_exchange_platform_server/static/css/main.0eef519e.css",
+    "main.js": "../nyush_exchange_platform_server/static/js/main.d564f02a.js",
+    "static/js/453.5b693c3a.chunk.js": "../nyush_exchange_platform_server/static/js/453.5b693c3a.chunk.js",
+    "index.html": "../nyush_exchange_platform_server/index.html",
+    "main.0eef519e.css.map": "../nyush_exchange_platform_server/static/css/main.0eef519e.css.map",
+    "main.d564f02a.js.map": "../nyush_exchange_platform_server/static/js/main.d564f02a.js.map",
+    "453.5b693c3a.chunk.js.map": "../nyush_exchange_platform_server/static/js/453.5b693c3a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0eef519e.css",
-    "static/js/main.6dc72df9.js"
+    "static/js/main.d564f02a.js"
   ]
 }
