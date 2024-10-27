@@ -5,11 +5,11 @@ import signupApi from './api/auth/signup';
 const app: Application = express();
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 const port: number = 3001;
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform/build')));
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../build/index.html'));
+    res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })
 
 app.use((req: Request, res: Response) => {
