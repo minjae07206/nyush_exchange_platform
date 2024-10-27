@@ -11,7 +11,6 @@ import FormFooter from "./FormFooter";
 import axios from 'axios';
 
 export default function LoginForm() {
-    console.log(axios)
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const usernameInput:string = useLoginFormStore((state)=>state.username);
     const onUsernameChange = useLoginFormStore((state)=>state.setUsername);
@@ -46,7 +45,7 @@ export default function LoginForm() {
         }
 
         if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
-            axios.post('https://localhost:3001/api/auth/login', {
+            axios.post('http://localhost:3001/api/auth/login', {
                 username: usernameInput,
                 password: passwordInput,
             }).then(()=>console.log(1))

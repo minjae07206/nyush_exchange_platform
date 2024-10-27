@@ -6,10 +6,16 @@ import FormHeader from "./FormHeader";
 import FormFooter from "./FormFooter";
 import Input from "./Input";
 import InputError from "./InputError";
+import FormError from "./FormError";
+import FormSuccess from "./FormSuccess";
+
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 import { useSignupFormStore } from "stores/useSignupFormStore";
 import InputDescription from "./InputDescription";
 export default function SignupForm () {
+    const navigate = useNavigate();
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const emailInput:string = useSignupFormStore((state)=>state.email);
     const onEmailChange = useSignupFormStore((state)=>state.setEmail);
@@ -22,6 +28,11 @@ export default function SignupForm () {
     const emailError: string | null = useSignupFormStore((state)=>state.emailError);
     const usernameError:string | null = useSignupFormStore((state)=>state.usernameError);
     const passwordError:string | null = useSignupFormStore((state)=>state.passwordError);
+
+    const formError:string | null = useSignupFormStore((state)=>state.formError);
+    const onFormErrorChange = useSignupFormStore((state)=>state.setFormError);
+    const formSuccess:string | null = useSignupFormStore((state)=>state.formSuccess);
+    const onFormSuccessChange = useSignupFormStore((state)=>state.setFormSuccess);
 
     const onEmailErrorChange = useSignupFormStore((state)=>state.setEmailError);
     const onUsernameErrorChange = useSignupFormStore((state)=>state.setUsernameError);
@@ -61,8 +72,20 @@ export default function SignupForm () {
             onPasswordErrorChange(null);
         }
         if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
-            // proceed with request to server
-            return;
+            axios.post('http://localhost:3001/api/auth/signup', {
+                email: emailInput,
+                username: usernameInput,
+                password: passwordInput,
+                // Maybe it is not a good idea, but for now I won't include the confirmPasswordInput in the HTTP body because we already check that it matches the password from the client side.
+            }).then((response) => {
+                console.log(response);
+                onFormSuccessChange(response.data.message)
+                onFormErrorChange(null); // set FormError message to null again so it doesn't stay showing. 
+                setTimeout(()=>{navigate('/login');}, 2000);
+            }).catch((error)=> {
+                console.log(error.response.data.message)
+                onFormErrorChange(error.response.data.message);
+            })
         } else {
             return new Error("Something wrong happened.")
         }
@@ -100,6 +123,8 @@ export default function SignupForm () {
             </FormItem>
             <Button buttonText="Signup" customClass="w-20 h-12"></Button>
         </Form>
+        <FormSuccess innerText={formSuccess}/>
+        <FormError innerText={formError}/>
         <FormFooter linkTo="/login" footerText="Already have an account?"></FormFooter>
         </div>
     )
