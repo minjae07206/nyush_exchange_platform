@@ -3,6 +3,8 @@ import { readFileSync } from 'fs'; // Importing the file system module
 import bcrypt from 'bcrypt';
 import pool from '../../db/postgres';
 import forbiddenUsernames from '../../utils/forbiddenUsernames';
+import generateRandomCode from '../../utils/generateRandomCode';
+import { sendVerificationEmail } from '../../utils/sendEmail';
 const saltRounds = 10;
 const router = express.Router();
 interface ReqBodyProps {
@@ -131,8 +133,20 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash('12345678', salt);
     // Todo: should send verification email.
+    const verificationCode:string = generateRandomCode(6);
+    /*
+    try {
+        await sendVerificationEmail(email, verificationCode);
+    } catch (error) {
+        res.status(500).json({message: "An error occured during sending verification code email. Please try again later."});
+        return;
+    }
+    */
 
+    req.session.verificationCode = verificationCode;
+    res.status(200).json({ message: 'Verification email sent successfully! Redirecting to code input page' });
     // send success and send success message, add user to user table. redirect them to the login page.
+    /*
     try {
         const insert_new_user_query = readFileSync('./src/sql_queries/insert_new_user.sql', 'utf-8');
         await pool.query(insert_new_user_query, [username, email, hashedPassword]);
@@ -142,6 +156,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     }
 
     res.status(200).json({ message: 'Account successfully created! Redirecting to login page' });
+    */
     return;
 });
 
