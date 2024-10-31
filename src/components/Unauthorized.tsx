@@ -1,5 +1,5 @@
 export default function Unauthorized() {
-    const commonClassName = 'm-auto mt-5 text-md'
+    const commonClassName = 'm-auto mt-5 ml-2 text-md'
     return (<div className={commonClassName}>
         <h1>You are unauthorized to enter this page.</h1>
         <p>Your session might not exist anymore, start over from signup.</p>

@@ -9,33 +9,40 @@ import FormHeader from "./FormHeader";
 import FormFooter from "./FormFooter";
 
 import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
 export default function LoginForm() {
+    const navigate = useNavigate();
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
-    const usernameInput:string = useLoginFormStore((state)=>state.username);
-    const onUsernameChange = useLoginFormStore((state)=>state.setUsername);
-    const passwordInput:string = useLoginFormStore((state)=>state.password);
-    const onPasswordChange = useLoginFormStore((state)=>state.setPassword);
-    const usernameError:string | null = useLoginFormStore((state)=>state.usernameError);
-    const passwordError:string | null = useLoginFormStore((state)=>state.passwordError);
-    const onUsernameErrorChange = useLoginFormStore((state)=>state.setUsernameError);
-    const onPasswordErrorChange = useLoginFormStore((state)=>state.setPasswordError);
+    const usernameOrEmailInput: string = useLoginFormStore((state) => state.usernameOrEmail);
+    const onUsernameOrEmailChange = useLoginFormStore((state) => state.setUsernameOrEmail);
+    const passwordInput: string = useLoginFormStore((state) => state.password);
+    const onPasswordChange = useLoginFormStore((state) => state.setPassword);
+    const usernameOrEmailError: string | null = useLoginFormStore((state) => state.usernameOrEmailError);
+    const passwordError: string | null = useLoginFormStore((state) => state.passwordError);
+    const onUsernameOrEmailErrorChange = useLoginFormStore((state) => state.setUsernameOrEmailError);
+    const onPasswordErrorChange = useLoginFormStore((state) => state.setPasswordError);
+
+    const formError:string | null = useLoginFormStore((state)=>state.formError);
+    const onFormErrorChange = useLoginFormStore((state)=>state.setFormError);
+    const formSuccess:string | null = useLoginFormStore((state)=>state.formSuccess);
+    const onFormSuccessChange = useLoginFormStore((state)=>state.setFormSuccess);
 
 
-    const handleLoginFormSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+    const handleLoginFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const allowedEmailPattern: RegExp = /^(?!\.)([a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*)@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)+$/;
         // username should only contain alphanumerical values and underscores.
-        const allowedUsernamePattern:RegExp = /^[a-zA-Z0-9_]+$/;
+        const allowedUsernamePattern: RegExp = /^[a-zA-Z0-9_]+$/;
         // not allowing user to type submit certain special characters to prevent script attacks. 
         // the same pattern should be used in SignupPage to not allow users to create a username/password involving these characters.
         const allowedPasswordPattern: RegExp = /^[^<>"'`;&$()/{}]*$/;
         let CAN_PROCEED_TO_MAKING_POST_REQUEST = true;
-        
-        if (!allowedUsernamePattern.test(usernameInput)) {
-            onUsernameErrorChange("Username should only contain alphanumerical values and underscores.")
+
+        if (!allowedUsernamePattern.test(usernameOrEmailInput) && allowedEmailPattern.test(usernameOrEmailInput)) {
+            onUsernameOrEmailErrorChange("Username should only contain alphanumerical values and underscores, or invalid email format.")
             CAN_PROCEED_TO_MAKING_POST_REQUEST = false;
         } else {
-            onUsernameErrorChange(null);
+            onUsernameOrEmailErrorChange(null)
         }
         if (!allowedPasswordPattern.test(passwordInput)) {
             onPasswordErrorChange("The password cannot contain <, >, \", ', `, ;, &, $, /, \\, (, ), {, }")
@@ -46,9 +53,21 @@ export default function LoginForm() {
 
         if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
             axios.post('http://localhost:3001/api/auth/login', {
-                username: usernameInput,
+                username: usernameOrEmailInput,
                 password: passwordInput,
-            }).then(()=>console.log(1))
+            }).then((response) => {
+                // New knowledge. In response object under headers there is no Set-Cookie header field, but in fact cookie is being sent from the server through response header.
+                // The reason why we cannot see the cookie in response object through console.log() is for security reasons.
+                console.log(response);
+                onFormSuccessChange(response.data.message);
+                onFormErrorChange(null); // set FormError message to null again so it doesn't stay showing. 
+                setTimeout(() => { navigate('/market'); }, 2000);
+            }).catch((error) => {
+                console.log(error.response.data.message)
+                onFormErrorChange(error.response.data.message);
+            })
+        } else {
+            return new Error("Something wrong happened.")
         }
 
 
@@ -56,23 +75,23 @@ export default function LoginForm() {
 
     return (
         <div className={commonClassName}>
-        <FormHeader formTitle="Login"></FormHeader>
-        <Form action="/api/auth/login" method="post" handleSubmit={handleLoginFormSubmit}>
-            <FormItem>
-                <FormLabel htmlFor="username">Username</FormLabel>
-                <Input type="text" id="username" name='username' placeholder="Username" required maxlength={30} onInputChange={onUsernameChange}></Input>
-                <InputError errorText={usernameError}/>
-            </FormItem>
-            <FormItem>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <Input type="password" id="password" name="password" placeholder="Password" required maxlength={128} onInputChange={onPasswordChange}></Input>
-                <InputError errorText={passwordError}/>
-            </FormItem>
+            <FormHeader formTitle="Login"></FormHeader>
+            <Form action="/api/auth/login" method="post" handleSubmit={handleLoginFormSubmit}>
+                <FormItem>
+                    <FormLabel htmlFor="username">Username or email</FormLabel>
+                    <Input type="text" id="usernameOrEmail" name='usernameOrEmail' placeholder="Username or email" required maxlength={254} onInputChange={onUsernameOrEmailChange}></Input>
+                    <InputError errorText={usernameOrEmailError} />
+                </FormItem>
+                <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <Input type="password" id="password" name="password" placeholder="Password" required maxlength={128} onInputChange={onPasswordChange}></Input>
+                    <InputError errorText={passwordError} />
+                </FormItem>
 
-            <Button buttonText="Login" customClass="w-20 h-12"></Button>
-        </Form>
-        <FormFooter linkTo="/signup" footerText="Don't have an account?"></FormFooter>
-        <FormFooter linkTo="/forgot_username_password" footerText="Forgot username or password?"></FormFooter>
+                <Button buttonText="Login" customClass="w-20 h-12"></Button>
+            </Form>
+            <FormFooter linkTo="/signup" footerText="Don't have an account?"></FormFooter>
+            <FormFooter linkTo="/forgot-password" footerText="Forgot password?"></FormFooter>
         </div>
     )
 }

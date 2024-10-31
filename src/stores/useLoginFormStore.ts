@@ -1,23 +1,31 @@
 import {create} from 'zustand';
 interface UseLoginFormState {
-    username: string;
+    usernameOrEmail: string;
     password: string;
-    usernameError: string | null;
+    usernameOrEmailError: string | null;
     passwordError: string | null;
-    setUsername: (inputString:string) => void;
+    formError: string | null;
+    formSuccess: string | null;
+    setUsernameOrEmail: (inputString:string) => void;
     setPassword: (inputString:string) => void;
-    setUsernameError: (inputValue: string | null) => void;
+    setUsernameOrEmailError: (inputValue: string | null) => void;
     setPasswordError: (inputValue: string | null) => void;
+    setFormError: (inputValue: string | null) => void;
+    setFormSuccess: (inputValue: string | null) => void;
   }
   
 
 export const useLoginFormStore = create<UseLoginFormState>((set) => ({
-    username: "",
+    usernameOrEmail: "",
     password: "",
-    setUsername: (inputString:string) => set({ username: inputString }),
+    setUsernameOrEmail: (inputString:string) => set({ usernameOrEmail: inputString }),
     setPassword: (inputString:string) => set({ password: inputString }),
-    usernameError: null,
+    usernameOrEmailError: null,
     passwordError: null,
-    setUsernameError: (inputValue: string | null) => set({usernameError: inputValue}),
+    formError: null,
+    formSuccess: null,
+    setUsernameOrEmailError: (inputValue: string | null) => set({usernameOrEmailError: inputValue}),
     setPasswordError: (inputValue: string | null) => set({passwordError: inputValue}),
+    setFormError: (inputValue: string | null) => set({formError: inputValue}),
+    setFormSuccess: (inputValue: string | null) => set({formSuccess: inputValue}),
   }));

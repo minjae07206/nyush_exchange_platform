@@ -18,7 +18,7 @@ export default function Header () {
             <NavigationBar className="w-8/12 text-center content-center hidden sm:block"></NavigationBar>
             <SearchBar className="w-6/12 sm:w-1/12 text-center content-center sm:ml-3"></SearchBar>
             {
-                currentPath === "/signup" || currentPath === "/login" ? <LoginButton className={LoginOutClassname}/> : <LogoutButton className={LoginOutClassname}/>
+                currentPath === "/signup" || currentPath === "/login" || currentPath === '/email-verification'? <LoginButton className={LoginOutClassname}/> : <LogoutButton className={LoginOutClassname}/>
             }
         </header>
     )
