@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import loginApi from './api/auth/login';
 import signupApi from './api/auth/signup';
+import verfiyUserApi from './api/auth/verifyUser';
 import checkVerificationCodeSessionApi from './api/auth/checkVerificationCodeSessionExists';
 
 const redisClient = createClient({
@@ -60,6 +61,7 @@ app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform/build
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
+app.use('/api/auth/verify-user', verfiyUserApi);
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })

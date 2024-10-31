@@ -130,33 +130,27 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         return;
     }
     // hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('12345678', salt);
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
     // Todo: should send verification email.
     const verificationCode:string = generateRandomCode(6);
-    /*
+    
     try {
         await sendVerificationEmail(email, verificationCode);
     } catch (error) {
         res.status(500).json({message: "An error occured during sending verification code email. Please try again later."});
         return;
     }
-    */
+    
 
-    req.session.verificationCode = verificationCode;
+    req.session.unverifiedUser = {
+        username: username,
+        email: email,
+        hashedPassword: hashedPassword,
+        verificationCode: verificationCode,
+    };
     res.status(200).json({ message: 'Verification email sent successfully! Redirecting to code input page' });
-    // send success and send success message, add user to user table. redirect them to the login page.
-    /*
-    try {
-        const insert_new_user_query = readFileSync('./src/sql_queries/insert_new_user.sql', 'utf-8');
-        await pool.query(insert_new_user_query, [username, email, hashedPassword]);
-    } catch (error) {
-        res.status(500).json({ message: "An error occured on the database with creating new user." });
-        return;
-    }
-
-    res.status(200).json({ message: 'Account successfully created! Redirecting to login page' });
-    */
+    
     return;
 });
 
