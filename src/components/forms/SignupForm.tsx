@@ -78,10 +78,12 @@ export default function SignupForm () {
                 password: passwordInput,
                 // Maybe it is not a good idea, but for now I won't include the confirmPasswordInput in the HTTP body because we already check that it matches the password from the client side.
             }).then((response) => {
+                // New knowledge. In response object under headers there is no Set-Cookie header field, but in fact cookie is being sent from the server through response header.
+                // The reason why we cannot see the cookie in response object through console.log() is for security reasons.
                 console.log(response);
                 onFormSuccessChange(response.data.message)
                 onFormErrorChange(null); // set FormError message to null again so it doesn't stay showing. 
-                setTimeout(()=>{navigate('/login');}, 2000);
+                setTimeout(()=>{navigate('/email-verification');}, 2000);
             }).catch((error)=> {
                 console.log(error.response.data.message)
                 onFormErrorChange(error.response.data.message);

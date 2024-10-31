@@ -14,6 +14,7 @@ import Footer from 'components/footer/Footer';
 import MobileNavBar from 'components/MobileNavBar';
 import LoginPage from 'routes/LoginPage';
 import SignupPage from 'routes/SignupPage';
+import EmailVerificationPage from 'routes/EmailVerificationPage';
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +32,7 @@ function App() {
           {/*Routes for login and signup */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/email-verification" element={<EmailVerificationPage/>}/>
         </Routes>
         </main>
         <Footer></Footer>
