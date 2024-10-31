@@ -40,7 +40,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         return;
     }
 
-    // check email validity, maybe later send a two-factor authentication email. 
+    // check email validity,  later send a two-factor authentication email. 
     // the email should end in @nyu, and // email should only contain alphabets, numbers and full stop(.) and should not start with a full stop.
 
     const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/;
@@ -133,25 +133,28 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
     // Todo: should send verification email.
-    const verificationCode:string = generateRandomCode(6);
-    
+    const verificationCode: string = generateRandomCode(6);
+
     try {
         await sendVerificationEmail(email, verificationCode);
     } catch (error) {
-        res.status(500).json({message: "An error occured during sending verification code email. Please try again later."});
+        res.status(500).json({ message: "An error occured during sending verification code email. Please try again later." });
         return;
     }
-    
 
-    req.session.unverifiedUser = {
-        username: username,
-        email: email,
-        hashedPassword: hashedPassword,
-        verificationCode: verificationCode,
-    };
-    res.status(200).json({ message: 'Verification email sent successfully! Redirecting to code input page' });
-    
-    return;
+    try {
+        req.session.unverifiedUser = {
+            username: username,
+            email: email,
+            hashedPassword: hashedPassword,
+            verificationCode: verificationCode,
+        };
+        res.status(200).json({ message: 'Verification email sent successfully! Redirecting to code input page' });
+        return;
+    } catch (error) {
+        res.status(500).json({ message: "An error occured during creating session. Please try again later." });
+        return;
+    }
 });
 
 export default router;
