@@ -41,7 +41,7 @@ export default function SignupForm () {
     const handleSignupFormSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // email should only contain alphabets, numbers and full stop(.) and should not start with a full stop.
-        const allowedEmailPattern: RegExp = /^(?!\.)([a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*)@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)+$/;
+        const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/;
         // username should only contain alphanumerical values and underscores.
         const allowedUsernamePattern:RegExp = /^[a-zA-Z0-9_]+$/;
         // not allowing user to type submit certain special characters to prevent script attacks. 

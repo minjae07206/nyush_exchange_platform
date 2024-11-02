@@ -15,28 +15,39 @@ import MobileNavBar from 'components/MobileNavBar';
 import LoginPage from 'routes/LoginPage';
 import SignupPage from 'routes/SignupPage';
 import EmailVerificationPage from 'routes/EmailVerificationPage';
+import NotFoundPage from 'routes/NotFoundPage';
+import AuthenticatedRoutes from 'routes/AuthenticatedRoutes';
+import AuthRelatedRoutes from 'routes/AuthRelatedRoutes';
 function App() {
   return (
     <BrowserRouter>
-        <Header></Header>
-        <main className='min-h-screen'>
+      <Header></Header>
+      <main className='min-h-screen'>
         <Routes>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path="/market" element={<MarketPage />} />
-          <Route path="/new-post" element={<NewPostPage />} />
-          <Route path="/saved" element={<SavedPage />} />
-          <Route path="/myposts/*" element={<MyPostsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/post/*" element={<PostPage />} />
-          
+          {/*Home route */}
+          <Route path='/' element={<HomePage />}></Route>
+          {/*Routes for that require login */}
+          <Route element={<AuthenticatedRoutes />}>
+            <Route path="/market" element={<MarketPage />} />
+            <Route path="/new-post" element={<NewPostPage />} />
+            <Route path="/saved" element={<SavedPage />} />
+            <Route path="/myposts/*" element={<MyPostsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/post/*" element={<PostPage />} />
+          </Route>
+
           {/*Routes for login and signup */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/email-verification" element={<EmailVerificationPage/>}/>
+          <Route element={<AuthRelatedRoutes />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/email-verification" element={<EmailVerificationPage />} />
+          </Route>
+          {/* Catch-all route for undefined paths */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        </main>
-        <Footer></Footer>
-        <MobileNavBar></MobileNavBar>
+      </main>
+      <Footer></Footer>
+      <MobileNavBar></MobileNavBar>
     </BrowserRouter>
   );
 }

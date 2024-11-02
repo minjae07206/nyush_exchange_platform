@@ -4,9 +4,11 @@ import LogoutButton from "components/header/LogoutButton";
 import SearchBar from "components/search/SearchBar";
 import LoginButton from "components/header/LoginButton";
 import { useLocation } from "react-router-dom";
+import { useSessionStore } from "stores/useSessionStore";
 export default function Header () {
     const location = useLocation();
     const currentPath = location.pathname;
+    const {isLoggedIn} = useSessionStore();
     const LoginOutClassname:string = "w-2/12 sm:w-1/12 text-center content-center text-xs sm:text-base mr-2 my-2";
     return (
         // The z-10 z-index is so that the header comes on top of the myposts navbar below the header.
@@ -18,7 +20,7 @@ export default function Header () {
             <NavigationBar className="w-8/12 text-center content-center hidden sm:block"></NavigationBar>
             <SearchBar className="w-6/12 sm:w-1/12 text-center content-center sm:ml-3"></SearchBar>
             {
-                currentPath === "/signup" || currentPath === "/login" || currentPath === '/email-verification'? <LoginButton className={LoginOutClassname}/> : <LogoutButton className={LoginOutClassname}/>
+                isLoggedIn ? <LogoutButton className={LoginOutClassname}/> : <LoginButton className={LoginOutClassname}/>
             }
         </header>
     )

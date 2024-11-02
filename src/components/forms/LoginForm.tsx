@@ -7,10 +7,18 @@ import InputError from "./InputError";
 import { useLoginFormStore } from "stores/useLoginFormStore";
 import FormHeader from "./FormHeader";
 import FormFooter from "./FormFooter";
+import FormError from "./FormError";
+import FormSuccess from "./FormSuccess";
 
+import { useSessionStore } from "stores/useSessionStore";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 export default function LoginForm() {
+    useEffect(()=>{
+        onFormErrorChange(null);
+        onFormSuccessChange(null);
+    }, [])
     const navigate = useNavigate();
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const usernameOrEmailInput: string = useLoginFormStore((state) => state.usernameOrEmail);
@@ -28,9 +36,11 @@ export default function LoginForm() {
     const onFormSuccessChange = useLoginFormStore((state)=>state.setFormSuccess);
 
 
+    const setIsLoggedIn = useSessionStore((state)=>state.setIsLoggedIn);
+    const setSessionExpirationTime = useSessionStore((state)=>state.setSessionExpirationTime)
     const handleLoginFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const allowedEmailPattern: RegExp = /^(?!\.)([a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*)@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)+$/;
+        const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/;
         // username should only contain alphanumerical values and underscores.
         const allowedUsernamePattern: RegExp = /^[a-zA-Z0-9_]+$/;
         // not allowing user to type submit certain special characters to prevent script attacks. 
@@ -38,7 +48,7 @@ export default function LoginForm() {
         const allowedPasswordPattern: RegExp = /^[^<>"'`;&$()/{}]*$/;
         let CAN_PROCEED_TO_MAKING_POST_REQUEST = true;
 
-        if (!allowedUsernamePattern.test(usernameOrEmailInput) && allowedEmailPattern.test(usernameOrEmailInput)) {
+        if (!allowedUsernamePattern.test(usernameOrEmailInput) && !allowedEmailPattern.test(usernameOrEmailInput)) {
             onUsernameOrEmailErrorChange("Username should only contain alphanumerical values and underscores, or invalid email format.")
             CAN_PROCEED_TO_MAKING_POST_REQUEST = false;
         } else {
@@ -53,14 +63,16 @@ export default function LoginForm() {
 
         if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
             axios.post('http://localhost:3001/api/auth/login', {
-                username: usernameOrEmailInput,
+                usernameOrEmail: usernameOrEmailInput,
                 password: passwordInput,
             }).then((response) => {
                 // New knowledge. In response object under headers there is no Set-Cookie header field, but in fact cookie is being sent from the server through response header.
                 // The reason why we cannot see the cookie in response object through console.log() is for security reasons.
-                console.log(response);
                 onFormSuccessChange(response.data.message);
                 onFormErrorChange(null); // set FormError message to null again so it doesn't stay showing. 
+                // when the user is logged in, mark its session expiration date
+                setIsLoggedIn(true);
+                setSessionExpirationTime(response.data.sessionExpirationTime);
                 setTimeout(() => { navigate('/market'); }, 2000);
             }).catch((error) => {
                 console.log(error.response.data.message)
@@ -90,6 +102,8 @@ export default function LoginForm() {
 
                 <Button buttonText="Login" customClass="w-20 h-12"></Button>
             </Form>
+            <FormSuccess innerText={formSuccess}/>
+            <FormError innerText={formError}/>
             <FormFooter linkTo="/signup" footerText="Don't have an account?"></FormFooter>
             <FormFooter linkTo="/forgot-password" footerText="Forgot password?"></FormFooter>
         </div>
