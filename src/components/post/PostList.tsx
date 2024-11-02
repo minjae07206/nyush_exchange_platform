@@ -10,9 +10,10 @@ export default function PostList({postList}: any) {
                 const price = PostThumbnailInfo.price;
                 const savedCount = PostThumbnailInfo.saved_count;
                 const currency = PostThumbnailInfo.currency;
-                const time = timeAgo(PostThumbnailInfo.date_of_creation)
+                const time = timeAgo(PostThumbnailInfo.date_of_creation);
+                const imageURL = PostThumbnailInfo.image_url;
                 return (
-                    <PostThumbnail key={PostThumbnailInfo.post_id} postStatus={postStatus} postTitle={postTitle} price={price} savedCount={savedCount} currency={currency} time={time}></PostThumbnail>
+                    <PostThumbnail key={PostThumbnailInfo.post_id} postStatus={postStatus} postTitle={postTitle} price={price} savedCount={savedCount} currency={currency} time={time} imageURL={imageURL}></PostThumbnail>
                 )
             })}
         </div>
