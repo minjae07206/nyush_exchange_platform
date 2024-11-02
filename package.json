@@ -17,15 +17,18 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.16",
     "pg": "^8.13.0",
-    "redis": "^4.7.0"
+    "redis": "^4.7.0",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.0",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.7.4",
     "@types/nodemailer": "^6.4.16",
     "@types/pg": "^8.11.10",

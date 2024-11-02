@@ -4,7 +4,6 @@ import pool from '../../db/postgres';
 import { readFileSync } from 'fs'; // Importing the file system module
 const router = express.Router();
 router.post('/', async (req: Request, res: Response) => {
-    console.log(req.body)
     try {
         // cookie parser library allows me to do req.cookie, otherwise I would need to get it from req.header.
         // 'connect.sid' is the key of the sessionId(cookie) that is passed on from the client to the server.
@@ -19,14 +18,18 @@ router.post('/', async (req: Request, res: Response) => {
             const username = sessionData.unverifiedUser.username;
             const hashedPassword = sessionData.unverifiedUser.hashedPassword;
             const email = sessionData.unverifiedUser.email;
+            const role = 'admin'
             if (sessionData.unverifiedUser.verificationCode == req.body.verificationCode) {
                 // user verfied
                 // send success and send success message, add user to user table. redirect them to the login page.
 
                 try {
                     const insert_new_user_query = readFileSync('./src/sql_queries/insert_new_user.sql', 'utf-8');
-                    await pool.query(insert_new_user_query, [username, email, hashedPassword]);
+                    await pool.query(insert_new_user_query, [username, email, hashedPassword, role]);
+                    // The session will only be deleted if the insert query was succesful.
                     await redisClient.del(sessionId);
+                    // Clear the session cookie on the client
+                    res.clearCookie('connect.sid');
                 } catch (error) {
                     res.status(500).json({ message: "An error occured on the database with creating new user." });
                     return;

@@ -80,13 +80,26 @@ router.post('/', async (req: Request, res: Response) => {
             const getPasswordQueryResult = await pool.query(select_password_with_email_query, [email]);
             if (getPasswordQueryResult.rows.length > 0) {
                 const hashedPassword = getPasswordQueryResult.rows[0].password;
-                const passwordsMatch = await bcrypt.compare(hashedPassword, password);
+                const passwordsMatch = await bcrypt.compare(password, hashedPassword);
                 if (passwordsMatch) {
-                    console.log("Password is correct!");
-                    // Continue with login or other actions
+                    // passwords match, so login the user by creating a session.
+                    const userId = getPasswordQueryResult.rows[0].user_id;
+                    const role = getPasswordQueryResult.rows[0].role;
+                    // create user session
+                    req.session.user = {
+                        userId: userId,
+                        role: role,
+                    }
+                    // setting the maxAge for this session's cookie
+                    req.session.cookie.maxAge = 30 * 60 * 1000;
+                    const sessionExpirationTime = Date.now() + req.session.cookie.maxAge;
+                    res.status(200).json({ message: 'Login successful! Redirecting to market page',
+                        sessionExpirationTime,
+                     });
+                    return;
                 } else {
-                    console.log("Password is incorrect.");
-                    // Handle incorrect password case
+                    res.status(400).json({ message: "Incorrect password!" })
+                    return;
                 }
             } else {
                 res.status(400).json({ message: "Email does not exist. Try signing up instead." });
@@ -111,12 +124,15 @@ router.post('/', async (req: Request, res: Response) => {
                     const role = getPasswordQueryResult.rows[0].role;
                     // create user session
                     req.session.user = {
-                        userId: username,
+                        userId: userId,
                         role: role,
                     }
                     // setting the maxAge for this session's cookie
                     req.session.cookie.maxAge = 30 * 60 * 1000;
-                    res.status(200).json({ message: 'Login successful! Redirecting to market page' });
+                    const sessionExpirationTime = Date.now() + req.session.cookie.maxAge;
+                    res.status(200).json({ message: 'Login successful! Redirecting to market page',
+                        sessionExpirationTime,
+                     });
                     return;
                 } else {
                     res.status(400).json({ message: "Passwords do not match." })

@@ -12,7 +12,11 @@ import loginApi from './api/auth/login';
 import signupApi from './api/auth/signup';
 import verfiyUserApi from './api/auth/verifyUser';
 import checkVerificationCodeSessionApi from './api/auth/checkVerificationCodeSessionExists';
-
+import checkLoginApi from './api/auth/check-login';
+import keepAliveApi from './api/auth/keep-alive';
+import logoutApi from './api/auth/logout';
+import createPostApi from './api/post/create-post';
+import myAvailablePostApi from './api/post/my-available-post';
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -62,6 +66,11 @@ app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
 app.use('/api/auth/verify-user', verfiyUserApi);
+app.use('/api/auth/check-login', checkLoginApi);
+app.use('/api/auth/keep-alive', keepAliveApi);
+app.use('/api/auth/logout', logoutApi);
+app.use('/api/post/create-post', createPostApi);
+app.use('/api/post/my-available-post', myAvailablePostApi);
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })
