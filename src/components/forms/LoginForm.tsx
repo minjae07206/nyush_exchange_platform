@@ -73,7 +73,7 @@ export default function LoginForm() {
                 // when the user is logged in, mark its session expiration date
                 setIsLoggedIn(true);
                 setSessionExpirationTime(response.data.sessionExpirationTime);
-                setTimeout(() => { navigate('/market'); }, 2000);
+                navigate('/market');
             }).catch((error) => {
                 console.log(error.response.data.message)
                 onFormErrorChange(error.response.data.message);

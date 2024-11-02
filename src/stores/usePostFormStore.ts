@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-interface UsePostFormState {
+export interface UsePostFormState {
   title: string;
   description: string;
   price: string;
@@ -10,6 +10,19 @@ interface UsePostFormState {
   priceError: string | null;
   quantityError: string | null;
   sellBuyByDateError: string | null;
+  imageFiles: File[];
+  imagePreviews: string[];
+  openToNegotiate: boolean;
+  postTypeIsSell: boolean;
+  totalOrPerItem: string;
+  submitType: string;
+  formError: string | null;
+  formSuccess: string | null;
+  setImagePreviews: (inputArray: string[]) => void;
+  setImageFiles: (inputArray: File[]) => void;
+  setFormError: (inputValue: string | null) => void;
+  setFormSuccess: (inputValue: string | null) => void;
+
   setTitle: (inputString: string) => void;
   setDescription: (inpuString: string) => void;
   setPrice: (inputString: string) => void;
@@ -20,21 +33,24 @@ interface UsePostFormState {
   setPriceError: (inputValue: string | null) => void;
   setQuantityError: (inputValue: string | null) => void;
   setSellBuyByDateError: (inputValue: string | null) => void;
-
+  setOpenToNegotiate: (input: boolean) => void;
+  setTotalOrPerItem: (input: string) => void;
+  setPostTypeIsSell: (input: boolean) => void;
+  setSubmitType: (input: string) => void;
 }
 /**Doesn't take any attributes. Returns the default date that should be shown on the calendar as the post end date. */
-function getInitialSellBuyByDate() {
-// Get current date for calendar to set default value for "sell/buy by date" field.
-const currentDate = new Date(); 
-let endDate = new Date(currentDate); // Create a new Date object based on current date
+export function getInitialSellBuyByDate() {
+  // Get current date for calendar to set default value for "sell/buy by date" field.
+  const currentDate = new Date();
+  let endDate = new Date(currentDate); // Create a new Date object based on current date
 
-// Set the end date to be +4 months from the current date
-endDate.setMonth(currentDate.getMonth() + 4);
+  // Set the end date to be +4 months from the current date
+  endDate.setMonth(currentDate.getMonth() + 4);
 
-// Gets the date in YYYY-MM-DD format
-const formattedEndDate = endDate.toISOString().split('T')[0]; 
+  // Gets the date in YYYY-MM-DD format
+  const formattedEndDate = endDate.toISOString().split('T')[0];
 
-return formattedEndDate;
+  return formattedEndDate;
 
 }
 
@@ -43,7 +59,7 @@ export const usePostFormStore = create<UsePostFormState>((set) => ({
   title: "",
   setTitle: (inputString: string) => set({ title: inputString }),
   titleError: null,
-  setTitleError: (inputValue: string | null) => set({titleError: inputValue}),
+  setTitleError: (inputValue: string | null) => set({ titleError: inputValue }),
   description: "",
   setDescription: (inputString: string) => set({ description: inputString }),
   price: "",
@@ -60,5 +76,21 @@ export const usePostFormStore = create<UsePostFormState>((set) => ({
   setSellBuyByDate: (inputString: string) => set({ sellBuyByDate: inputString }),
   sellBuyByDateError: null,
   setSellBuyByDateError: (inputString: string | null) => set({ sellBuyByDateError: inputString }),
-  
+  imageFiles: [],
+  setImageFiles: (inputFiles: File[]) => set({ imageFiles: inputFiles }),
+  imagePreviews: [],
+  setImagePreviews: (inputURLs: string[]) => set({ imagePreviews: inputURLs }),
+  openToNegotiate: false,
+  setOpenToNegotiate: (inputValue: boolean) => set({ openToNegotiate: inputValue }),
+  postTypeIsSell: true,
+  setPostTypeIsSell: (inputValue: boolean) => set({ postTypeIsSell: inputValue }),
+  totalOrPerItem: "Total price",
+  setTotalOrPerItem: (inputValue: string) => set({ totalOrPerItem: inputValue }),
+  submitType: "",
+  setSubmitType: (inputValue: string) => set({ submitType: inputValue }),
+  formError: null,
+  formSuccess: null,
+  setFormError: (inputValue: string | null) => set({ formError: inputValue }),
+  setFormSuccess: (inputValue: string | null) => set({ formSuccess: inputValue }),
 }));
+

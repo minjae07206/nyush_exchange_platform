@@ -18,7 +18,7 @@ export default function SessionExpirationWatcher() {
                                 withCredentials:true,
                             });
                             if (response.data.message === "session-renewed") {
-                                setSessionExpirationTime(Date.now() + response.data.sessionExpirationTime)
+                                setSessionExpirationTime(response.data.sessionExpirationTime)
                                 setIsLoggedIn(true);
                             }
                         } catch(error) {
