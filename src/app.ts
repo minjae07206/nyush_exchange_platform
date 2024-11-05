@@ -17,6 +17,13 @@ import keepAliveApi from './api/auth/keep-alive';
 import logoutApi from './api/auth/logout';
 import createPostApi from './api/post/create-post';
 import myAvailablePostApi from './api/post/my-available-post';
+import myDraftPostApi from './api/post/my-draft-post';
+import myArchivedPostApi from './api/post/my-archived-post';
+import marketPostApi from './api/post/market_post';
+import savePostApi from './api/post/save-post';
+import unsavePostApi from './api/post/unsave-post';
+import incrementSavedCountApi from './api/post/increment-saved-count';
+import decrementSavedCountApi from './api/post/decrement-saved-count';
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -71,6 +78,14 @@ app.use('/api/auth/keep-alive', keepAliveApi);
 app.use('/api/auth/logout', logoutApi);
 app.use('/api/post/create-post', createPostApi);
 app.use('/api/post/my-available-post', myAvailablePostApi);
+app.use('/api/post/my-draft-post', myDraftPostApi);
+app.use('/api/post/my-archived-post', myArchivedPostApi);
+app.use('/api/post/market-post', marketPostApi);
+app.use('/api/post/save-post', savePostApi);
+app.use('/api/post/unsave-post', unsavePostApi);
+app.use('/api/post/increment-saved-count', incrementSavedCountApi);
+app.use('/api/post/decrement-saved-count', decrementSavedCountApi);
+
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })
