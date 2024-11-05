@@ -21,7 +21,6 @@ export default function MyAvailablePostsPage() {
         }).then((response) => {
             const responseData = JSON.parse(response.data);
             setPostList((prevPosts) => [...prevPosts, ...responseData]); // Append new posts to existing list
-            console.log(postList)
             setCurrentPage(newPage); // Update current page
             if (responseData.length < 10) {
                 // If we get fewer than 10 posts, there are no more posts to load
