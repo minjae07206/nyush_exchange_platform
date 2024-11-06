@@ -6,7 +6,7 @@ export default function PostStatusBadge({ statusText }: PostStatusBadgeProps) {
     let colorClass = "";
 
     switch (statusText) {
-        case "Pending Approval":
+        case "Pending":
             colorClass = "bg-amber-500";
             break;
         case "Draft":

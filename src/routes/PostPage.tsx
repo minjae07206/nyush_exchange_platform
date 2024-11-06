@@ -6,7 +6,6 @@ export default function PostPage() {
         <Routes>
             <Route path=":postId" element={<Post/>}></Route>
         </Routes>
-        <div>This is the Post information page</div>
         </div>
     )
 }

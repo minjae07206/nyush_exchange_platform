@@ -13,6 +13,7 @@ export interface UsePostFormState {
   imageFiles: File[];
   imagePreviews: string[];
   openToNegotiate: boolean;
+  category: string;
   postTypeIsSell: boolean;
   totalOrPerItem: string;
   submitType: string;
@@ -28,6 +29,7 @@ export interface UsePostFormState {
   setPrice: (inputString: string) => void;
   setCurrency: (inputString: string) => void;
   setQuantity: (inputString: string) => void;
+  setCategory: (inputString:string) => void;
   setSellBuyByDate: (inputString: string) => void;
   setTitleError: (inputValue: string | null) => void;
   setPriceError: (inputValue: string | null) => void;
@@ -82,6 +84,8 @@ export const usePostFormStore = create<UsePostFormState>((set) => ({
   setImagePreviews: (inputURLs: string[]) => set({ imagePreviews: inputURLs }),
   openToNegotiate: false,
   setOpenToNegotiate: (inputValue: boolean) => set({ openToNegotiate: inputValue }),
+  category: "Textbook",
+  setCategory: (inputString: string) => set({category: inputString}),
   postTypeIsSell: true,
   setPostTypeIsSell: (inputValue: boolean) => set({ postTypeIsSell: inputValue }),
   totalOrPerItem: "Total price",

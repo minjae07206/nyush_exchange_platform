@@ -60,7 +60,8 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
     const setTotalOrPerItem = usePostFormStore((state)=> state.setTotalOrPerItem);
     const submitType:string = usePostFormStore((state)=> state.submitType);
     const setSubmitType = usePostFormStore((state)=> state.setSubmitType);  // Check which submit button was clicked, post to market or Save to draft.
-
+    const category:string = usePostFormStore((state)=> state.category);
+    const setCategory = usePostFormStore((state)=>state.setCategory);
 
     const formError:string | null = usePostFormStore((state)=>state.formError);
     const onFormErrorChange = usePostFormStore((state)=>state.setFormError);
@@ -111,7 +112,8 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
             formData.append('quantity', quantityInput);
             formData.append('sellBuyByDate', sellBuyByDateInput);
             formData.append('postStatus', submitType);
-            formData.append('totalOrPerItem', totalOrPerItem)
+            formData.append('category', category);
+            formData.append('totalOrPerItem', totalOrPerItem);
             formData.append('postType', postTypeIsSell.toString());
             formData.append('openToNegotiate', openToNegotiate.toString());
             imageFiles.forEach((file) => {
@@ -159,6 +161,20 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                     <Input type="text" id="title" name='title' placeholder="Post title" required maxlength={100} customClassname="w-11/12 md:w-2/3" onInputChange={onTitleChange}></Input>
                     <InputDescription inputDescriptionText="The title should be 1-100 characters long."></InputDescription>
                     <InputError errorText={titleError} />
+                </FormItem>
+                <FormItem>
+                    <FormLabel htmlFor="category">Category</FormLabel>
+                    <DropDownMenu name="currency" options={["Textbook", "Kitchenware", "Food","Others"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                            if (e.target.value === "Textbook") {
+                                setCategory("Textbook");
+                            } else if (e.target.value === "Kitchenware") {
+                                setCategory("Kitchenware");
+                            } else if (e.target.value === "Food") {
+                                setCategory("Food");
+                            } else if (e.target.value === "Others") {
+                                setCategory("Others");
+                            }
+                        }}></DropDownMenu>
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="price">Price</FormLabel>

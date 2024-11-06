@@ -28,7 +28,7 @@ export default function ImageSlide ({images}:ImageSlideProp) {
         trackMouse: true // optional, allows swipe with mouse as well
     });
     return (
-        <div {...handlers} className="relative overflow-hidden w-full h-72" >
+        <div {...handlers} className="relative w-full aspect-square overflow-hidden" >
             <div className="flex transition-transform duration-300 ease-in-out"
             style={{
                 transform: `translateX(-${currentIndex * 100}%)`,
@@ -48,13 +48,13 @@ export default function ImageSlide ({images}:ImageSlideProp) {
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white"
                 onClick={prevImage}
             >
-                ❮
+                <i className="fa-solid fa-chevron-left text-3xl"></i>
             </button>
             <button
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-lg"
                 onClick={nextImage}
             >
-                ❯
+                <i className="fa-solid fa-chevron-right text-3xl"></i>
             </button>
         </div>
     )

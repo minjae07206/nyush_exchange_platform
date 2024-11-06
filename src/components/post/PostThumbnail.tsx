@@ -2,6 +2,7 @@ import { useState } from "react";
 import Post from "./Post"
 import PostStatusBadge from "./PostStatusBadge"
 import axios from "axios";
+import OpenToNegotiateFlagBadge from "./OpenToNegotiateFlagBadge";
 interface PostThumbnailProps {
     postId: string;
     postStatus: string;
@@ -13,8 +14,9 @@ interface PostThumbnailProps {
     imageURL: string;
     isSaved: boolean;
     authorId: string;
+    open_to_negotiate_flag: boolean;
 }
-export default function PostThumbnail({ postId, postStatus, postTitle, currency, price, savedCount, time, imageURL, authorId, isSaved }: PostThumbnailProps) {
+export default function PostThumbnail({ postId, postStatus, postTitle, currency, price, savedCount, time, imageURL, authorId, open_to_negotiate_flag, isSaved }: PostThumbnailProps) {
     const [postSaved, setPostSaved] = useState<boolean>(isSaved);
     const [postSavedCount, setPostSavedCount] = useState<number>(savedCount);
     const handleSavedClick = async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -73,7 +75,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
             <div className="w-full h-full larger-phones:w-5/12 md:w-full  md:h-4/6">
                 <img src={`http://localhost:3001/${imageURL}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md"></img>
             </div>
-            <div className="block w-2/3 larger-phones:w-7/12 px-2 md:w-full md:h-1/5">
+            <div className="block w-2/3 larger-phones:w-7/12 px-2 md:w-full md:h-1/5 relative">
                 {/* The title can cover 2 rows, any title longer than that will be hidden. */}
                 {/* Hiding text that goes over 2 lines is easily done thanks to the line-clamp of tailwindcss*/}
                 <h5 className="break-words line-clamp-2">{postTitle}
@@ -103,6 +105,9 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
                         }
                     </div>
                     <span className="text-sm ml-1">{postSavedCount}</span>
+                </div>
+                <div className="absolute bottom-2">
+                {open_to_negotiate_flag && <OpenToNegotiateFlagBadge/>}
                 </div>
             </div>
         </div>
