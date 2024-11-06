@@ -8,28 +8,18 @@ SELECT
     p.currency, 
     p.date_of_creation,
     pi.image_url,
-    CASE 
-        WHEN s.save_id IS NOT NULL THEN TRUE 
-        ELSE FALSE 
-    END AS is_saved
+    TRUE AS is_saved  -- Since we are fetching from the saved table, these posts are always saved
 FROM 
     posts p 
-LEFT JOIN 
-    LATERAL (
-        SELECT image_url 
-        FROM post_images 
-        WHERE post_id = p.post_id 
-        LIMIT 1
-    ) pi ON true 
-LEFT JOIN 
+JOIN 
     saved s ON s.post_id = p.post_id 
-            AND s.user_id = $1
+LEFT JOIN 
+    LATERAL (SELECT image_url FROM post_images WHERE post_id = p.post_id LIMIT 1) pi ON true 
 WHERE 
-    p.author_id = $1 AND 
-    p.post_status = $2 
+    s.user_id = $1  -- Use the provided user_id
 ORDER BY 
     p.date_of_creation DESC 
 LIMIT 
-    $3 
+    $2  -- Limit for pagination
 OFFSET 
-    $4;
+    $3;  -- Offset for pagination

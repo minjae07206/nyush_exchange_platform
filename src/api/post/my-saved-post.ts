@@ -10,8 +10,8 @@ router.get('/', async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1; // Default to 1 if not provided
     const offset = (page - 1) * limit; // Calculate offset
     try {
-        const get_my_draft_posts_thumbnail_query = readFileSync('./src/sql_queries/get_my_saved_posts_thumbnail.sql', 'utf-8');
-        const queryResult = await pool.query(get_my_draft_posts_thumbnail_query, [userId, "Draft", limit, offset]);
+        const get_my_saved_posts_thumbnail_query = readFileSync('./src/sql_queries/get_my_saved_posts_thumbnail.sql', 'utf-8');
+        const queryResult = await pool.query(get_my_saved_posts_thumbnail_query, [userId, limit, offset]);
         // Convert the rows to an array (queryResult.rows is already an array of objects)
 
         // The images array will contain only the first image URL, if available
@@ -21,6 +21,7 @@ router.get('/', async (req: Request, res: Response) => {
         }));
         // Convert the array to JSON format
         const resultJson = JSON.stringify(postsWithFirstImage);
+        console.log(resultJson)
         res.status(200).json(resultJson);
         return;
     } catch (error) {
