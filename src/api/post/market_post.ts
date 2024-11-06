@@ -11,7 +11,7 @@ router.get('/', async (req: Request, res: Response) => {
     const offset = (page - 1) * limit; // Calculate offset
     try {
         const get_market_posts_thumbnail_query = readFileSync('./src/sql_queries/get_market_posts_thumbnail.sql', 'utf-8');
-        const queryResult = await pool.query(get_market_posts_thumbnail_query, [userId, "Available", "In progress", limit, offset]);
+        const queryResult = await pool.query(get_market_posts_thumbnail_query, [userId, "Available", "In progress", "Archived", limit, offset]);
         // Convert the rows to an array (queryResult.rows is already an array of objects)
 
         // The images array will contain only the first image URL, if available

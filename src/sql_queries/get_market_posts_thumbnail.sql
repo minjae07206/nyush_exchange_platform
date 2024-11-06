@@ -7,6 +7,9 @@ SELECT
     p.saved_count, 
     p.currency, 
     p.date_of_creation,
+    p.category,
+    p.date_of_expiration,
+    p.open_to_negotiate_flag,
     pi.image_url,
     CASE 
         WHEN s.save_id IS NOT NULL THEN TRUE 
@@ -27,9 +30,10 @@ LEFT JOIN
 WHERE 
     p.post_status = $2 
     OR p.post_status = $3
+    OR p.post_status = $4
 ORDER BY 
     p.date_of_creation DESC 
 LIMIT 
-    $4 
+    $5 
 OFFSET 
-    $5;
+    $6;

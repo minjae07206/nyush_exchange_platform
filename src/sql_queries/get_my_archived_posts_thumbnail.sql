@@ -7,6 +7,9 @@ SELECT
     p.saved_count, 
     p.currency, 
     p.date_of_creation,
+    p.category,
+    p.date_of_expiration,
+    p.open_to_negotiate_flag,
     pi.image_url,
     CASE 
         WHEN s.save_id IS NOT NULL THEN TRUE 

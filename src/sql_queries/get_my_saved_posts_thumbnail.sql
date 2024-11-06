@@ -7,6 +7,9 @@ SELECT
     p.saved_count, 
     p.currency, 
     p.date_of_creation,
+    p.category,
+    p.date_of_expiration,
+    p.open_to_negotiate_flag,
     pi.image_url,
     TRUE AS is_saved  -- Since we are fetching from the saved table, these posts are always saved
 FROM 
