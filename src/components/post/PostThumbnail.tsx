@@ -17,8 +17,10 @@ interface PostThumbnailProps {
 export default function PostThumbnail({ postId, postStatus, postTitle, currency, price, savedCount, time, imageURL, authorId, isSaved }: PostThumbnailProps) {
     const [postSaved, setPostSaved] = useState<boolean>(isSaved);
     const [postSavedCount, setPostSavedCount] = useState<number>(savedCount);
-    const handleSavedClick = async (e: React.MouseEvent<HTMLElement>) => {
+    const handleSavedClick = async (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
+        // stop propagation so clicking on the save div doesn't send the user to the post specification page.
+        e.stopPropagation();
         // Update saved count immediately
         if (postSaved) {
             setPostSavedCount(prevCount => prevCount - 1);
@@ -96,7 +98,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
                     <div onClick={handleSavedClick}>
                         {
                             postSaved
-                                ? <i className="text-sm fa-solid fa-bookmark"></i>
+                                ? <i className="text-sm fa-solid fa-bookmark mt-1"></i>
                                 : <i className="text-sm fa-regular fa-bookmark mt-1"></i>
                         }
                     </div>

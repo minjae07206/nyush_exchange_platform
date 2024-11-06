@@ -4,7 +4,7 @@ export default function PostPage() {
     return (
         <div>
         <Routes>
-            <Route path=":id" element={<Post/>}></Route>
+            <Route path=":postId" element={<Post/>}></Route>
         </Routes>
         <div>This is the Post information page</div>
         </div>

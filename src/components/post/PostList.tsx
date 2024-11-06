@@ -1,5 +1,6 @@
 import PostThumbnail from "components/post/PostThumbnail"
 import { timeAgo } from "utils/timeAgo";
+import { Link } from "react-router-dom";
 export default function PostList({postList}: any) {
     return (
         <div className="min-w-[280px] mt-4 p-4 rounded-md bg-slate-100 md:grid md:grid-rows-2 md:grid-cols-3 md:gap-3 md:justify-items-center lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
@@ -14,7 +15,9 @@ export default function PostList({postList}: any) {
                 const time = timeAgo(PostThumbnailInfo.date_of_creation);
                 const imageURL = PostThumbnailInfo.image_url;
                 return (
+                    <Link to={`/post/${PostThumbnailInfo.post_id}`}>
                     <PostThumbnail key={PostThumbnailInfo.post_id} isSaved={isSaved} authorId={authorId} postId={PostThumbnailInfo.post_id} postStatus={postStatus} postTitle={postTitle} price={price} savedCount={savedCount} currency={currency} time={time} imageURL={imageURL}></PostThumbnail>
+                    </Link>
                 )
             })}
         </div>
