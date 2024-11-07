@@ -25,7 +25,7 @@ export default function FileInput({
     onImagePreviewsChange,
     currentImageFiles,
     }:FileInputProps) {
-        const commonClassName = "w-11/123 m-2 pl-4 rounded-sm bg-gray-100 text-black";
+        const commonClassName = "w-11/12 m-2 pl-4 rounded-sm bg-gray-100 text-black";
     return <input 
     className={`${commonClassName} ${customClassname}`}
     id={id} 
