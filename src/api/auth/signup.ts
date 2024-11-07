@@ -119,7 +119,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     try {
         // check if username exists in the database. Moved this to the last line as it contains DB querying.
         const check_username_exists_query = readFileSync('./src/sql_queries/check_username_exists.sql', 'utf-8'); // reading the check_email_exits.sql file
-        const usernameExistsResult = await pool.query(check_username_exists_query, [username]);
+        const usernameExistsResult = await pool.query(check_username_exists_query, [username, 1]);
         if (usernameExistsResult.rows.length > 0) {
             // Username exists in the database
             res.status(400).json({ message: "Username already exists." });
