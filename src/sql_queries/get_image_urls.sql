@@ -1,0 +1,1 @@
+SELECT image_url FROM post_images WHERE post_id = $1
