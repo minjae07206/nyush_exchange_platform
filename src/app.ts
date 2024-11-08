@@ -28,6 +28,7 @@ import decrementSavedCountApi from './api/post/decrement-saved-count';
 import getPostFullApi from './api/post/get-post-full';
 import getUserInfoApi from './api/user/get-user-info';
 import requestUpdateUserInfoApi from './api/user/request-update-user-info';
+import updateUserPendingStateApi from './api/user/update-user-pending-state';
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -93,6 +94,7 @@ app.use('/api/post/decrement-saved-count', decrementSavedCountApi);
 app.use('/api/post/get-post-full', getPostFullApi);
 app.use('/api/user/get-user-info', getUserInfoApi);
 app.use('/api/user/request-update-user-info', requestUpdateUserInfoApi);
+app.use('/api/user/update-user-pending-state', updateUserPendingStateApi);
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })
