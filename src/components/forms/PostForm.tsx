@@ -243,7 +243,7 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                 <FormSuccess innerText={formSuccess} renderSpinner={true}/>
                 <FormError innerText={formError}/>
                 <div className="flex justify-around">
-                    <Button buttonText="Post to market" customClass="p-2" handleButtonClickProp={()=>{setSubmitType("Post to market")}}></Button>
+                    <Button buttonText="Post to market" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={()=>{setSubmitType("Post to market")}}></Button>
                     <Button buttonText="Save to draft" customClass="p-2 bg-gray-500 hover:bg-gray-700" handleButtonClickProp={()=>{setSubmitType("Save to draft")}}></Button>
                 </div>
             </Form>

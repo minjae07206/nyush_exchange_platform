@@ -75,15 +75,16 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
             <div className="w-full h-full larger-phones:w-5/12 md:w-full  md:h-4/6">
                 <img src={`http://localhost:3001/${imageURL}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md"></img>
             </div>
-            <div className="block w-2/3 larger-phones:w-7/12 px-2 md:w-full md:h-1/5 relative">
+            <div className="w-2/3 larger-phones:w-7/12 px-2 md:w-full md:h-1/5 relative">
                 {/* The title can cover 2 rows, any title longer than that will be hidden. */}
                 {/* Hiding text that goes over 2 lines is easily done thanks to the line-clamp of tailwindcss*/}
-                <h5 className="break-words line-clamp-2">{postTitle}
+                <h5 className="break-words line-clamp-2 mt-1">{postTitle}
 
                 </h5>
                 <p className="text-sm">{time}</p>
-                <div className="flex">
+                <div className="flex items-start mt-1 mb-1">
                     {<PostStatusBadge statusText={postStatus} />}
+                    {open_to_negotiate_flag && <OpenToNegotiateFlagBadge/>}
                     <span className="ml-1">{price}{currency}</span>
                     <div onClick={handleSavedClick}>
                         {
@@ -96,7 +97,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
                 </div>
                 {/* PostList's Save number before screen size is md. */}
                 {/* Another possible solution is delete this part and play around with the css of the 4 components in the flexbox above */}
-                <div className="flex justify-end larger-phones:mt-9 text-gray-400 md:hidden">
+                <div className="absolute flex top-24 right-2 text-gray-400 md:hidden">
                     <div onClick={handleSavedClick}>
                         {
                             postSaved
@@ -104,10 +105,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
                                 : <i className="text-sm fa-regular fa-bookmark mt-1"></i>
                         }
                     </div>
-                    <span className="text-sm ml-1">{postSavedCount}</span>
-                </div>
-                <div className="absolute bottom-2">
-                {open_to_negotiate_flag && <OpenToNegotiateFlagBadge/>}
+                    <span className="text-sm ml-1 mt-1">{postSavedCount}</span>
                 </div>
             </div>
         </div>

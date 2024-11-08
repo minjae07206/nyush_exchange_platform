@@ -3,11 +3,18 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import LoadingPage from "components/LoadingPage";
 import NotFoundPage from "routes/NotFoundPage";
-import { Link } from "react-router-dom";
 import ImageSlide from "./ImageSlide";
 import { timeAgo } from "utils/timeAgo";
-import { isAbsolute } from "path";
+import Button from "components/Button";
+import OpenToNegotiateFlagBadge from "./OpenToNegotiateFlagBadge";
+import FormItem from "components/forms/FormItem";
+import FormLabel from "components/forms/FormLabel";
+import Input from "components/forms/Input";
+import Form from "components/forms/Form";
+import PostStatusBadge from "./PostStatusBadge";
+import { useNavigate } from "react-router-dom";
 export default function Post() {
+    const navigate = useNavigate();
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12 md:flex';
     const { postId } = useParams(); // Get postId from the URL parameters
 
@@ -33,6 +40,11 @@ export default function Post() {
     const [category, setCategory] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+
+    const [postHandlerError, setPostHandlerError] = useState<string | null>(null);
+
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [isAuthor, setIsAuthor] = useState<boolean>(false);
 
     // When this component is rendered, send a request to the server to get the full information for this post.
     useEffect(() => {
@@ -66,6 +78,8 @@ export default function Post() {
                 setSavedCount(responseData.saved_count);
                 setUsername(responseData.username);
                 setCategory(responseData.category);
+                setIsAdmin(responseData.isAdmin);
+                setIsAuthor(responseData.isAuthor);
                 setLoading(false);
 
             })
@@ -127,6 +141,38 @@ export default function Post() {
         }
     }
 
+    const handleDeleteButtonClick = () => {
+        axios.delete('http://localhost:3001/api/post/delete-post', {
+            data: { postId: postId },
+            withCredentials: true
+        })
+        .then(()=>{
+            // redirect to another page
+            navigate('/myposts');
+        })
+        .catch((error)=>{
+            
+        });
+    }
+
+    const handleEditButtonClick = () => {
+        navigate(`/edit-post/${postId}`)
+    }
+
+    const handleApproveButtonClick = () => {
+        axios.patch('http://localhost:3001/api/post/approve-post', 
+            { postId }, // The data you want to send
+            { withCredentials: true } // The configuration option for credentials
+        )
+        .then(() => {
+            navigate('/market'); // Redirect after successful request
+        })
+        .catch((error) => {
+            console.log(error); // Handle error if any
+        });
+    }
+
+
     if (loading) {
         return <LoadingPage></LoadingPage>
     }
@@ -134,33 +180,58 @@ export default function Post() {
     if (error) {
         return <NotFoundPage></NotFoundPage>
     }
-    return <div className={commonClassName}>
-        <div className="w-full  md:w-1/2 md:ml-10">
-        <ImageSlide images={images} />
-        <div>{username}</div>
-        </div>
-        <div className="ml-2 relative max-w-[780px] md:w-1/2">
-            <h1 className="text-xl mr-2">{postTitle}</h1>
-            <div className="text-xs text-gray-700">
-                <span>{category}</span>
-                <span> • </span>
-                <span>{dateOfCreation}</span>
-            </div>
-            <div className="text-md">
-                <span>{price}</span>
-                <span>{currency}</span>
-            </div>
-            <p className="text-sm mb-2 break-words mr-2">{description}</p>
-            <div className="flex items-center mb-2 md:justify-end md:absolute md:bottom-2 md:right-4 text-gray-400">
-                <div onClick={handleSavedClick}>
-                    {
-                        isSaved
-                            ? <i className="text-sm fa-solid fa-bookmark"></i>
-                            : <i className="text-sm fa-regular fa-bookmark"></i>
-                    }
+    return (
+        <>
+            <div className={commonClassName}>
+                <div className="w-full md:w-1/2 md:ml-10">
+                    <ImageSlide images={images} />
+                    <div>{username}</div>
                 </div>
-                <span className="text-sm ml-1">{savedCount}</span>
+                <div className="ml-2 relative max-w-[780px] md:w-1/2">
+                    <h1 className="text-xl mr-2">{postTitle}</h1>
+                    <div className="text-xs text-gray-700">
+                        <span>{category}</span>
+                        <span> • </span>
+                        <span>{dateOfCreation}</span>
+                    </div>
+                    <div className="text-md">
+                        <span>{price}</span>
+                        <span>{currency}</span>
+                        {openToNegotiate && <OpenToNegotiateFlagBadge />}
+                        <PostStatusBadge statusText={postStatus}></PostStatusBadge>
+                    </div>
+                    <p className="text-sm mb-2 break-words mr-2">{description}</p>
+                    {isAuthor && <Button customClass="p-1 bg-purple-600 hover:bg-purple-700" buttonText="Edit" handleButtonClickProp={()=>{handleEditButtonClick();}}></Button>}
+                    {isAuthor && <Button customClass="p-1 bg-red-600 hover:bg-red-700" buttonText="Delete" handleButtonClickProp={()=>{handleDeleteButtonClick();}}></Button>}
+                    <div className="flex items-center mb-2 md:justify-end md:absolute md:bottom-2 md:right-4 text-gray-400">
+                        <div onClick={handleSavedClick}>
+                            {
+                                isSaved
+                                    ? <i className="text-sm fa-solid fa-bookmark"></i>
+                                    : <i className="text-sm fa-regular fa-bookmark"></i>
+                            }
+                        </div>
+                        <span className="text-sm ml-1">{savedCount}</span>
+                    </div>
+                </div>
+
             </div>
-        </div>
-    </div>
+            <div className={commonClassName}>
+                {isAdmin && postStatus === "Pending" && <Button customClass="p-1 bg-green-600 hover:bg-green-700" buttonText="Approve" handleButtonClickProp={()=>{handleApproveButtonClick();}}></Button>}
+
+                {isAdmin && postStatus === "Pending" &&
+                    <Form handleSubmit={() => { }}>
+                        <FormItem>
+                            <FormLabel htmlFor="deny-reason">Deny reason</FormLabel>
+                            <Input name="deny-reason" id="deny-reason" type="text"></Input>
+                        </FormItem>
+                        <Button customClass="p-1 bg-red-700 hover:bg-red-800" buttonText="Deny"></Button>
+                    </Form>}
+            </div>
+        </>
+    )
+
+
+
+
 }

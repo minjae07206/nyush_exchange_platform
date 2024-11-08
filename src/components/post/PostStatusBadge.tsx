@@ -19,11 +19,11 @@ export default function PostStatusBadge({ statusText }: PostStatusBadgeProps) {
             colorClass = "bg-green-600";
             break;
         default:
-            colorClass = "bg-gray-300"; // Default color
+            colorClass = "hidden"; // Default color
     }
 
     return (
-        <span className={`rounded-md p-1 text-sm text-white ${colorClass}`}>
+        <span className={`rounded-md p-1 text-xs text-white ${colorClass}`}>
             {statusText}
         </span>
     );

@@ -11,8 +11,7 @@ import FormError from "./FormError";
 import FormSuccess from "./FormSuccess";
 import InputError from "./InputError";
 
-import axios, { AxiosStatic } from "axios";
-import { AxiosError } from "axios";
+import axios from "axios";
 import LoadingPage from "components/LoadingPage";
 import NotFoundPage from "routes/NotFoundPage";
 import ImageInput from "./ImageInput";
@@ -188,7 +187,7 @@ export default function SettingsForm() {
                     </div>
                     <InputDescription inputDescriptionText="The wechat qr code image is optional and will first be reviewed by the admin before it gets shown on public."></InputDescription>
                 </FormItem>
-                <Button disabled={disableSaveButton} buttonText="Save" customClass="p-2" handleButtonClickProp={() => { }}></Button>
+                <Button disabled={disableSaveButton} buttonText="Save" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { }}></Button>
             </Form>
             <FormSuccess innerText={formSuccess} renderSpinner={false}/>
             <span className="text-sm ml-2 mb-2 text-gray-600">Pending update from admin, so cannot update settings for now.</span>

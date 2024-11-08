@@ -123,7 +123,7 @@ export default function SignupForm () {
                 <Input type="password" id="confirmPassword" name='confirmPassword' placeholder="Confirm Password" required minlength={8} maxlength={128} onInputChange={onConfirmPasswordChange}></Input>
                 <InputError errorText={null}/>
             </FormItem>
-            <Button buttonText="Signup" customClass="w-20 h-12" handleButtonClickProp={()=>{}}></Button>
+            <Button buttonText="Signup" customClass="w-20 h-12 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={()=>{}}></Button>
         </Form>
         <FormSuccess innerText={formSuccess} renderSpinner={true}/>
         <FormError innerText={formError}/>

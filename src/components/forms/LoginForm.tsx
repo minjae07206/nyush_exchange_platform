@@ -100,7 +100,7 @@ export default function LoginForm() {
                     <InputError errorText={passwordError} />
                 </FormItem>
 
-                <Button buttonText="Login" customClass="w-20 h-12" handleButtonClickProp={()=>{}}></Button>
+                <Button buttonText="Login" customClass="w-20 h-12 bg-purple-600 hover:bg-purple-700 " handleButtonClickProp={()=>{}}></Button>
             </Form>
             <FormSuccess innerText={formSuccess} renderSpinner={true}/>
             <FormError innerText={formError}/>
