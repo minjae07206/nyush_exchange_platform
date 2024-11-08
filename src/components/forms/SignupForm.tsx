@@ -125,7 +125,7 @@ export default function SignupForm () {
             </FormItem>
             <Button buttonText="Signup" customClass="w-20 h-12" handleButtonClickProp={()=>{}}></Button>
         </Form>
-        <FormSuccess innerText={formSuccess}/>
+        <FormSuccess innerText={formSuccess} renderSpinner={true}/>
         <FormError innerText={formError}/>
         <FormFooter linkTo="/login" footerText="Already have an account?"></FormFooter>
         </div>

@@ -240,7 +240,7 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                         }
                     </div>
                 </FormItem>
-                <FormSuccess innerText={formSuccess}/>
+                <FormSuccess innerText={formSuccess} renderSpinner={true}/>
                 <FormError innerText={formError}/>
                 <div className="flex justify-around">
                     <Button buttonText="Post to market" customClass="p-2" handleButtonClickProp={()=>{setSubmitType("Post to market")}}></Button>

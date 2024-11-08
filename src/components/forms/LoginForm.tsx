@@ -102,7 +102,7 @@ export default function LoginForm() {
 
                 <Button buttonText="Login" customClass="w-20 h-12" handleButtonClickProp={()=>{}}></Button>
             </Form>
-            <FormSuccess innerText={formSuccess}/>
+            <FormSuccess innerText={formSuccess} renderSpinner={true}/>
             <FormError innerText={formError}/>
             <FormFooter linkTo="/signup" footerText="Don't have an account?"></FormFooter>
             <FormFooter linkTo="/forgot-password" footerText="Forgot password?"></FormFooter>

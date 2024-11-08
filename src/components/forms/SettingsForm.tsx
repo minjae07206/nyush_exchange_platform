@@ -11,7 +11,8 @@ import FormError from "./FormError";
 import FormSuccess from "./FormSuccess";
 import InputError from "./InputError";
 
-import axios from "axios";
+import axios, { AxiosStatic } from "axios";
+import { AxiosError } from "axios";
 import LoadingPage from "components/LoadingPage";
 import NotFoundPage from "routes/NotFoundPage";
 import ImageInput from "./ImageInput";
@@ -20,6 +21,7 @@ import { useSettingsFormStore } from "stores/useSettingsFormStore";
 export default function SettingsForm() {
     const profileImageFileRef = useRef<HTMLInputElement | null>(null);
     const wechatQRCodeImageFileRef = useRef<HTMLInputElement>(null);
+    const [disableSaveButton, setDisableSaveButton] = useState<boolean>(false);
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const currentUsername: string = useSettingsFormStore((state) => state.currentUsername);
     const setCurrentUsername = useSettingsFormStore((state) => state.setCurrentUsername);
@@ -45,9 +47,10 @@ export default function SettingsForm() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSettingsFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSettingsFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let CAN_PROCEED_TO_MAKING_REQUEST = true;
+
         const allowedUsernamePattern: RegExp = /^[a-zA-Z0-9_]+$/;
         if (!allowedUsernamePattern.test(currentUsername)) {
             setCurrentUsernameError("Username should only contain alphanumerical values and underscores.")
@@ -66,24 +69,32 @@ export default function SettingsForm() {
             if (wechatQRCodeImageFile) {
                 formData.append('wechatQRCodeImage', wechatQRCodeImageFile, wechatQRCodeImageFile.name);
             }
-            axios.patch('http://localhost:3001/api/user/request-update-user-info',
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
+            try {
+                await axios.post('http://localhost:3001/api/user/request-update-user-info',
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        withCredentials: true,
+                    }
+                )
+
+                await axios.patch('http://localhost:3001/api/user/update-user-pending-state', {pending_state:true}, {
                     withCredentials: true,
+                });
+                setDisableSaveButton(true);
+                setFormSuccess("Update request successful. It will be reviewed by the admin.");
+                setFormError(null);
+            } catch (error:any) {
+                const errorMessage: string = error.response.data.message;
+                if (errorMessage === "An error occured on the database with updating user_pending state. This is bad, should still stop the user from sending further requests.") {
+                    setDisableSaveButton(true);
                 }
-            )
-                .then((response) => {
-                    setFormSuccess(response.data)
-                    setFormError(null);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setFormError("Something wrong happened on the server");
-                    setFormSuccess(null);
-                })
+                setFormError(errorMessage);
+                setFormSuccess(null);
+            }
+
         } else {
             setFormError("Something wrong happened. Please try again later.");
             return;
@@ -94,7 +105,6 @@ export default function SettingsForm() {
     useEffect(() => {
         axios.get('http://localhost:3001/api/user/get-user-info', { withCredentials: true })
             .then((response) => {
-                console.log(response.data)
                 const formattedResponseData = JSON.parse(response.data);
                 if (formattedResponseData.profile_image === null) {
                     setProfileImageURL("/default-profile-image.png");
@@ -109,6 +119,7 @@ export default function SettingsForm() {
                 }
                 setCurrentUsername(formattedResponseData.username);
                 setEmail(formattedResponseData.email);
+                setDisableSaveButton(formattedResponseData.pending_update);
             })
             .catch((error) => {
                 setError("An error occurred while getting user info");
@@ -177,10 +188,12 @@ export default function SettingsForm() {
                     </div>
                     <InputDescription inputDescriptionText="The wechat qr code image is optional and will first be reviewed by the admin before it gets shown on public."></InputDescription>
                 </FormItem>
-                <Button buttonText="Save" customClass="p-2" handleButtonClickProp={() => { }}></Button>
+                <Button disabled={disableSaveButton} buttonText="Save" customClass="p-2" handleButtonClickProp={() => { }}></Button>
             </Form>
-            <FormSuccess innerText={formSuccess} />
+            <FormSuccess innerText={formSuccess} renderSpinner={false}/>
+            <span className="text-sm ml-2 mb-2 text-gray-600">Pending update from admin, so cannot update settings for now.</span>
             <FormError innerText={formError} />
+            <FormFooter linkTo="/change-password" footerText="Change password?"></FormFooter>
         </div>
     );
 }

@@ -35,7 +35,7 @@ export const useSettingsFormStore = create<UseSettingsFormState>((set) => ({
     profileImageFile: null,
     setProfileImageFile: (inputValue: File | null) => set({profileImageFile: inputValue}),
     wechatQRCodeImageFile: null,
-    setWechatQRCodeImageFile: (inputValue: File | null) => set({profileImageFile: inputValue}),
+    setWechatQRCodeImageFile: (inputValue: File | null) => set({wechatQRCodeImageFile: inputValue}),
     formError: null,
     formSuccess: null,
     setFormError: (inputValue: string | null) => set({ formError: inputValue }),

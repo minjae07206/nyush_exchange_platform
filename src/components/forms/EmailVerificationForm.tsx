@@ -97,7 +97,7 @@ export default function EmailVerificationForm() {
                 </FormItem>
                 <Button buttonText="Submit code" customClass="w-20 h-12"></Button>
             </Form>
-            <FormSuccess innerText={formSuccess}/>
+            <FormSuccess innerText={formSuccess} renderSpinner={true}/>
             <FormError innerText={formError}/>
             <FormFooter linkTo="/signup" footerText="Start over if time ran out" />
         </div>
