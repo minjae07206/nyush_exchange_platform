@@ -32,6 +32,7 @@ import updateUserPendingStateApi from './api/user/update-user-pending-state';
 import deletePostApi from './api/post/delete-post';
 import approvePostApi from './api/post/approve-post';
 import denyPostApi from './api/post/deny-post';
+import editPostApi from './api/post/edit-post';
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -101,6 +102,7 @@ app.use('/api/user/update-user-pending-state', updateUserPendingStateApi);
 app.use('/api/post/delete-post', deletePostApi);
 app.use('/api/post/approve-post', approvePostApi);
 app.use('/api/post/deny-post', denyPostApi);
+app.use('/api/post/edit-post', editPostApi);
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })
