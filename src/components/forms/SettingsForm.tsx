@@ -16,11 +16,17 @@ import LoadingPage from "components/LoadingPage";
 import NotFoundPage from "routes/NotFoundPage";
 import ImageInput from "./ImageInput";
 import { useSettingsFormStore } from "stores/useSettingsFormStore";
+import SettingsUpdateApprovedOrDeniedMessage from "components/SettingsUpdateApprovedOrDeniedMessage";
+import DenyReason from "components/post/DenyReason";
 
 export default function SettingsForm() {
     const profileImageFileRef = useRef<HTMLInputElement | null>(null);
     const wechatQRCodeImageFileRef = useRef<HTMLInputElement>(null);
+
     const [disableSaveButton, setDisableSaveButton] = useState<boolean>(false);
+    const [approvedOrDenied, setApprovedOrDenied] = useState<string | null>(null);
+    const [updateDeniedReason, setUpdateDeniedReason] = useState<string | null>(null);
+
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12';
     const currentUsername: string = useSettingsFormStore((state) => state.currentUsername);
     const setCurrentUsername = useSettingsFormStore((state) => state.setCurrentUsername);
@@ -119,6 +125,8 @@ export default function SettingsForm() {
                 setCurrentUsername(formattedResponseData.username);
                 setEmail(formattedResponseData.email);
                 setDisableSaveButton(formattedResponseData.pending_update);
+                setUpdateDeniedReason(formattedResponseData.update_denied_reason);
+                setApprovedOrDenied(formattedResponseData.update_result);
             })
             .catch((error) => {
                 setError("An error occurred while getting user info");
@@ -129,6 +137,18 @@ export default function SettingsForm() {
             });
     }, [])
 
+    const handleCloseButtonClick = () => {
+        
+        axios.patch('http://localhost:3001/api/user/reset-deny-info', {withCredentials: true})
+        .then(()=>{  
+            setApprovedOrDenied(null);
+            setUpdateDeniedReason(null);
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }
+
     if (loading) {
         return <LoadingPage />
     }
@@ -137,6 +157,11 @@ export default function SettingsForm() {
         return <NotFoundPage />
     }
     return (
+        <>
+        <div className="flex">
+        {approvedOrDenied && <SettingsUpdateApprovedOrDeniedMessage approvedOrDenied={approvedOrDenied} denyReason={updateDeniedReason}/>}
+        <Button buttonText="Close message" customClass="p-1 bg-purple-500 hover:bg-purple-600" handleButtonClickProp={()=>{handleCloseButtonClick();}}></Button>
+        </div>
         <div className={commonClassName}>
             <FormHeader formTitle="Settings" />
             <Form method="PATCH" handleSubmit={handleSettingsFormSubmit}>
@@ -194,5 +219,6 @@ export default function SettingsForm() {
             <FormError innerText={formError} />
             <FormFooter linkTo="/change-password" footerText="Change password?"></FormFooter>
         </div>
+        </>
     );
 }

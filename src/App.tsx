@@ -19,6 +19,7 @@ import NotFoundPage from 'routes/NotFoundPage';
 import AuthenticatedRoutes from 'routes/AuthenticatedRoutes';
 import AuthRelatedRoutes from 'routes/AuthRelatedRoutes';
 import EditPostPage from 'routes/EditPostPage';
+import PendingUserUpdatesPage from 'routes/PendingUserUpdatesPage';
 import PendingPostPage from 'routes/PendingPostPage';
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/post/*" element={<PostPage />} />
             <Route path="edit-post/:postId" element={<EditPostPage />} />
             <Route path='/pending-post' element={<PendingPostPage/>} />
+            <Route path='/pending-user-updates' element={<PendingUserUpdatesPage/>} />
           </Route>
 
           {/*Routes for login and signup */}
