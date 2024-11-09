@@ -29,10 +29,11 @@ LEFT JOIN
             AND s.user_id = $1
 WHERE 
     p.author_id = $1 AND 
-    p.post_status = $2 
+    (p.post_status = $2 OR
+    p.post_status = $3)
 ORDER BY 
     p.date_of_creation DESC 
 LIMIT 
-    $3 
+    $4 
 OFFSET 
-    $4;
+    $5;

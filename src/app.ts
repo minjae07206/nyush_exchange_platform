@@ -17,7 +17,7 @@ import keepAliveApi from './api/auth/keep-alive';
 import logoutApi from './api/auth/logout';
 import createPostApi from './api/post/create-post';
 import myAvailablePostApi from './api/post/my-available-post';
-import myDraftPostApi from './api/post/my-draft-post';
+import myDraftDeniedPostApi from './api/post/my-draft-denied-post';
 import myArchivedPostApi from './api/post/my-archived-post';
 import mySavedPostApi from './api/post/my-saved-post';
 import marketPostApi from './api/post/market_post';
@@ -31,6 +31,7 @@ import requestUpdateUserInfoApi from './api/user/request-update-user-info';
 import updateUserPendingStateApi from './api/user/update-user-pending-state';
 import deletePostApi from './api/post/delete-post';
 import approvePostApi from './api/post/approve-post';
+import denyPostApi from './api/post/deny-post';
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -85,7 +86,7 @@ app.use('/api/auth/keep-alive', keepAliveApi);
 app.use('/api/auth/logout', logoutApi);
 app.use('/api/post/create-post', createPostApi);
 app.use('/api/post/my-available-post', myAvailablePostApi);
-app.use('/api/post/my-draft-post', myDraftPostApi);
+app.use('/api/post/my-draft-denied-post', myDraftDeniedPostApi);
 app.use('/api/post/my-archived-post', myArchivedPostApi);
 app.use('/api/post/market-post', marketPostApi);
 app.use('/api/post/my-saved-post', mySavedPostApi);
@@ -99,6 +100,7 @@ app.use('/api/user/request-update-user-info', requestUpdateUserInfoApi);
 app.use('/api/user/update-user-pending-state', updateUserPendingStateApi);
 app.use('/api/post/delete-post', deletePostApi);
 app.use('/api/post/approve-post', approvePostApi);
+app.use('/api/post/deny-post', denyPostApi);
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })
