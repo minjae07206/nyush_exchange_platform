@@ -18,6 +18,9 @@ export default function PostStatusBadge({ statusText }: PostStatusBadgeProps) {
         case "In transaction":
             colorClass = "bg-green-600";
             break;
+        case "Denied":
+            colorClass = 'bg-red-500';
+            break;
         default:
             colorClass = "hidden"; // Default color
     }

@@ -42,6 +42,7 @@ export default function Post() {
     const [error, setError] = useState<string | null>(null);
 
     const [postHandlerError, setPostHandlerError] = useState<string | null>(null);
+    const [denyReason, setDenyReason] = useState<string | null>(null) 
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
@@ -80,6 +81,7 @@ export default function Post() {
                 setCategory(responseData.category);
                 setIsAdmin(responseData.isAdmin);
                 setIsAuthor(responseData.isAuthor);
+                setDenyReason(responseData.deny_reason);
                 setLoading(false);
 
             })
@@ -172,6 +174,16 @@ export default function Post() {
         });
     }
 
+    const handleDenyButtonClick = () => {
+        axios.patch('http://localhost:3001/api/post/deny-post', {denyReason, postId}, {withCredentials:true})
+        .then(()=>{
+            navigate('/pending-post');
+        })
+        .catch((error)=>{
+            console.log(error);
+            console.log(1)
+        })
+    }
 
     if (loading) {
         return <LoadingPage></LoadingPage>
@@ -182,6 +194,7 @@ export default function Post() {
     }
     return (
         <>
+            { denyReason && <div>{denyReason}</div>}
             <div className={commonClassName}>
                 <div className="w-full md:w-1/2 md:ml-10">
                     <ImageSlide images={images} />
@@ -198,10 +211,12 @@ export default function Post() {
                         <span>{price}</span>
                         <span>{currency}</span>
                         {openToNegotiate && <OpenToNegotiateFlagBadge />}
+                        <span className="ml-1 mb-1">
                         <PostStatusBadge statusText={postStatus}></PostStatusBadge>
+                        </span>
                     </div>
                     <p className="text-sm mb-2 break-words mr-2">{description}</p>
-                    {isAuthor && <Button customClass="p-1 bg-purple-600 hover:bg-purple-700" buttonText="Edit" handleButtonClickProp={()=>{handleEditButtonClick();}}></Button>}
+                    {isAuthor && postStatus !== "Denied" && <Button customClass="p-1 bg-purple-600 hover:bg-purple-700" buttonText="Edit" handleButtonClickProp={()=>{handleEditButtonClick();}}></Button>}
                     {isAuthor && <Button customClass="p-1 bg-red-600 hover:bg-red-700" buttonText="Delete" handleButtonClickProp={()=>{handleDeleteButtonClick();}}></Button>}
                     <div className="flex items-center mb-2 md:justify-end md:absolute md:bottom-2 md:right-4 text-gray-400">
                         <div onClick={handleSavedClick}>
@@ -220,12 +235,14 @@ export default function Post() {
                 {isAdmin && postStatus === "Pending" && <Button customClass="p-1 bg-green-600 hover:bg-green-700" buttonText="Approve" handleButtonClickProp={()=>{handleApproveButtonClick();}}></Button>}
 
                 {isAdmin && postStatus === "Pending" &&
-                    <Form handleSubmit={() => { }}>
+                    <Form handleSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                        e.preventDefault();
+                     }}>
                         <FormItem>
                             <FormLabel htmlFor="deny-reason">Deny reason</FormLabel>
-                            <Input name="deny-reason" id="deny-reason" type="text"></Input>
+                            <Input name="deny-reason" id="deny-reason" type="text" onInputChange={setDenyReason}></Input>
                         </FormItem>
-                        <Button customClass="p-1 bg-red-700 hover:bg-red-800" buttonText="Deny"></Button>
+                        <Button customClass="p-1 bg-red-700 hover:bg-red-800" buttonText="Deny" handleButtonClickProp={()=>{handleDenyButtonClick();}}></Button>
                     </Form>}
             </div>
         </>

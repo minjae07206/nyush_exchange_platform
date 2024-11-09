@@ -6,7 +6,7 @@ import LoadingPage from "components/LoadingPage";
 import NotFoundPage from "./NotFoundPage";
 interface Post {
 }
-export default function MyDraftPostsPage() {
+export default function MyDraftDeniedPostsPage() {
     const [postList, setPostList] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Track loading state
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -15,7 +15,7 @@ export default function MyDraftPostsPage() {
     const [extraPostLoading, setExtraPostLoading] = useState<boolean>(false);
 
     const loadPosts = (newPage = 1) => {
-        axios.get(`http://localhost:3001/api/post/my-draft-post?page=${newPage}`, {
+        axios.get(`http://localhost:3001/api/post/my-draft-denied-post?page=${newPage}`, {
             withCredentials: true,
         }).then((response) => {
             const responseData = JSON.parse(response.data);
