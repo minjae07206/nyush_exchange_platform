@@ -19,6 +19,7 @@ import NotFoundPage from 'routes/NotFoundPage';
 import AuthenticatedRoutes from 'routes/AuthenticatedRoutes';
 import AuthRelatedRoutes from 'routes/AuthRelatedRoutes';
 import EditPostPage from 'routes/EditPostPage';
+import PendingPostPage from 'routes/PendingPostPage';
 function App() {
   return (
     <BrowserRouter>
@@ -36,6 +37,7 @@ function App() {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/post/*" element={<PostPage />} />
             <Route path="edit-post/:postId" element={<EditPostPage />} />
+            <Route path='/pending-post' element={<PendingPostPage/>} />
           </Route>
 
           {/*Routes for login and signup */}

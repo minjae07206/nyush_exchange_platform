@@ -13,6 +13,7 @@ import Input from "components/forms/Input";
 import Form from "components/forms/Form";
 import PostStatusBadge from "./PostStatusBadge";
 import { useNavigate } from "react-router-dom";
+import DenyReason from "./DenyReason";
 export default function Post() {
     const navigate = useNavigate();
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12 md:flex';
@@ -66,7 +67,11 @@ export default function Post() {
                 setDateOfLastEdit(responseData.date_of_last_edit);
                 setDescription(responseData.description);
                 setImageUrl(responseData.image_url);
-                setImages(responseData.images);
+                if (responseData.images.length === 0) {
+                    setImages(['/default-post-image.png']);  // Corrected URL
+                  } else {
+                    setImages(responseData.images);
+                  }
                 setIsSaved(responseData.is_saved);
                 setOpenToNegotiate(responseData.open_to_negotiate_flag);
                 setOverallOrPerUnit(responseData.overall_or_per_unit);
@@ -194,7 +199,7 @@ export default function Post() {
     }
     return (
         <>
-            { denyReason && <div>{denyReason}</div>}
+            { denyReason && <DenyReason denyReason={denyReason}></DenyReason> }
             <div className={commonClassName}>
                 <div className="w-full md:w-1/2 md:ml-10">
                     <ImageSlide images={images} />
