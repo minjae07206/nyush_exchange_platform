@@ -11,6 +11,7 @@ interface InputProps {
     max?:string;
     customClassname?: string;
     checked?: boolean;
+    disabled?: boolean;
     onInputChange?: (input:string) => void;
   }
 
@@ -27,6 +28,7 @@ export default function Input({
     max,
     checked,
     customClassname,
+    disabled,
     onInputChange,
     }:InputProps) {
         const commonClassName = "m-2 pl-4 rounded-sm bg-gray-100 text-black placeholder:text-gray-400";
@@ -42,6 +44,7 @@ export default function Input({
     value={value}
     min={min}
     max={max}
+    disabled={disabled}
     checked={checked}
     onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
         // e.preventDefault causes the checkbox to be needed to click twice before it gets toggled.

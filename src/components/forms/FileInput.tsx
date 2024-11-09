@@ -10,6 +10,7 @@ interface FileInputProps {
     currentImageFiles: File[];
     currentImagePreviews: string[];
     onImagePreviewsChange: (input:string[]) => void;
+    disabled?:boolean;
   }
 
 export default function FileInput({
@@ -19,6 +20,7 @@ export default function FileInput({
     maxlength,
     minlength,
     value,
+    disabled,
     customClassname,
     onInputChange,
     currentImagePreviews,
@@ -34,7 +36,7 @@ export default function FileInput({
     maxLength={maxlength}
     minLength={minlength}
     value={value}
-    disabled={currentImageFiles.length >= 10}
+    disabled={currentImageFiles.length >= 10 || disabled}
     type="file"
     accept=".jpg, .jpeg, .png, .bmp, .tiff, .tif, .webp, .svg"
     multiple // multiple flag allows users to upload multiple files at a time.

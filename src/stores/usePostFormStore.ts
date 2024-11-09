@@ -19,6 +19,10 @@ export interface UsePostFormState {
   submitType: string;
   formError: string | null;
   formSuccess: string | null;
+
+  isEdit: boolean;
+  setIsEdit: (inputValue: boolean) => void;
+
   setImagePreviews: (inputArray: string[]) => void;
   setImageFiles: (inputArray: File[]) => void;
   setFormError: (inputValue: string | null) => void;
@@ -86,6 +90,8 @@ export const usePostFormStore = create<UsePostFormState>((set) => ({
   setOpenToNegotiate: (inputValue: boolean) => set({ openToNegotiate: inputValue }),
   category: "Textbook",
   setCategory: (inputString: string) => set({category: inputString}),
+  isEdit: false,
+  setIsEdit: (inputValue: boolean) => set({isEdit: inputValue}),
   postTypeIsSell: true,
   setPostTypeIsSell: (inputValue: boolean) => set({ postTypeIsSell: inputValue }),
   totalOrPerItem: "Total price",

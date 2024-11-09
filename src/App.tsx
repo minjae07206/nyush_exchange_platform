@@ -18,6 +18,7 @@ import EmailVerificationPage from 'routes/EmailVerificationPage';
 import NotFoundPage from 'routes/NotFoundPage';
 import AuthenticatedRoutes from 'routes/AuthenticatedRoutes';
 import AuthRelatedRoutes from 'routes/AuthRelatedRoutes';
+import EditPostPage from 'routes/EditPostPage';
 function App() {
   return (
     <BrowserRouter>
@@ -34,6 +35,7 @@ function App() {
             <Route path="/myposts/*" element={<MyPostsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/post/*" element={<PostPage />} />
+            <Route path="edit-post/:postId" element={<EditPostPage />} />
           </Route>
 
           {/*Routes for login and signup */}

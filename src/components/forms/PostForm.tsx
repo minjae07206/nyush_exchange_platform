@@ -17,11 +17,13 @@ import { useEffect, useState } from "react";
 import { usePostFormStore } from "stores/usePostFormStore";
 import { useResetPostForm } from "utils/resetPostForm";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "components/LoadingPage";
 // if the newOrEditFlag is not new, then it means it is edit.
 interface PostFormProps {
     newOrEditFlag: string
+    postId?: string
 }
-export default function PostForm({ newOrEditFlag }: PostFormProps) {
+export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
     // Idea behind building the PostForm: The PostForm is used to build a new post, edit a post as well as saving as a draft.
     // There should be a save as a draft button which allows users to save it as a draft. In this case, only title field is required.
     // When editing a post, the default values should be fetched from the server and shown to users to manipulate.
@@ -50,25 +52,59 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
     const onSellBuyByDateErrorChange = usePostFormStore((state) => state.setSellBuyByDateError);
     const imageFiles: File[] = usePostFormStore((state) => state.imageFiles);
     const onImageFilesChange = usePostFormStore((state) => state.setImageFiles);
-    const imagePreviews: string[] = usePostFormStore((state)=> state.imagePreviews);
-    const onImagePreviewsChange = usePostFormStore((state)=> state.setImagePreviews);
-    const openToNegotiate:boolean = usePostFormStore((state)=> state.openToNegotiate);
-    const setOpenToNegotiate = usePostFormStore((state)=> state.setOpenToNegotiate);
-    const postTypeIsSell:boolean = usePostFormStore((state)=> state.postTypeIsSell);
-    const setPostTypeIsSell = usePostFormStore((state)=> state.setPostTypeIsSell);
-    const totalOrPerItem:string = usePostFormStore((state)=> state.totalOrPerItem);
-    const setTotalOrPerItem = usePostFormStore((state)=> state.setTotalOrPerItem);
-    const submitType:string = usePostFormStore((state)=> state.submitType);
-    const setSubmitType = usePostFormStore((state)=> state.setSubmitType);  // Check which submit button was clicked, post to market or Save to draft.
-    const category:string = usePostFormStore((state)=> state.category);
-    const setCategory = usePostFormStore((state)=>state.setCategory);
+    const imagePreviews: string[] = usePostFormStore((state) => state.imagePreviews);
+    const onImagePreviewsChange = usePostFormStore((state) => state.setImagePreviews);
+    const openToNegotiate: boolean = usePostFormStore((state) => state.openToNegotiate);
+    const setOpenToNegotiate = usePostFormStore((state) => state.setOpenToNegotiate);
+    const postTypeIsSell: boolean = usePostFormStore((state) => state.postTypeIsSell);
+    const setPostTypeIsSell = usePostFormStore((state) => state.setPostTypeIsSell);
+    const totalOrPerItem: string = usePostFormStore((state) => state.totalOrPerItem);
+    const setTotalOrPerItem = usePostFormStore((state) => state.setTotalOrPerItem);
+    const submitType: string = usePostFormStore((state) => state.submitType);
+    const setSubmitType = usePostFormStore((state) => state.setSubmitType);  // Check which submit button was clicked, post to market or Save to draft.
+    const category: string = usePostFormStore((state) => state.category);
+    const setCategory = usePostFormStore((state) => state.setCategory);
 
-    const formError:string | null = usePostFormStore((state)=>state.formError);
-    const onFormErrorChange = usePostFormStore((state)=>state.setFormError);
-    const formSuccess:string | null = usePostFormStore((state)=>state.formSuccess);
-    const onFormSuccessChange = usePostFormStore((state)=>state.setFormSuccess);
+    const isEdit: boolean = usePostFormStore((state) => state.isEdit);
+    const setIsEdit = usePostFormStore((state) => state.setIsEdit);
 
-    useEffect(()=>{
+    const formError: string | null = usePostFormStore((state) => state.formError);
+    const onFormErrorChange = usePostFormStore((state) => state.setFormError);
+    const formSuccess: string | null = usePostFormStore((state) => state.formSuccess);
+    const onFormSuccessChange = usePostFormStore((state) => state.setFormSuccess);
+
+    const [loading, setLoading] = useState<boolean>(true);
+
+
+
+    useEffect(() => {
+        if (newOrEditFlag === "edit") {
+            axios.get(`http://localhost:3001/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
+                .then((response) => {
+                    const responseData = JSON.parse(response.data);
+                    const formattedDateOfExpiration = new Date(responseData.date_of_expiration).toLocaleDateString("en-CA");
+                    onTitleChange(responseData.post_title);
+                    onDescriptionChange(responseData.description);
+                    const baseUrl = "http://localhost:3001/";
+                    const imageUrls = responseData.images.map((path: string) => baseUrl + path.replace(/\\/g, "/"));
+                    //(responseData.author_id);
+                    onCurrencyChange(responseData.currency);
+                    onSellBuyByDateChange(formattedDateOfExpiration);
+                    onImagePreviewsChange(imageUrls);
+                    setOpenToNegotiate(responseData.open_to_negotiate_flag);
+                    setTotalOrPerItem(responseData.overall_or_per_unit);
+                    setPostTypeIsSell(responseData.post_type);
+                    onPriceChange(responseData.price);
+                    onQuantityChange(responseData.quantity);
+                    setCategory(responseData.category);
+                    //setIsAuthor(responseData.isAuthor);
+                    console.log(openToNegotiate)
+                    setLoading(false);
+
+                    setIsEdit(true);
+                })
+                .catch((error) => { console.log(error) })
+        }
         onFormErrorChange(null);
         onFormSuccessChange(null);
     }, [])
@@ -120,32 +156,59 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                 console.log(file.name)
                 formData.append('images', file, file.name); // Append the File with its name
             });
-
+            if (isEdit) {
+                axios.patch(
+                    `http://localhost:3001/api/post/edit-post?postId=${postId}`,
+                    {
+                        // Post data here, e.g.:
+                        openToNegotiate: openToNegotiate,
+                        price: priceInput,
+                        currency: currencyInput,
+                        postType: postTypeIsSell,
+                        quantity: quantityInput,
+                        sellBuyByDate: sellBuyByDateInput,
+                        totalOrPerItem: totalOrPerItem,
+                    },
+                    {
+                        withCredentials: true, // Move withCredentials to the config object
+                    }).then((response) => {
+                        onFormSuccessChange(response.data.message);
+                    }).catch((error) => {
+                        onFormErrorChange(error.response.data.message);
+                    })
+            } else {
                 axios.post('http://localhost:3001/api/post/create-post',
                     // post data
                     formData,
-                    {   
+                    {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
                         withCredentials: true,
-                    }).then((response)=>{
+                    }).then((response) => {
                         onFormSuccessChange(response.data.message)
                         resetPostForm();
                         navigate('/myposts')
                     }).catch((error) => {
                         onFormErrorChange(error.response.data.message);
                     })
-                
+
+            }
+
         } else {
             return new Error("Something wrong happened.")
         }
 
-
     }
+    if (isEdit && loading) {
+        console.log("Edit");
+        console.log("loading")
+        return <LoadingPage></LoadingPage>
+    }
+
     return (
         <div className={commonClassName}>
-            <FormHeader formTitle="Create a new post" />
+            <FormHeader formTitle={isEdit ? "Edit post" : "Create a new post"} />
             <Form method={newOrEditFlag === "new" ? "POST" : "PATCH"} handleSubmit={handlePostFormSubmit}>
                 <FormItem>
                     <FormLabel htmlFor="postType">Post type</FormLabel>
@@ -158,23 +221,24 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="title">Title</FormLabel>
-                    <Input type="text" id="title" name='title' placeholder="Post title" required maxlength={100} customClassname="w-11/12 md:w-2/3" onInputChange={onTitleChange}></Input>
+                    <Input disabled={isEdit} type="text" id="title" name='title' value={titleInput} placeholder="Post title" required maxlength={100} customClassname="w-11/12 md:w-2/3" onInputChange={onTitleChange}></Input>
                     <InputDescription inputDescriptionText="The title should be 1-100 characters long."></InputDescription>
+                    {isEdit && <InputDescription inputDescriptionText="If you wish to edit the title, create a new post instead."></InputDescription>}
                     <InputError errorText={titleError} />
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="category">Category</FormLabel>
-                    <DropDownMenu name="currency" options={["Textbook", "Kitchenware", "Food","Others"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                            if (e.target.value === "Textbook") {
-                                setCategory("Textbook");
-                            } else if (e.target.value === "Kitchenware") {
-                                setCategory("Kitchenware");
-                            } else if (e.target.value === "Food") {
-                                setCategory("Food");
-                            } else if (e.target.value === "Others") {
-                                setCategory("Others");
-                            }
-                        }}></DropDownMenu>
+                    <DropDownMenu name="currency" options={["Textbook", "Kitchenware", "Food", "Others"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        if (e.target.value === "Textbook") {
+                            setCategory("Textbook");
+                        } else if (e.target.value === "Kitchenware") {
+                            setCategory("Kitchenware");
+                        } else if (e.target.value === "Food") {
+                            setCategory("Food");
+                        } else if (e.target.value === "Others") {
+                            setCategory("Others");
+                        }
+                    }}></DropDownMenu>
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="price">Price</FormLabel>
@@ -200,7 +264,7 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                     <InputDescription inputDescriptionText="*Use 0 for price if you want to do free giveaways." />
                     <InputDescription inputDescriptionText="*Use price per unit if you're posting many items in one post and want to show the price of each item." />
                     <div className="flex">
-                        <Input customClassname="w-4 h-4 accent-pink-500 focus:ring-purple-500" type="checkbox" id="openToNegotiate" name="openToNegotiate" value="true" onInputChange={() => { openToNegotiate ? setOpenToNegotiate(false) : setOpenToNegotiate(true) }}></Input>
+                        <Input customClassname="w-4 h-4 accent-pink-500 focus:ring-purple-500" type="checkbox" id="openToNegotiate" name="openToNegotiate" checked={openToNegotiate} value="true" onInputChange={() => { openToNegotiate ? setOpenToNegotiate(false) : setOpenToNegotiate(true) }}></Input>
                         {!openToNegotiate && <input type="hidden" name="openToNegotiate" value="false"></input>}
                         <span className="text-sm mt-2">Open to negotiate</span>
                     </div>
@@ -214,7 +278,8 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="description">Description</FormLabel>
-                    <TextArea id="description" name="description" placeholder="Write your post's description here..." onInputChange={onDescriptionChange}></TextArea>
+                    <TextArea id="description" disabled={isEdit} value={descriptionInput} name="description" placeholder="Write your post's description here..." onInputChange={onDescriptionChange}></TextArea>
+                    {isEdit && <InputDescription inputDescriptionText="If you wish to edit the description, create a new post instead."></InputDescription>}
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="sellBuyByDate">{postTypeIsSell ? "Sell" : "Buy"} by date</FormLabel>
@@ -224,29 +289,43 @@ export default function PostForm({ newOrEditFlag }: PostFormProps) {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="images">Images</FormLabel>
-                    <FileInput id="images" name="images" onInputChange={onImageFilesChange} currentImageFiles={imageFiles} currentImagePreviews={imagePreviews} onImagePreviewsChange={onImagePreviewsChange}/>
-                    <div className="flex justify-content flex-wrap">
-                        {
-                            imagePreviews.map((url, i) => {
-                                return (
-                                    <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2" key={url}>
-                                        <a href={url} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
-                                            <img className="w-full h-full object-cover rounded-md" src={url}></img>
-                                        </a>
-                                    </div>
+                    <FileInput disabled={isEdit} id="images" name="images" onInputChange={onImageFilesChange} currentImageFiles={imageFiles} currentImagePreviews={imagePreviews} onImagePreviewsChange={onImagePreviewsChange} />
+                    {
+                        Array.isArray(imagePreviews) &&
+                        <div className="flex justify-content flex-wrap">
+                            {
+                                imagePreviews.map((url) => {
+                                    return (
+                                        <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2" key={url}>
+                                            <a href={url} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
+                                                <img className="w-full h-full object-cover rounded-md" src={url}></img>
+                                            </a>
+                                        </div>
 
-                                )
-                            })
-                        }
-                    </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    }
+                    {isEdit && <InputDescription inputDescriptionText="If you want to add or remove images, delete this post and create a new post instead."></InputDescription>}
                 </FormItem>
-                <FormSuccess innerText={formSuccess} renderSpinner={true}/>
-                <FormError innerText={formError}/>
-                <div className="flex justify-around">
-                    <Button buttonText="Post to market" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={()=>{setSubmitType("Post to market")}}></Button>
-                    <Button buttonText="Save to draft" customClass="p-2 bg-gray-500 hover:bg-gray-700" handleButtonClickProp={()=>{setSubmitType("Save to draft")}}></Button>
-                </div>
-            </Form>
+                {isEdit ? <FormSuccess innerText={formSuccess} renderSpinner={false} /> :
+                    <FormSuccess innerText={formSuccess} renderSpinner={true} />}
+
+                <FormError innerText={formError} />
+
+                {isEdit ?
+                    <div className="flex justify-around">
+                        <Button buttonText="Save edit" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { }}></Button>
+                    </div>
+                    :
+                    <div className="flex justify-around">
+                        <Button buttonText="Post to market" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { setSubmitType("Post to market") }}></Button>
+                        <Button buttonText="Save to draft" customClass="p-2 bg-gray-500 hover:bg-gray-700" handleButtonClickProp={() => { setSubmitType("Save to draft") }}></Button>
+                    </div>
+                }
+
+            </Form >
 
         </div>
     )
