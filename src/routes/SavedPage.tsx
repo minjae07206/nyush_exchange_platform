@@ -4,6 +4,7 @@ import axios from "axios";
 import Button from "components/Button";
 import NotFoundPage from "./NotFoundPage";
 import LoadingPage from "components/LoadingPage";
+import ZeroPostsPage from "./ZeroPostsPage";
 interface Post {
 
 }
@@ -49,6 +50,10 @@ export default function SavedPage() {
     if (serverError) {
         // change to server error page.
         return <NotFoundPage></NotFoundPage>
+    }
+
+    if (postList.length === 0) {
+        return <ZeroPostsPage></ZeroPostsPage>
     }
     return (
         <section>

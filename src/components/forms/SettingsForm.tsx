@@ -160,7 +160,8 @@ export default function SettingsForm() {
         <>
         <div className="flex">
         {approvedOrDenied && <SettingsUpdateApprovedOrDeniedMessage approvedOrDenied={approvedOrDenied} denyReason={updateDeniedReason}/>}
-        <Button buttonText="Close message" customClass="p-1 bg-purple-500 hover:bg-purple-600" handleButtonClickProp={()=>{handleCloseButtonClick();}}></Button>
+        {approvedOrDenied && <Button buttonText="Close message" customClass="p-1 bg-purple-500 hover:bg-purple-600" handleButtonClickProp={()=>{handleCloseButtonClick();}}></Button>}
+        
         </div>
         <div className={commonClassName}>
             <FormHeader formTitle="Settings" />
@@ -215,7 +216,8 @@ export default function SettingsForm() {
                 <Button disabled={disableSaveButton} buttonText="Save" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { }}></Button>
             </Form>
             <FormSuccess innerText={formSuccess} renderSpinner={false}/>
-            <span className="text-sm ml-2 mb-2 text-gray-600">Pending update from admin, so cannot update settings for now.</span>
+            {disableSaveButton && <span className="text-sm ml-2 mb-2 text-gray-600">Pending update from admin, so cannot update settings for now.</span>}
+            
             <FormError innerText={formError} />
             <FormFooter linkTo="/change-password" footerText="Change password?"></FormFooter>
         </div>

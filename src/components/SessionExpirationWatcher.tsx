@@ -9,8 +9,11 @@ export default function SessionExpirationWatcher() {
         const interval = setInterval(async ()=>{
             if(sessionExpirationTime) {
                 const currentTime = Date.now();
+                console.log("currenttime", currentTime);
+                console.log("SessionExpirationTime:", sessionExpirationTime)
                 const timeRemaining = sessionExpirationTime - currentTime;
-                if (timeRemaining <= 5 * 60 * 1000) {
+                console.log("TimeRemainign: ", timeRemaining)
+                if ( timeRemaining <= (5 * 60 * 1000)) {
                     const userWantsToExtend = window.confirm("Your session is about to expire. Extend?");
                     if (userWantsToExtend) {
                         try {
@@ -18,6 +21,7 @@ export default function SessionExpirationWatcher() {
                                 withCredentials:true,
                             });
                             if (response.data.message === "session-renewed") {
+                                console.log(response.data.sessionExpirationTime)
                                 setSessionExpirationTime(response.data.sessionExpirationTime)
                                 setIsLoggedIn(true);
                             }

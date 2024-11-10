@@ -95,7 +95,7 @@ export default function EmailVerificationForm() {
                     <InputDescription inputDescriptionText={`Time left: ${timeLeft} seconds`}></InputDescription>
                     <InputError errorText={codeError}></InputError>
                 </FormItem>
-                <Button buttonText="Submit code" customClass="w-20 h-12"></Button>
+                <Button buttonText="Submit code" customClass="w-20 h-12 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={()=>{}}></Button>
             </Form>
             <FormSuccess innerText={formSuccess} renderSpinner={true}/>
             <FormError innerText={formError}/>

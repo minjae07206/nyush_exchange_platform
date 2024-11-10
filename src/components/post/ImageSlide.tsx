@@ -28,7 +28,7 @@ export default function ImageSlide ({images}:ImageSlideProp) {
         trackMouse: true // optional, allows swipe with mouse as well
     });
     return (
-        <div {...handlers} className="relative w-full aspect-square overflow-hidden" >
+        <div {...handlers} className="relative w-full aspect-square overflow-hidden bg-gray-200" >
             <div className="flex transition-transform duration-300 ease-in-out"
             style={{
                 transform: `translateX(-${currentIndex * 100}%)`,

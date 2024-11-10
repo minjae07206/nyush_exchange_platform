@@ -40,7 +40,8 @@ export default function LoginForm() {
     const setSessionExpirationTime = useSessionStore((state)=>state.setSessionExpirationTime)
     const handleLoginFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/;
+        //const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/;
+        const allowedEmailPattern: RegExp = /^.+$/;
         // username should only contain alphanumerical values and underscores.
         const allowedUsernamePattern: RegExp = /^[a-zA-Z0-9_]+$/;
         // not allowing user to type submit certain special characters to prevent script attacks. 

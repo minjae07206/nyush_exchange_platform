@@ -4,6 +4,7 @@ import axios from "axios";
 import Button from "components/Button";
 import LoadingPage from "components/LoadingPage";
 import NotFoundPage from "./NotFoundPage";
+import ZeroPostsPage from "./ZeroPostsPage";
 interface Post {
 }
 export default function MyDraftDeniedPostsPage() {
@@ -49,6 +50,10 @@ export default function MyDraftDeniedPostsPage() {
     if (serverError) {
         // change to server error page.
         return <NotFoundPage></NotFoundPage>
+    }
+
+    if (postList.length === 0) {
+        return <ZeroPostsPage></ZeroPostsPage>
     }
     return (
         <section>

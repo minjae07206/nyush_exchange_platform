@@ -64,6 +64,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
     const setSubmitType = usePostFormStore((state) => state.setSubmitType);  // Check which submit button was clicked, post to market or Save to draft.
     const category: string = usePostFormStore((state) => state.category);
     const setCategory = usePostFormStore((state) => state.setCategory);
+    const postStatus: string = usePostFormStore((state) => state.postStatus);
+    const setPostStatus = usePostFormStore((state) => state.setPostStatus);
 
     const isEdit: boolean = usePostFormStore((state) => state.isEdit);
     const setIsEdit = usePostFormStore((state) => state.setIsEdit);
@@ -97,6 +99,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     onPriceChange(responseData.price);
                     onQuantityChange(responseData.quantity);
                     setCategory(responseData.category);
+                    setPostStatus(responseData.post_status);
                     //setIsAuthor(responseData.isAuthor);
                     console.log(openToNegotiate)
                     setLoading(false);
@@ -104,6 +107,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     setIsEdit(true);
                 })
                 .catch((error) => { console.log(error) })
+        } else {
+            setIsEdit(false);
         }
         onFormErrorChange(null);
         onFormSuccessChange(null);
@@ -147,7 +152,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
             formData.append('currency', currencyInput);
             formData.append('quantity', quantityInput);
             formData.append('sellBuyByDate', sellBuyByDateInput);
-            formData.append('postStatus', submitType);
+            isEdit ? formData.append("postStatus", postStatus) : formData.append('postStatus', submitType);
+            
             formData.append('category', category);
             formData.append('totalOrPerItem', totalOrPerItem);
             formData.append('postType', postTypeIsSell.toString());
@@ -156,7 +162,23 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 console.log(file.name)
                 formData.append('images', file, file.name); // Append the File with its name
             });
-            if (isEdit) {
+            if (isEdit && postStatus === "Draft") {
+                axios.post(`http://localhost:3001/api/post/edit-draft-post?postId=${postId}`,
+                    // post data
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        withCredentials: true,
+                    }).then((response) => {
+                        onFormSuccessChange(response.data.message)
+                        resetPostForm();
+                        navigate('/myposts')
+                    }).catch((error) => {
+                        onFormErrorChange(error.response.data.message);
+                    })
+            } else if (isEdit) {
                 axios.patch(
                     `http://localhost:3001/api/post/edit-post?postId=${postId}`,
                     {
@@ -168,6 +190,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         quantity: quantityInput,
                         sellBuyByDate: sellBuyByDateInput,
                         totalOrPerItem: totalOrPerItem,
+                        postStatus: postStatus,
                     },
                     {
                         withCredentials: true, // Move withCredentials to the config object
@@ -201,8 +224,6 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
 
     }
     if (isEdit && loading) {
-        console.log("Edit");
-        console.log("loading")
         return <LoadingPage></LoadingPage>
     }
 
@@ -221,11 +242,26 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="title">Title</FormLabel>
-                    <Input disabled={isEdit} type="text" id="title" name='title' value={titleInput} placeholder="Post title" required maxlength={100} customClassname="w-11/12 md:w-2/3" onInputChange={onTitleChange}></Input>
+                    <Input disabled={isEdit && postStatus !== "Draft"} type="text" id="title" name='title' value={titleInput} placeholder="Post title" required maxlength={100} customClassname="w-11/12 md:w-2/3" onInputChange={onTitleChange}></Input>
                     <InputDescription inputDescriptionText="The title should be 1-100 characters long."></InputDescription>
                     {isEdit && <InputDescription inputDescriptionText="If you wish to edit the title, create a new post instead."></InputDescription>}
                     <InputError errorText={titleError} />
                 </FormItem>
+                {(postStatus === "Available" || postStatus === "In progress" || postStatus === "Archived") && 
+                <FormItem>
+                    <FormLabel htmlFor="postStatus">Post Status</FormLabel>
+                    <DropDownMenu name="currency" options={["Available", "In progress", "Archived"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        if (e.target.value === "Available") {
+                            setPostStatus("Available");
+                        } else if (e.target.value === "In progress") {
+                            setCategory("In progress");
+                        } else if (e.target.value === "Archived") {
+                            setCategory("Archived");
+                        }
+                    }}></DropDownMenu>
+                    
+                </FormItem>
+                }
                 <FormItem>
                     <FormLabel htmlFor="category">Category</FormLabel>
                     <DropDownMenu name="currency" options={["Textbook", "Kitchenware", "Food", "Others"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -320,8 +356,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     </div>
                     :
                     <div className="flex justify-around">
-                        <Button buttonText="Post to market" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { setSubmitType("Post to market") }}></Button>
-                        <Button buttonText="Save to draft" customClass="p-2 bg-gray-500 hover:bg-gray-700" handleButtonClickProp={() => { setSubmitType("Save to draft") }}></Button>
+                        <Button buttonText="Post to market" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { setSubmitType("Pending") }}></Button>
+                        <Button buttonText="Save to draft" customClass="p-2 bg-gray-500 hover:bg-gray-700" handleButtonClickProp={() => { setSubmitType("Draft") }}></Button>
                     </div>
                 }
 

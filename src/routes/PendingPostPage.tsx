@@ -4,6 +4,7 @@ import PostList from "components/post/PostList";
 import Button from "components/Button";
 import NotFoundPage from "./NotFoundPage";
 import LoadingPage from "components/LoadingPage";
+import ZeroPostsPage from "./ZeroPostsPage";
 interface Post {
 }
 export default function PendingPostPage() {
@@ -49,6 +50,9 @@ export default function PendingPostPage() {
     if (serverError) {
         // change to server error page.
         return <NotFoundPage></NotFoundPage>
+    }
+    if (postList.length === 0) {
+        return <ZeroPostsPage></ZeroPostsPage>
     }
     return (
         <section>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import LoadingPage from "components/LoadingPage";
 import NotFoundPage from "./NotFoundPage";
 import Button from "components/Button";
+import ZeroPostsPage from "./ZeroPostsPage";
 
 interface Post {
 }
@@ -49,6 +50,10 @@ export default function MyAvailablePostsPage() {
     if (serverError) {
         // change to server error page.
         return <NotFoundPage></NotFoundPage>
+    }
+
+    if (postList.length === 0) {
+        return <ZeroPostsPage></ZeroPostsPage>
     }
     return (
         <section>

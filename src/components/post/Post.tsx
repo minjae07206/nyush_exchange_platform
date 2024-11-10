@@ -37,7 +37,12 @@ export default function Post() {
     const [price, setPrice] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(0);
     const [savedCount, setSavedCount] = useState<number>(0);
+
     const [username, setUsername] = useState<string>('');
+    const [profileImage, setProfileImage] = useState<string>("");
+    const [wechatQRCodeImage, setWechatQRCodeImage] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+
     const [category, setCategory] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -87,6 +92,9 @@ export default function Post() {
                 setIsAdmin(responseData.isAdmin);
                 setIsAuthor(responseData.isAuthor);
                 setDenyReason(responseData.deny_reason);
+                setEmail(responseData.email);
+                setProfileImage(responseData.profile_image);
+                setWechatQRCodeImage(responseData.wechat_qr_code_image);
                 setLoading(false);
 
             })
@@ -204,9 +212,12 @@ export default function Post() {
                 <div className="w-full md:w-1/2 md:ml-10">
                     <ImageSlide images={images} />
                     <div>{username}</div>
+                    <span>{profileImage}</span>
+                    <span>{email}</span>
+                    <span>{wechatQRCodeImage}</span>
                 </div>
                 <div className="ml-2 relative max-w-[780px] md:w-1/2">
-                    <h1 className="text-xl mr-2">{postTitle}</h1>
+                    <h1 className="text-xl mr-2">{postType}ing: {postTitle}</h1>
                     <div className="text-xs text-gray-700">
                         <span>{category}</span>
                         <span> • </span>
@@ -215,13 +226,17 @@ export default function Post() {
                     <div className="text-md">
                         <span>{price}</span>
                         <span>{currency}</span>
+                        <span> ({overallOrPerUnit})</span>
+                        <p className="text-sm">Quantity: {quantity}</p>
                         {openToNegotiate && <OpenToNegotiateFlagBadge />}
                         <span className="ml-1 mb-1">
                         <PostStatusBadge statusText={postStatus}></PostStatusBadge>
                         </span>
                     </div>
                     <p className="text-sm mb-2 break-words mr-2">{description}</p>
-                    {isAuthor && postStatus !== "Denied" && <Button customClass="p-1 bg-purple-600 hover:bg-purple-700" buttonText="Edit" handleButtonClickProp={()=>{handleEditButtonClick();}}></Button>}
+                    <p className="text-sm text-gray">Expiration Date: {dateOfExpiration}</p>
+                    {/**Edit button shouldn't appear in Archived. */}
+                    {isAuthor && postStatus !== "Denied" && postStatus !== "Archived" && <Button customClass="p-1 bg-purple-600 hover:bg-purple-700" buttonText="Edit" handleButtonClickProp={()=>{handleEditButtonClick();}}></Button>}
                     {isAuthor && <Button customClass="p-1 bg-red-600 hover:bg-red-700" buttonText="Delete" handleButtonClickProp={()=>{handleDeleteButtonClick();}}></Button>}
                     <div className="flex items-center mb-2 md:justify-end md:absolute md:bottom-2 md:right-4 text-gray-400">
                         <div onClick={handleSavedClick}>

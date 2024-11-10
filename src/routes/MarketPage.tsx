@@ -5,6 +5,7 @@ import LoadingPage from "components/LoadingPage";
 import axios from "axios";
 import Button from "components/Button";
 import NotFoundPage from "./NotFoundPage";
+import ZeroPostsPage from "./ZeroPostsPage";
 interface Post {
 
 }
@@ -21,7 +22,6 @@ export default function MarketPage() {
             .then((response) => {
                 const responseData = JSON.parse(response.data);
                 setPostList((prevPosts) => [...prevPosts, ...responseData]); // Append new posts to existing list
-                console.log(postList)
                 setCurrentPage(newPage); // Update current page
                 if (responseData.length < 10) {
                     // If we get fewer than 10 posts, there are no more posts to load
@@ -50,6 +50,10 @@ export default function MarketPage() {
     if (serverError) {
         // change to server error page.
         return <NotFoundPage></NotFoundPage>
+    }
+
+    if (postList.length === 0) {
+        return <ZeroPostsPage></ZeroPostsPage>
     }
     return (
         <section>

@@ -20,7 +20,8 @@ export default function AuthRelatedRoutes() {
                     setIsLoggedIn(false);
                 }
             } catch (error) {
-                console.error("Session check failed:", error);
+                
+                console.error("Session check failed.");
                 setIsLoggedIn(false);
             } finally {
                 setLoading(false); // Stop loading after session check

@@ -8,9 +8,10 @@ interface UserUpdateProps {
     newUsername: string | null;
     newProfileImage: string | null;
     requestId: string;
+    requester_user_id: string;
 }
 
-export default function UserUpdate({ newWechatQRCodeImage, newProfileImage, newUsername, requestId }: UserUpdateProps) {
+export default function UserUpdate({ requester_user_id, newWechatQRCodeImage, newProfileImage, newUsername, requestId }: UserUpdateProps) {
     const navigate = useNavigate();
     const [denyReason, setDenyReason] = useState<string>("");
 
@@ -29,7 +30,8 @@ export default function UserUpdate({ newWechatQRCodeImage, newProfileImage, newU
             newUsername,
             newWechatQRCodeImage,
             newProfileImage,
-            requestId
+            requestId,
+            requester_user_id,
         }, { withCredentials: true })
         .then(()=>{navigate('/pending-user-updates')})
         .catch((error)=>{console.log(error)});
@@ -38,31 +40,32 @@ export default function UserUpdate({ newWechatQRCodeImage, newProfileImage, newU
     const handleDenyButtonClick = () => {
         axios.patch("http://localhost:3001/api/user/deny-update", {
             denyReason,
-            requestId
+            requestId,
+            requester_user_id,
         }, { withCredentials: true })
         .then(()=>{navigate('/pending-user-updates')})
         .catch((error)=>{console.log(error)});
     };
-
+    console.log(newProfileImage)
     return (
         <div className="flex shadow-md bg-grey-100 h-32 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block cursor-pointer">
             <div className="flex w-full md:h-1/2">
                 <div className="w-1/2 h-full larger-phones:w-5/12 md:h-full md:w-full">
                     <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" target="_blank" to={`http://localhost:3001/${newProfileImage ? newProfileImage : "/default-profile-image.png"}`}>
-                        <img src={`http://localhost:3001${newProfileImage}/`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleProfileImageError}></img>
+                        <img src={`http://localhost:3001/${newProfileImage}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleProfileImageError}></img>
                     </Link>
                 </div>
                 <div className="w-1/2 h-full larger-phones:w-5/12 md:h-full md:w-full">
                     <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={newWechatQRCodeImage} target="_blank" to={`http://localhost:3001/${newWechatQRCodeImage ? newWechatQRCodeImage : "/default-wechat-qr-code.png"}`}>
-                        <img src={`http://localhost:3001${newWechatQRCodeImage}/`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleWechatQRCodeImageError}></img>
+                        <img src={`http://localhost:3001/${newWechatQRCodeImage}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleWechatQRCodeImageError}></img>
                     </Link>
                 </div>
             </div>
             <div className="w-2/3 larger-phones:w-7/12 px-2 md:w-full md:h-1/5 relative">
                 Username: {newUsername}
             </div>
-            <Button customClass="p-1 bg-green-500 hover:bg-green-600" buttonText="Approve" handleButtonClickProp={handleApproveButtonClick}></Button>
-            <Button customClass="p-1 bg-red-500 hover:bg-red-600" buttonText="Deny" handleButtonClickProp={handleDenyButtonClick}></Button>
+            <Button customClass="p-1 bg-green-500 hover:bg-green-600" buttonText="Approve" handleButtonClickProp={()=>{handleApproveButtonClick();}}></Button>
+            <Button customClass="p-1 bg-red-500 hover:bg-red-600" buttonText="Deny" handleButtonClickProp={()=>{handleDenyButtonClick();}}></Button>
             <form className="ml-1" onSubmit={(e) => e.preventDefault()}>
                 <label htmlFor="denyReason">Deny reason:</label>
                 <input

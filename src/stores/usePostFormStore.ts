@@ -20,6 +20,9 @@ export interface UsePostFormState {
   formError: string | null;
   formSuccess: string | null;
 
+  postStatus: string;
+  setPostStatus: (inputValue: string) => void;
+
   isEdit: boolean;
   setIsEdit: (inputValue: boolean) => void;
 
@@ -96,6 +99,8 @@ export const usePostFormStore = create<UsePostFormState>((set) => ({
   setPostTypeIsSell: (inputValue: boolean) => set({ postTypeIsSell: inputValue }),
   totalOrPerItem: "Total price",
   setTotalOrPerItem: (inputValue: string) => set({ totalOrPerItem: inputValue }),
+  postStatus: "Draft",
+  setPostStatus: (inputValue: string) => set({postStatus:inputValue}),
   submitType: "",
   setSubmitType: (inputValue: string) => set({ submitType: inputValue }),
   formError: null,
