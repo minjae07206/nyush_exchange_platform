@@ -38,6 +38,7 @@ import getUserUpdatesApi from './api/user/get-user-updates';
 import approveUserUpdateApi from './api/user/approve-update';
 import denyUserUpdateApi from './api/user/deny-update';
 import resetUserDenyInfoApi from './api/user/reset-deny-info';
+import checkAdminApi from './api/auth/check-admin';
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -111,8 +112,9 @@ app.use('/api/post/edit-post', editPostApi);
 app.use('/api/post/pending-post', pendingPostApi);
 app.use('/api/user/get-user-updates', getUserUpdatesApi);
 app.use('/api/user/approve-update',approveUserUpdateApi);
-app.use('/api/post/deny-update', denyUserUpdateApi);
+app.use('/api/user/deny-update', denyUserUpdateApi);
 app.use('/api/user/reset-deny-info', resetUserDenyInfoApi);
+app.use('/api/auth/check-admin', checkAdminApi);
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform/build/index.html'));
 })

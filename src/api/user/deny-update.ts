@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.patch('/', async (req: Request, res: Response) => {
     const userId = req.session.user?.userId;
-    const { denyReason, requestId } = req.body;
+    const { denyReason, requestId, requester_user_id } = req.body;
 
     const client = await pool.connect(); // Connect to the pool for transaction control
 

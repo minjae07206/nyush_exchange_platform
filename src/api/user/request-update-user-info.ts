@@ -38,8 +38,8 @@ router.post('/', upload, async (req: Request, res: Response) => {
 
         // Check if username already exists
         const checkUsernameQuery = readFileSync('./src/sql_queries/check_username_exists.sql', 'utf-8');
-        const usernameExistsResult = await client.query(checkUsernameQuery, [username, 1]);
-        if (usernameExistsResult.rows.length > 0) {
+        const usernameExistsResult = await client.query(checkUsernameQuery, [username, 2]);
+        if (usernameExistsResult.rows.length > 1) {
             res.status(400).json({ message: "Username already exists." });
             await client.query('ROLLBACK'); // Rollback transaction if username exists
             return;
@@ -68,6 +68,7 @@ router.post('/', upload, async (req: Request, res: Response) => {
         await client.query('COMMIT'); // Commit transaction if all queries are successful
         res.status(200).json({ message: "User information update request successfully sent. The admin will soon apply the changes." });
     } catch (error) {
+        console.log(error)
         if (client) await client.query('ROLLBACK'); // Rollback if an error occurs
         res.status(500).json({ message: "An error occurred while processing your request." });
     } finally {

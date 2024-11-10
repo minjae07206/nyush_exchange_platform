@@ -23,17 +23,20 @@ router.post('/', async (req: Request, res: Response) => {
         return;
     }
 
-    const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/;
+    //const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/;
+    const allowedEmailPattern: RegExp = /^(?=.*@)(?=.*\.).+$/;
     const allowedUsernamePattern: RegExp = /^[a-zA-Z0-9_]+$/;
+    console.log(allowedEmailPattern.test(usernameOrEmail))
+    console.log(allowedUsernamePattern.test(usernameOrEmail))
     if (!allowedEmailPattern.test(usernameOrEmail) && !allowedUsernamePattern.test(usernameOrEmail)) {
         // both the email pattern and the username pattern did not pass
         res.status(400).json({ message: "Username or email syntax is not right." });
     }
-    if (!allowedEmailPattern.test(usernameOrEmail)) {
+    if (allowedEmailPattern.test(usernameOrEmail)) {
         // if email didn't pass then it is a username.
-        username = usernameOrEmail;
+        email = usernameOrEmail;
     } else {
-        email = usernameOrEmail
+        username = usernameOrEmail
     }
     // check if password exists
     if (!password) {
@@ -57,22 +60,8 @@ router.post('/', async (req: Request, res: Response) => {
         res.status(400).json({ message: "The password cannot contain <, >, \", ', `, ;, &, $, /, \\, (, ), {, }" });
         return;
     }
-    // if the input value is username, query for username.
-    if (username !== "") {
-        try {
-            // check if username exists in the database. Moved this to the last line as it contains DB querying.
-            const check_username_exists_query = readFileSync('./src/sql_queries/check_username_exists.sql', 'utf-8'); // reading the check_email_exits.sql file
-            const usernameExistsResult = await pool.query(check_username_exists_query, [username]);
-            if (usernameExistsResult.rows.length === 0) {
-                // Username does not exist in the database
-                res.status(400).json({ message: "Username does not exist. Try signing up instead." });
-                return;
-            }
-        } catch (error) {
-            res.status(500).json({ message: "An error occured on the database with checking if username exists." });
-            return;
-        }
-    }
+    console.log(email)
+    console.log(username)
 
     if (email !== "") {
         try {
@@ -117,7 +106,8 @@ router.post('/', async (req: Request, res: Response) => {
             const getPasswordQueryResult = await pool.query(select_password_with_username_query, [username]);
             if (getPasswordQueryResult.rows.length > 0) {
                 const hashedPassword = getPasswordQueryResult.rows[0].password;
-                const passwordsMatch = await bcrypt.compare(hashedPassword, password);
+                console.log(hashedPassword)
+                const passwordsMatch = await bcrypt.compare(password, hashedPassword);
                 if (passwordsMatch) {
                     // passwords match, so login the user by creating a session.
                     const userId = getPasswordQueryResult.rows[0].user_id;

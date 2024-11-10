@@ -23,7 +23,9 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         res.status(400).json({ message: 'Invalid email length.' });
         return;
     }
-    if (!/^[a-zA-Z0-9._%+-]+@nyu\.edu$/.test(email)) {
+    //const allowedEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@nyu\.edu$/
+    const allowedEmailPattern: RegExp = /^.+$/;
+    if (!allowedEmailPattern.test(email)) {
         res.status(400).json({ message: 'Invalid email format. Must end in @nyu.edu.' });
         return;
     }
@@ -57,7 +59,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         }
 
         // Check if username exists
-        const usernameExists = await client.query(checkUsernameQuery, [username]);
+        const usernameExists = await client.query(checkUsernameQuery, [username, 1]);
         if (usernameExists.rows.length > 0) {
             await client.query('ROLLBACK');
             res.status(400).json({ message: 'Username already exists.' });

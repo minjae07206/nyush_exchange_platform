@@ -9,7 +9,7 @@ router.get('/', async (req: Request, res: Response) => {
     const { postId } = req.query; // Extract postId from query parameters
     try {
         const get_post_full_query = readFileSync('./src/sql_queries/get_post_full.sql', 'utf-8');
-        const queryResult = await pool.query(get_post_full_query, [userId, postId]);
+        const queryResult = await pool.query(get_post_full_query, [postId]);
         let isAuthor:boolean = false;
         if( queryResult.rows[0].author_id === userId) {
             isAuthor = true

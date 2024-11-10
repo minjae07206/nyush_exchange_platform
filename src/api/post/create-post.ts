@@ -43,20 +43,12 @@ router.post('/', upload.array('images', 10), async (req: Request, res: Response)
     const images = req.files as Express.Multer.File[];; // Array of uploaded files
     console.log(images);
     let realPostType;
-    let realPostStatus;
     if (postType === 'true') {
         realPostType = 'Sell';
     } else {
         realPostType = "Buy";
     }
-
-    if (postStatus === "Post to market") {
-        realPostStatus = "Pending"
-    } else {
-        realPostStatus = "Draft";
-    }
-
-    if (postStatus === "Post to market") { // If it is meant for the market, then there should be no empty values.
+    if (postStatus === "Pending") { // If it is meant for the market, then there should be no empty values.
         if (price === "" || description === "") {
             res.status(400).json({message: "If you want to post to the market, price and description cannot be empty."});
             return;
@@ -66,7 +58,7 @@ router.post('/', upload.array('images', 10), async (req: Request, res: Response)
     try {
         const insert_new_post_query = readFileSync('./src/sql_queries/insert_new_post.sql', 'utf-8');
         const post_id = uuidv4();
-        await pool.query(insert_new_post_query, [post_id, userId, realPostType, realPostStatus, title, price, currency, quantity, totalOrPerItem, description, openToNegotiate, sellBuyByDate, 0]);
+        await pool.query(insert_new_post_query, [post_id, userId, realPostType, postStatus, title, price, currency, quantity, totalOrPerItem, description, openToNegotiate, sellBuyByDate, 0]);
         
         const insert_new_image_query = readFileSync('./src/sql_queries/insert_new_image.sql', 'utf-8');
         if (images) {
