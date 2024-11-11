@@ -84,7 +84,7 @@ export default function SignupForm () {
                 console.log(response);
                 onFormSuccessChange(response.data.message)
                 onFormErrorChange(null); // set FormError message to null again so it doesn't stay showing. 
-                setTimeout(()=>{navigate('/email-verification');}, 2000);
+                setTimeout(()=>{navigate('/email-verification');}, 1000);
             }).catch((error)=> {
                 console.log(error.response.data.message)
                 onFormErrorChange(error.response.data.message);

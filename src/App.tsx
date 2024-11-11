@@ -22,6 +22,7 @@ import EditPostPage from 'routes/EditPostPage';
 import PendingUserUpdatesPage from 'routes/PendingUserUpdatesPage';
 import PendingPostPage from 'routes/PendingPostPage';
 import AdminRoutes from 'routes/AdminRoutes';
+import ForgotPasswordPage from 'routes/ForgotPasswordPage';
 function App() {
   return (
     <BrowserRouter>
@@ -50,6 +51,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/email-verification" element={<EmailVerificationPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           </Route>
           {/* Catch-all route for undefined paths */}
           <Route path="*" element={<NotFoundPage />} />
