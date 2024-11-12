@@ -18,6 +18,8 @@ export interface UseSettingsFormState {
     setProfileImageFile: (inputValue: File | null) => void;
     wechatQRCodeImageFile: File | null;
     setWechatQRCodeImageFile: (inputValue: File | null) => void;
+    isAdmin: boolean;
+    setIsAdmin: (inputValue: boolean) => void;
 }
 
 
@@ -36,6 +38,8 @@ export const useSettingsFormStore = create<UseSettingsFormState>((set) => ({
     setProfileImageFile: (inputValue: File | null) => set({profileImageFile: inputValue}),
     wechatQRCodeImageFile: null,
     setWechatQRCodeImageFile: (inputValue: File | null) => set({wechatQRCodeImageFile: inputValue}),
+    isAdmin: false,
+    setIsAdmin: (inputValue: boolean) => set({isAdmin: inputValue}),
     formError: null,
     formSuccess: null,
     setFormError: (inputValue: string | null) => set({ formError: inputValue }),

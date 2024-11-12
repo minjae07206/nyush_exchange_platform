@@ -10,6 +10,7 @@ import InputDescription from "./InputDescription";
 import FormError from "./FormError";
 import FormSuccess from "./FormSuccess";
 import InputError from "./InputError";
+import { Link } from "react-router-dom";
 
 import axios from "axios";
 import LoadingPage from "components/LoadingPage";
@@ -45,6 +46,8 @@ export default function SettingsForm() {
     const setFormSuccess = useSettingsFormStore((state) => state.setFormSuccess);
     const formError: string | null = useSettingsFormStore((state) => state.formError);
     const setFormError = useSettingsFormStore((state) => state.setFormError);
+    const isAdmin = useSettingsFormStore((state)=>state.isAdmin);
+    const setIsAdmin = useSettingsFormStore((state)=>state.setIsAdmin);
 
 
 
@@ -126,12 +129,14 @@ export default function SettingsForm() {
                 setDisableSaveButton(formattedResponseData.pending_update);
                 setUpdateDeniedReason(formattedResponseData.update_denied_reason);
                 setApprovedOrDenied(formattedResponseData.update_result);
+                formattedResponseData.role === "admin" ? setIsAdmin(true) : setIsAdmin(false)
                 if (!disableSaveButton) {
                     setFormSuccess(null);
                     setFormError(null);
                 }
             })
             .catch((error) => {
+                console.log(error)
                 setError("An error occurred while getting user info");
 
             })
@@ -223,6 +228,10 @@ export default function SettingsForm() {
             
             <FormError innerText={formError} />
             {/* <FormFooter linkTo="/change-password" footerText="Change password?"></FormFooter> */}
+            {isAdmin && <div>
+                <Link to={'/pending-posts'}><div className="bg-blue-300 ml-2 p-2">Resolve Pending Posts</div></Link>
+                <Link to={'/pending-user-updates'}><div className="bg-blue-300 ml-2 p-2">Resolve Pending User Updates</div></Link>
+                </div>}
         </div>
         </>
     );
