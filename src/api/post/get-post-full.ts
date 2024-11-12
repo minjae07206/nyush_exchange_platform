@@ -7,9 +7,12 @@ router.get('/', async (req: Request, res: Response) => {
     const userId = req.session.user?.userId;
     const role = req.session.user?.role;
     const { postId } = req.query; // Extract postId from query parameters
+    const get_post_full_query = readFileSync('./src/sql_queries/get_post_full.sql', 'utf-8');
+    const queryResult = await pool.query(get_post_full_query, [postId, userId]);
+    console.log(queryResult.rows)
     try {
         const get_post_full_query = readFileSync('./src/sql_queries/get_post_full.sql', 'utf-8');
-        const queryResult = await pool.query(get_post_full_query, [postId]);
+        const queryResult = await pool.query(get_post_full_query, [userId, postId]);
         let isAuthor:boolean = false;
         if( queryResult.rows[0].author_id === userId) {
             isAuthor = true

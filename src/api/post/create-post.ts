@@ -63,10 +63,11 @@ router.post('/', upload.array('images', 10), async (req: Request, res: Response)
         const insert_new_image_query = readFileSync('./src/sql_queries/insert_new_image.sql', 'utf-8');
         if (images) {
             for (let image of images) {
+                const normalizedPath = image.path.replace(/\\+/g, '/');
                 await pool.query(insert_new_image_query, [
                     uuidv4(),       // image_id
                     post_id,         // post_id from the new post
-                    image.path,      // image_url or path to the uploaded image file
+                    normalizedPath,      // image_url or path to the uploaded image file
                 ]);
             }
         }

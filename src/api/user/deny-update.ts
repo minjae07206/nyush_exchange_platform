@@ -21,7 +21,7 @@ router.patch('/', async (req: Request, res: Response) => {
         const update_user_deny_query = readFileSync('./src/sql_queries/update-user-deny.sql', 'utf-8');
         await client.query(update_user_deny_query, [
             denyReason,
-            userId,
+            requester_user_id,
         ]);
 
         await client.query('COMMIT'); // Commit the transaction if both queries succeed

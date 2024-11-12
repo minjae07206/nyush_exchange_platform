@@ -20,6 +20,7 @@ const router = express.Router();
 
 router.patch('/', upload.array('images', 10), async (req: Request, res: Response) => {
     const sessionId = req.session.user;
+    const { postId } = req.query;
     if (!sessionId) {
         res.status(401).json({ message: 'Unauthorized' });
         return;
@@ -36,9 +37,10 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
         totalOrPerItem,
         postType,
         openToNegotiate,
+        imageURLs,
     } = req.body;
-
     const images = req.files as Express.Multer.File[];
+    console.log(images)
     let realPostType = postType === 'true' ? 'Sell' : 'Buy';
 
     if (postStatus === "Post to market" && (price === "" || description === "")) {
@@ -49,7 +51,7 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
     const updateDraftPostQuery = readFileSync('./src/sql_queries/edit_draft_post.sql', 'utf-8');
     const getImageUrlsQuery = readFileSync('./src/sql_queries/get_image_urls.sql', 'utf-8');
     const insertNewImageQuery = readFileSync('./src/sql_queries/insert_new_image.sql', 'utf-8');
-    const post_id = uuidv4();
+    const delete_image_query = readFileSync('./src/sql_queries/delete_image.sql', 'utf-8');
 
     let client;
     try {
@@ -57,9 +59,8 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
         await client.query('BEGIN');
 
         // Update the post
-        await client.query(updateDraftPostQuery, [
-            post_id,
-            userId,
+        const re = await client.query(updateDraftPostQuery, [
+            postId,
             realPostType,
             postStatus,
             title,
@@ -71,13 +72,18 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
             openToNegotiate,
             sellBuyByDate
         ]);
+        console.log(re.rows.length)
+        // Delete original images that are not in the imageURLs
 
-        // Delete original images
-        const result = await client.query(getImageUrlsQuery, [post_id]);
+        const result = await client.query(getImageUrlsQuery, [postId]);
         if (result.rows.length > 0) {
-            const imageUrls = result.rows.map((row: any) => row.image_url);
+            const validImageURLs = Array.isArray(imageURLs) ? imageURLs : [];
+            const imagesToBeDeleted = result.rows.filter((row: any) => !validImageURLs.includes(`http://localhost:3001/${row.image_url}`));
+            console.log('images to be deleted', imagesToBeDeleted)
+            const imageUrls = imagesToBeDeleted.map((row: any) => row.image_url);
             for (const imageURL of imageUrls) {
-                const imagePath = path.join(__dirname, '../../uploads', imageURL);
+                await client.query(delete_image_query, [imageURL]);
+                const imagePath = path.resolve(__dirname,'../../../', imageURL); // resolve not path.join()
                 unlink(imagePath, (err) => {
                     if (err) console.error("Failed to delete image file:", err);
                     else console.log("Image file deleted successfully:", imageURL);
@@ -88,10 +94,11 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
         // Insert new images
         if (images) {
             for (let image of images) {
+                const normalizedPath = image.path.replace(/\\+/g, '/');
                 await client.query(insertNewImageQuery, [
                     uuidv4(),
-                    post_id,
-                    image.path
+                    postId,
+                    normalizedPath
                 ]);
             }
         }
@@ -108,7 +115,7 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
     } catch (error) {
         if (client) await client.query('ROLLBACK');
         console.error(error);
-        res.status(500).json({ message: "An error occurred on the database while creating a new post." });
+        res.status(500).json({ message: "An error occurred on the database while editing a draft post." });
     } finally {
         if (client) client.release();
     }
