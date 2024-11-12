@@ -10,7 +10,7 @@ export interface UsePostFormState {
   priceError: string | null;
   quantityError: string | null;
   sellBuyByDateError: string | null;
-  imageFiles: File[];
+  imageFiles: any;
   imagePreviews: string[];
   openToNegotiate: boolean;
   category: string;
@@ -27,7 +27,7 @@ export interface UsePostFormState {
   setIsEdit: (inputValue: boolean) => void;
 
   setImagePreviews: (inputArray: string[]) => void;
-  setImageFiles: (inputArray: File[]) => void;
+  setImageFiles: (inputArray: any) => void;
   setFormError: (inputValue: string | null) => void;
   setFormSuccess: (inputValue: string | null) => void;
 
@@ -86,7 +86,7 @@ export const usePostFormStore = create<UsePostFormState>((set) => ({
   sellBuyByDateError: null,
   setSellBuyByDateError: (inputString: string | null) => set({ sellBuyByDateError: inputString }),
   imageFiles: [],
-  setImageFiles: (inputFiles: File[]) => set({ imageFiles: inputFiles }),
+  setImageFiles: (inputFiles: any) => set({ imageFiles: inputFiles }),
   imagePreviews: [],
   setImagePreviews: (inputURLs: string[]) => set({ imagePreviews: inputURLs }),
   openToNegotiate: false,

@@ -46,7 +46,6 @@ export default function UserUpdate({ requester_user_id, newWechatQRCodeImage, ne
         .then(()=>{navigate('/pending-user-updates')})
         .catch((error)=>{console.log(error)});
     };
-    console.log(newProfileImage)
     return (
         <div className="flex shadow-md bg-grey-100 h-32 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block cursor-pointer">
             <div className="flex w-full md:h-1/2">
@@ -69,7 +68,7 @@ export default function UserUpdate({ requester_user_id, newWechatQRCodeImage, ne
             <form className="ml-1" onSubmit={(e) => e.preventDefault()}>
                 <label htmlFor="denyReason">Deny reason:</label>
                 <input
-                    className="pl-1"
+                    className="pl-1 border-black border border-solid"
                     id="denyReason"
                     name="denyReason"
                     type="text"

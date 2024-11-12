@@ -17,7 +17,6 @@ import NotFoundPage from "routes/NotFoundPage";
 import ImageInput from "./ImageInput";
 import { useSettingsFormStore } from "stores/useSettingsFormStore";
 import SettingsUpdateApprovedOrDeniedMessage from "components/SettingsUpdateApprovedOrDeniedMessage";
-import DenyReason from "components/post/DenyReason";
 
 export default function SettingsForm() {
     const profileImageFileRef = useRef<HTMLInputElement | null>(null);
@@ -127,6 +126,10 @@ export default function SettingsForm() {
                 setDisableSaveButton(formattedResponseData.pending_update);
                 setUpdateDeniedReason(formattedResponseData.update_denied_reason);
                 setApprovedOrDenied(formattedResponseData.update_result);
+                if (!disableSaveButton) {
+                    setFormSuccess(null);
+                    setFormError(null);
+                }
             })
             .catch((error) => {
                 setError("An error occurred while getting user info");
@@ -219,7 +222,7 @@ export default function SettingsForm() {
             {disableSaveButton && <span className="text-sm ml-2 mb-2 text-gray-600">Pending update from admin, so cannot update settings for now.</span>}
             
             <FormError innerText={formError} />
-            <FormFooter linkTo="/change-password" footerText="Change password?"></FormFooter>
+            {/* <FormFooter linkTo="/change-password" footerText="Change password?"></FormFooter> */}
         </div>
         </>
     );

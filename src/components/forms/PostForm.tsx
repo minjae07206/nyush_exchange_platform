@@ -50,7 +50,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
     const onSellBuyByDateChange = usePostFormStore((state) => state.setSellBuyByDate);
     const sellBuyByDateError: string | null = usePostFormStore((state) => state.sellBuyByDateError);
     const onSellBuyByDateErrorChange = usePostFormStore((state) => state.setSellBuyByDateError);
-    const imageFiles: File[] = usePostFormStore((state) => state.imageFiles);
+    const imageFiles: any = usePostFormStore((state) => state.imageFiles);
     const onImageFilesChange = usePostFormStore((state) => state.setImageFiles);
     const imagePreviews: string[] = usePostFormStore((state) => state.imagePreviews);
     const onImagePreviewsChange = usePostFormStore((state) => state.setImagePreviews);
@@ -95,7 +95,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     onImagePreviewsChange(imageUrls);
                     setOpenToNegotiate(responseData.open_to_negotiate_flag);
                     setTotalOrPerItem(responseData.overall_or_per_unit);
-                    setPostTypeIsSell(responseData.post_type);
+                    //setPostTypeIsSell(responseData.post_type);
+                    responseData.post_type === "Buy" ? setPostTypeIsSell(false) : setPostTypeIsSell(true);
                     onPriceChange(responseData.price);
                     onQuantityChange(responseData.quantity);
                     setCategory(responseData.category);
@@ -109,9 +110,11 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 .catch((error) => { console.log(error) })
         } else {
             setIsEdit(false);
+            resetPostForm();
         }
         onFormErrorChange(null);
         onFormSuccessChange(null);
+        onImageFilesChange([]);
     }, [])
 
     const handlePostFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -152,18 +155,23 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
             formData.append('currency', currencyInput);
             formData.append('quantity', quantityInput);
             formData.append('sellBuyByDate', sellBuyByDateInput);
-            isEdit ? formData.append("postStatus", postStatus) : formData.append('postStatus', submitType);
-            
+            isEdit && postStatus !== "Draft" ? formData.append("postStatus", postStatus) : formData.append('postStatus', submitType);
+
             formData.append('category', category);
             formData.append('totalOrPerItem', totalOrPerItem);
             formData.append('postType', postTypeIsSell.toString());
             formData.append('openToNegotiate', openToNegotiate.toString());
-            imageFiles.forEach((file) => {
-                console.log(file.name)
-                formData.append('images', file, file.name); // Append the File with its name
+
+            imagePreviews.forEach((url) => {
+                formData.append('imageURLs[]', url); // or 'imageURLs' to use a non-array format
+            });
+            imageFiles.forEach((file: any) => {
+                formData.append('images', file.file, file.file.name); // Append the File with its name
             });
             if (isEdit && postStatus === "Draft") {
-                axios.post(`http://localhost:3001/api/post/edit-draft-post?postId=${postId}`,
+                for (let item of imagePreviews) {
+                }
+                axios.patch(`http://localhost:3001/api/post/edit-draft-post?postId=${postId}`,
                     // post data
                     formData,
                     {
@@ -191,6 +199,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         sellBuyByDate: sellBuyByDateInput,
                         totalOrPerItem: totalOrPerItem,
                         postStatus: postStatus,
+                        category: category
                     },
                     {
                         withCredentials: true, // Move withCredentials to the config object
@@ -227,6 +236,16 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
         return <LoadingPage></LoadingPage>
     }
 
+    // When the X icon is clicked on the image;
+    const handleEraseImage = (urlToRemove: string) => {
+        const newImagePreview = imagePreviews.filter((url: string) => url !== urlToRemove);
+        onImagePreviewsChange(newImagePreview);
+
+        const newImageFiles = imageFiles.filter((file: any) => urlToRemove !== file.url);
+        onImageFilesChange(newImageFiles);
+    }
+
+
     return (
         <div className={commonClassName}>
             <FormHeader formTitle={isEdit ? "Edit post" : "Create a new post"} />
@@ -244,27 +263,27 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     <FormLabel htmlFor="title">Title</FormLabel>
                     <Input disabled={isEdit && postStatus !== "Draft"} type="text" id="title" name='title' value={titleInput} placeholder="Post title" required maxlength={100} customClassname="w-11/12 md:w-2/3" onInputChange={onTitleChange}></Input>
                     <InputDescription inputDescriptionText="The title should be 1-100 characters long."></InputDescription>
-                    {isEdit && <InputDescription inputDescriptionText="If you wish to edit the title, create a new post instead."></InputDescription>}
+                    {isEdit && postStatus !== "Draft" && <InputDescription inputDescriptionText="If you wish to edit the title, create a new post instead."></InputDescription>}
                     <InputError errorText={titleError} />
                 </FormItem>
-                {(postStatus === "Available" || postStatus === "In progress" || postStatus === "Archived") && 
-                <FormItem>
-                    <FormLabel htmlFor="postStatus">Post Status</FormLabel>
-                    <DropDownMenu name="currency" options={["Available", "In progress", "Archived"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        if (e.target.value === "Available") {
-                            setPostStatus("Available");
-                        } else if (e.target.value === "In progress") {
-                            setCategory("In progress");
-                        } else if (e.target.value === "Archived") {
-                            setCategory("Archived");
-                        }
-                    }}></DropDownMenu>
-                    
-                </FormItem>
+                {(postStatus === "Available" || postStatus === "In progress" || postStatus === "Archived") &&
+                    <FormItem>
+                        <FormLabel htmlFor="postStatus">Post Status</FormLabel>
+                        <DropDownMenu value={postStatus} name="currency" options={["Available", "In progress", "Archived"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                            if (e.target.value === "Available") {
+                                setPostStatus("Available");
+                            } else if (e.target.value === "In progress") {
+                                setCategory("In progress");
+                            } else if (e.target.value === "Archived") {
+                                setCategory("Archived");
+                            }
+                        }}></DropDownMenu>
+
+                    </FormItem>
                 }
                 <FormItem>
                     <FormLabel htmlFor="category">Category</FormLabel>
-                    <DropDownMenu name="currency" options={["Textbook", "Kitchenware", "Food", "Others"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    <DropDownMenu value={category} name="currency" options={["Textbook", "Kitchenware", "Food", "Others"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         if (e.target.value === "Textbook") {
                             setCategory("Textbook");
                         } else if (e.target.value === "Kitchenware") {
@@ -282,14 +301,14 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         <span className="absolute top-2 left-3">{currencyInput}</span>
                         {/**Something to conisder, the user can type "e" to the input, so can write things like 1e3. How will this be shown on the server?*/}
                         <Input type="number" id="price" name="price" placeholder="0" value={priceInput} customClassname="pl-5 w-1/3 sm:w-1/6" onInputChange={onPriceChange} />
-                        <DropDownMenu name="currency" options={["CNY", "USD"]} className="max-w-[70px]" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        <DropDownMenu value={currencyInput} name="currency" options={["CNY", "USD"]} className="max-w-[70px]" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                             if (e.target.value === "CNY") {
                                 onCurrencyChange("¥");
                             } else if (e.target.value === "USD") {
                                 onCurrencyChange("$");
                             }
                         }}></DropDownMenu>
-                        <DropDownMenu name="totalOrPerItem" options={["Total price", "Price per unit"]} className="max-w-[200px]" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        <DropDownMenu value={totalOrPerItem} name="totalOrPerItem" options={["Total price", "Price per unit"]} className="max-w-[200px]" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                             if (e.target.value === "Total price") {
                                 setTotalOrPerItem("Total price");
                             } else if (e.target.value === "Price per unit") {
@@ -314,8 +333,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="description">Description</FormLabel>
-                    <TextArea id="description" disabled={isEdit} value={descriptionInput} name="description" placeholder="Write your post's description here..." onInputChange={onDescriptionChange}></TextArea>
-                    {isEdit && <InputDescription inputDescriptionText="If you wish to edit the description, create a new post instead."></InputDescription>}
+                    <TextArea id="description" disabled={isEdit && postStatus !== "Draft"} value={descriptionInput} name="description" placeholder="Write your post's description here..." onInputChange={onDescriptionChange}></TextArea>
+                    {isEdit && postStatus !== "Draft" && <InputDescription inputDescriptionText="If you wish to edit the description, create a new post instead."></InputDescription>}
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="sellBuyByDate">{postTypeIsSell ? "Sell" : "Buy"} by date</FormLabel>
@@ -325,17 +344,22 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="images">Images</FormLabel>
-                    <FileInput disabled={isEdit} id="images" name="images" onInputChange={onImageFilesChange} currentImageFiles={imageFiles} currentImagePreviews={imagePreviews} onImagePreviewsChange={onImagePreviewsChange} />
+                    <FileInput disabled={isEdit && postStatus !== "Draft"} id="images" name="images" onInputChange={onImageFilesChange} currentImageFiles={imageFiles} currentImagePreviews={imagePreviews} onImagePreviewsChange={onImagePreviewsChange} />
                     {
                         Array.isArray(imagePreviews) &&
                         <div className="flex justify-content flex-wrap">
                             {
                                 imagePreviews.map((url) => {
                                     return (
-                                        <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2" key={url}>
+                                        <div className="relative w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2" key={url}>
                                             <a href={url} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
                                                 <img className="w-full h-full object-cover rounded-md" src={url}></img>
                                             </a>
+                                            {!isEdit || postStatus === "Draft" && <button className="absolute rounded-full bg-gray-400 pl-1 pb-1 pr-1 -top-2 -right-1" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                                                event.preventDefault();
+                                                handleEraseImage(url);
+                                            }}>🗙</button>}
+
                                         </div>
 
                                     )
@@ -343,14 +367,15 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                             }
                         </div>
                     }
-                    {isEdit && <InputDescription inputDescriptionText="If you want to add or remove images, delete this post and create a new post instead."></InputDescription>}
+                    <InputDescription inputDescriptionText="The maximum images that can be uploaded is 10."></InputDescription>
+                    {isEdit && postStatus !== "Draft" && <InputDescription inputDescriptionText="If you want to add or remove images, delete this post and create a new post instead."></InputDescription>}
                 </FormItem>
                 {isEdit ? <FormSuccess innerText={formSuccess} renderSpinner={false} /> :
                     <FormSuccess innerText={formSuccess} renderSpinner={true} />}
 
                 <FormError innerText={formError} />
 
-                {isEdit ?
+                {isEdit && postStatus !== "Draft" ?
                     <div className="flex justify-around">
                         <Button buttonText="Save edit" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { }}></Button>
                     </div>

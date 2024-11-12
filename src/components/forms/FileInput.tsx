@@ -6,8 +6,8 @@ interface FileInputProps {
     minlength?:number;
     value?:string;
     customClassname?: string;
-    onInputChange?: (input:File[]) => void;
-    currentImageFiles: File[];
+    onInputChange?: (input:any) => void;
+    currentImageFiles: any;
     currentImagePreviews: string[];
     onImagePreviewsChange: (input:string[]) => void;
     disabled?:boolean;
@@ -36,25 +36,29 @@ export default function FileInput({
     maxLength={maxlength}
     minLength={minlength}
     value={value}
-    disabled={currentImageFiles.length >= 10 || disabled}
+    disabled={currentImageFiles.length >= 10 || currentImagePreviews.length >= 10 || disabled}
     type="file"
     accept=".jpg, .jpeg, .png, .bmp, .tiff, .tif, .webp, .svg"
     multiple // multiple flag allows users to upload multiple files at a time.
     onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
+        console.log(currentImagePreviews.length);
         const targetFiles = (e.target as HTMLInputElement).files as FileList;
         const targetFilesArray = Array.from(targetFiles);
-        const selectedFiles: File[] = targetFilesArray.map((file) => {
-            return file
+        const selectedFiles = targetFilesArray.map((file) => {
+            const url = URL.createObjectURL(file);
+            return {file, url}
           });
-        const imagePreviews: string[] = targetFilesArray.map((file) => {
-            return URL.createObjectURL(file);
+        const imagePreviews: string[] = selectedFiles.map((file) => {
+            return file.url;
         })
-        let newImageFiles:File[] = currentImageFiles.concat(selectedFiles)
-        if (newImageFiles.length > 10) {
-            newImageFiles = newImageFiles.slice(0, 10);
+        let newImageFiles:any = currentImageFiles.concat(selectedFiles)
+        console.log(newImageFiles.length)
+        if (newImageFiles.length > 10 - currentImagePreviews.length) {
+            newImageFiles = newImageFiles.slice(0, 10 - currentImagePreviews.length);
+            console.log(newImageFiles.length);
         }
         let newImagePreviews:string[] = currentImagePreviews.concat(imagePreviews)
-        if (newImagePreviews.length > 10) {
+        if (newImagePreviews.length > 10 - currentImagePreviews.length) {
             newImagePreviews = newImagePreviews.slice(0, 10);
         }
 

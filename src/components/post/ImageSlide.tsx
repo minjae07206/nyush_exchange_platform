@@ -36,6 +36,7 @@ export default function ImageSlide ({images}:ImageSlideProp) {
             }}>
                 {
                     images.map((imageURL) => {
+                        console.log(imageURL)
                         return (
                             <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={imageURL} target="_blank" to={`http://localhost:3001/${imageURL}`}>
                                 <img className="object-cover" src={`http://localhost:3001/${imageURL}`}></img>

@@ -106,7 +106,7 @@ export default function LoginForm() {
             <FormSuccess innerText={formSuccess} renderSpinner={true}/>
             <FormError innerText={formError}/>
             <FormFooter linkTo="/signup" footerText="Don't have an account?"></FormFooter>
-            <FormFooter linkTo="/forgot-password" footerText="Forgot password?"></FormFooter>
+            {/* <FormFooter linkTo="/forgot-password" footerText="Forgot password?"></FormFooter> */}
         </div>
     )
 }

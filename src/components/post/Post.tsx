@@ -58,7 +58,6 @@ export default function Post() {
         axios.get(`http://localhost:3001/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
             .then((response) => {
                 const responseData = JSON.parse(response.data);
-                console.log(responseData)
 
                 // format the date_of_creation date data.
                 const timeAgoDateOfCreation = timeAgo(responseData.date_of_creation);
@@ -194,7 +193,7 @@ export default function Post() {
         })
         .catch((error)=>{
             console.log(error);
-            console.log(1)
+
         })
     }
 
