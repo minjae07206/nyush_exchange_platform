@@ -92,7 +92,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
                 <div className="flex items-start mt-1 mb-1">
                     {<PostStatusBadge statusText={postStatus} />}
                     {open_to_negotiate_flag && <OpenToNegotiateFlagBadge/>}
-                    <span className="ml-1">{price}{currency}</span>
+                    <span className="ml-1 relative -top-1">{price}{currency}</span>
                     <div onClick={handleSavedClick}>
                         {
                             postSaved

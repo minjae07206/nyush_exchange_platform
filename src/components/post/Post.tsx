@@ -14,6 +14,7 @@ import Form from "components/forms/Form";
 import PostStatusBadge from "./PostStatusBadge";
 import { useNavigate } from "react-router-dom";
 import DenyReason from "./DenyReason";
+import AuthorInformation from "./AuthorInformation";
 export default function Post() {
     const navigate = useNavigate();
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12 md:flex';
@@ -210,10 +211,7 @@ export default function Post() {
             <div className={commonClassName}>
                 <div className="w-full md:w-1/2 md:ml-10">
                     <ImageSlide images={images} />
-                    <div>{username}</div>
-                    <span>{profileImage}</span>
-                    <span>{email}</span>
-                    <span>{wechatQRCodeImage}</span>
+                    <AuthorInformation username={username} email={email} wechatQRCodeImage={wechatQRCodeImage} profileImage={profileImage} />
                 </div>
                 <div className="ml-2 relative max-w-[780px] md:w-1/2">
                     <h1 className="text-xl mr-2">{postType}ing: {postTitle}</h1>

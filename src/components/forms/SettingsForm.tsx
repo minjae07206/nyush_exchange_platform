@@ -229,7 +229,7 @@ export default function SettingsForm() {
             <FormError innerText={formError} />
             {/* <FormFooter linkTo="/change-password" footerText="Change password?"></FormFooter> */}
             {isAdmin && <div>
-                <Link to={'/pending-posts'}><div className="bg-blue-300 ml-2 p-2">Resolve Pending Posts</div></Link>
+                <Link to={'/pending-post'}><div className="bg-blue-300 ml-2 p-2">Resolve Pending Posts</div></Link>
                 <Link to={'/pending-user-updates'}><div className="bg-blue-300 ml-2 p-2">Resolve Pending User Updates</div></Link>
                 </div>}
         </div>
