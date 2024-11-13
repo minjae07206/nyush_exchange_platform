@@ -12,6 +12,7 @@ import FileInput from "components/forms/FileInput";
 import FormError from "./FormError";
 import FormSuccess from "./FormSuccess";
 
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { usePostFormStore } from "stores/usePostFormStore";
@@ -84,6 +85,16 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
             axios.get(`http://localhost:3001/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
                 .then((response) => {
                     const responseData = JSON.parse(response.data);
+
+                    // Important to check if the user is the author.
+                    if (responseData.isAuthor === false) {
+                        navigate('/unauthorized-page')
+                    }
+                    // If archived, should not be able to edit.
+                    if (responseData.post_status === "Archived") {
+                        navigate('/');
+                    }
+
                     const formattedDateOfExpiration = new Date(responseData.date_of_expiration).toLocaleDateString("en-CA");
                     onTitleChange(responseData.post_title);
                     onDescriptionChange(responseData.description);
@@ -110,6 +121,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 .catch((error) => { console.log(error) })
         } else {
             setIsEdit(false);
+            setLoading(false);
             resetPostForm();
         }
         onFormErrorChange(null);
@@ -232,7 +244,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
         }
 
     }
-    if (isEdit && loading) {
+    if (isEdit && loading || loading) {
         return <LoadingPage></LoadingPage>
     }
 
@@ -273,12 +285,12 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                             if (e.target.value === "Available") {
                                 setPostStatus("Available");
                             } else if (e.target.value === "In progress") {
-                                setCategory("In progress");
+                                setPostStatus("In progress");
                             } else if (e.target.value === "Archived") {
-                                setCategory("Archived");
+                                setPostStatus("Archived");
                             }
                         }}></DropDownMenu>
-
+                    <InputDescription inputDescriptionText="If you set the post to Archived, you won't be able to edit it anymore."></InputDescription>
                     </FormItem>
                 }
                 <FormItem>

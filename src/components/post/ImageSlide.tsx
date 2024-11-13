@@ -46,13 +46,13 @@ export default function ImageSlide ({images}:ImageSlideProp) {
                 }
             </div>
             <button
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
                 onClick={prevImage}
             >
                 <i className="fa-solid fa-chevron-left text-3xl"></i>
             </button>
             <button
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-lg"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg"
                 onClick={nextImage}
             >
                 <i className="fa-solid fa-chevron-right text-3xl"></i>

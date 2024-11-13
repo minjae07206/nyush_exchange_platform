@@ -183,7 +183,7 @@ export default function SettingsForm() {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="profileImage">Profile Image</FormLabel>
-                    <Button type="button" customClass="p-2" buttonText="Change to default profile image" handleButtonClickProp={()=>{
+                    <Button type="button" customClass="p-2 bg-purple-500 hover:bg-purple-600" buttonText="Change to default profile image" handleButtonClickProp={()=>{
                         setProfileImageFile(null);
                         setProfileImageURL("/default-profile-image.png");
                         if (profileImageFileRef.current) {
@@ -203,7 +203,7 @@ export default function SettingsForm() {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="wechatQRCodeImage">Wechat QR Code</FormLabel>
-                    <Button type="button" customClass="p-2" buttonText="Change to no wechat qr code" handleButtonClickProp={()=>{
+                    <Button type="button" customClass="p-2 bg-purple-500 hover:bg-purple-600" buttonText="Change to no wechat qr code" handleButtonClickProp={()=>{
                         setWechatQRCodeImageFile(null);
                         setWechatQRCodeImageURL("/default-wechat-qr-code.png");
                         if (wechatQRCodeImageFileRef.current) {

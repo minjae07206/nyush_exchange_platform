@@ -12,10 +12,10 @@ export default function PostStatusBadge({ statusText }: PostStatusBadgeProps) {
         case "Draft":
             colorClass = "bg-gray-500";
             break;
-        case "Completed":
+        case "Archived":
             colorClass = "bg-gray-500";
             break;
-        case "In transaction":
+        case "In progress":
             colorClass = "bg-green-600";
             break;
         case "Denied":

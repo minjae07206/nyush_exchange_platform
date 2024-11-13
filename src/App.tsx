@@ -23,6 +23,8 @@ import PendingUserUpdatesPage from 'routes/PendingUserUpdatesPage';
 import PendingPostPage from 'routes/PendingPostPage';
 import AdminRoutes from 'routes/AdminRoutes';
 import ForgotPasswordPage from 'routes/ForgotPasswordPage';
+import UnauthorizedPage from 'routes/UnauthorizedPage';
+import SearchPage from 'routes/SearchPage';
 function App() {
   return (
     <BrowserRouter>
@@ -40,6 +42,7 @@ function App() {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/post/*" element={<PostPage />} />
             <Route path="edit-post/:postId" element={<EditPostPage />} />
+            <Route path="/search" element={<SearchPage/>}></Route>
             <Route element={<AdminRoutes />} >
               <Route path='/pending-post' element={<PendingPostPage />} />
               <Route path='/pending-user-updates' element={<PendingUserUpdatesPage />} />
@@ -54,7 +57,9 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           </Route>
           {/* Catch-all route for undefined paths */}
+          <Route path='/unauthorized-page' element={<UnauthorizedPage/>}></Route>
           <Route path="*" element={<NotFoundPage />} />
+
         </Routes>
       </main>
       <Footer></Footer>

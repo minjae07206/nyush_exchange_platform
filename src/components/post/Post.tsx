@@ -93,8 +93,8 @@ export default function Post() {
                 setIsAuthor(responseData.isAuthor);
                 setDenyReason(responseData.deny_reason);
                 setEmail(responseData.email);
-                setProfileImage(responseData.profile_image);
-                setWechatQRCodeImage(responseData.wechat_qr_code_image);
+                responseData.profile_image ? setProfileImage(responseData.profile_image) : setProfileImage("/default-profile-image.png");
+                responseData.wechat_qr_code_image ? setWechatQRCodeImage(responseData.wechat_qr_code_image) : setWechatQRCodeImage("/default-wechat-qr-code.png");
                 setLoading(false);
 
             })
@@ -180,7 +180,7 @@ export default function Post() {
             { withCredentials: true } // The configuration option for credentials
         )
         .then(() => {
-            navigate('/market'); // Redirect after successful request
+            navigate('/pending-post'); // Redirect after successful request
         })
         .catch((error) => {
             console.log(error); // Handle error if any

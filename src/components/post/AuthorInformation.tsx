@@ -50,7 +50,7 @@ export default function AuthorInformation({ username, email, profileImage, wecha
                 >
                     {/* White Box for Email and QR Code */}
                     <div
-                        className="bg-white p-4 rounded-lg shadow-lg w-1/3 text-center"
+                        className="bg-white p-4 rounded-lg shadow-lg w-1/3 min-w-[280px] text-center"
                         onClick={(e) => e.stopPropagation()} // Prevent modal from closing when clicking inside the white box
                     >
                         <div className="flex justify-center">
