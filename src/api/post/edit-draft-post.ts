@@ -41,7 +41,12 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
     } = req.body;
     const images = req.files as Express.Multer.File[];
     console.log(images)
-    let realPostType = postType === 'true' ? 'Sell' : 'Buy';
+    let realPostType;
+    if (postType === 'true') {
+        realPostType = 'Sell';
+    } else if (postType === 'false') {
+        realPostType = "Buy";
+    }
 
     if (postStatus === "Post to market" && (price === "" || description === "")) {
         res.status(400).json({ message: "If you want to post to the market, price and description cannot be empty." });

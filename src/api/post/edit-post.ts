@@ -26,11 +26,11 @@ router.patch('/', async (req: Request, res: Response) => {
         category,
         postStatus,
     } = req.body;
-    console.log(postStatus)
+    console.log(postType)
     let realPostType;
-    if (postType === 'true') {
+    if (postType === true || postType === 'true') {
         realPostType = 'Sell';
-    } else {
+    } else if (postType === 'false' || postType === false) {
         realPostType = "Buy";
     }
     console.log(req.body);
@@ -44,7 +44,7 @@ router.patch('/', async (req: Request, res: Response) => {
 
     try {
         const edit_post_query = readFileSync('./src/sql_queries/edit_post.sql', 'utf-8');
-        await pool.query(edit_post_query, [postId, price, currency, quantity, sellBuyByDate, totalOrPerItem, postType, openToNegotiate, category, postStatus]);
+        await pool.query(edit_post_query, [postId, price, currency, quantity, sellBuyByDate, totalOrPerItem, realPostType, openToNegotiate, category, postStatus]);
         res.status(200).json({message: "Post editted successfully."})
         return;
     } catch (error) {
