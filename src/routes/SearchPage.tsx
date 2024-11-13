@@ -85,7 +85,7 @@ export default function SearchPage() {
                     <div className="flex justify-center">
                         {hasMore && !loading && !extraPostLoading && (
 
-                            <Button customClass="p-2" buttonText="Show more" handleButtonClickProp={handleShowMoreClick}></Button>
+                            <Button customClass="p-2 bg-purple-500 hover:bg-purple-600" buttonText="Show more" handleButtonClickProp={handleShowMoreClick}></Button>
 
                         )}
                         {extraPostLoading && (

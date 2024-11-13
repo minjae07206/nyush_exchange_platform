@@ -17,6 +17,7 @@ export interface UsePostFormState {
   postTypeIsSell: boolean;
   totalOrPerItem: string;
   submitType: string;
+  fileSizeError: string | null;
   formError: string | null;
   formSuccess: string | null;
 
@@ -40,6 +41,7 @@ export interface UsePostFormState {
   setSellBuyByDate: (inputString: string) => void;
   setTitleError: (inputValue: string | null) => void;
   setPriceError: (inputValue: string | null) => void;
+  setFileSizeError: (inputValue: string | null) => void;
   setQuantityError: (inputValue: string | null) => void;
   setSellBuyByDateError: (inputValue: string | null) => void;
   setOpenToNegotiate: (input: boolean) => void;
@@ -107,5 +109,7 @@ export const usePostFormStore = create<UsePostFormState>((set) => ({
   formSuccess: null,
   setFormError: (inputValue: string | null) => set({ formError: inputValue }),
   setFormSuccess: (inputValue: string | null) => set({ formSuccess: inputValue }),
+  fileSizeError: null,
+  setFileSizeError: (inputValue: string | null) => set({fileSizeError: inputValue}),
 }));
 

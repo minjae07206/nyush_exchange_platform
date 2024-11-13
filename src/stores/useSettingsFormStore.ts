@@ -20,6 +20,11 @@ export interface UseSettingsFormState {
     setWechatQRCodeImageFile: (inputValue: File | null) => void;
     isAdmin: boolean;
     setIsAdmin: (inputValue: boolean) => void;
+
+    profileImageFileSizeError: string | null;
+    setProfileImageFileSizeError: (inputValue: string | null) => void;
+    wechatQRCodeImageFileSizeError: string | null;
+    setWechatQRCodeImageFileSizeError: (inputValue: string | null) => void;
 }
 
 
@@ -44,5 +49,10 @@ export const useSettingsFormStore = create<UseSettingsFormState>((set) => ({
     formSuccess: null,
     setFormError: (inputValue: string | null) => set({ formError: inputValue }),
     setFormSuccess: (inputValue: string | null) => set({ formSuccess: inputValue }),
+    profileImageFileSizeError: null,
+    setProfileImageFileSizeError: (inputValue: string | null) => set({ profileImageFileSizeError: inputValue }),
+    wechatQRCodeImageFileSizeError: null,
+    setWechatQRCodeImageFileSizeError: (inputValue: string | null) => set({ wechatQRCodeImageFileSizeError: inputValue }),
+
 }));
 

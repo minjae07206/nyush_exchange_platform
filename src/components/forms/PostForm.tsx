@@ -68,6 +68,9 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
     const postStatus: string = usePostFormStore((state) => state.postStatus);
     const setPostStatus = usePostFormStore((state) => state.setPostStatus);
 
+    const fileSizeError: string | null = usePostFormStore((state)=>state.fileSizeError);
+    const setFileSizeError = usePostFormStore((state)=>state.setFileSizeError);
+
     const isEdit: boolean = usePostFormStore((state) => state.isEdit);
     const setIsEdit = usePostFormStore((state) => state.setIsEdit);
 
@@ -113,7 +116,6 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     setCategory(responseData.category);
                     setPostStatus(responseData.post_status);
                     //setIsAuthor(responseData.isAuthor);
-                    console.log(openToNegotiate)
                     setLoading(false);
 
                     setIsEdit(true);
@@ -171,6 +173,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
 
             formData.append('category', category);
             formData.append('totalOrPerItem', totalOrPerItem);
+            postTypeIsSell ? formData.append('postType', "Sell") : formData.append('postType', "Buy");;
             formData.append('postType', postTypeIsSell.toString());
             formData.append('openToNegotiate', openToNegotiate.toString());
 
@@ -181,8 +184,6 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 formData.append('images', file.file, file.file.name); // Append the File with its name
             });
             if (isEdit && postStatus === "Draft") {
-                for (let item of imagePreviews) {
-                }
                 axios.patch(`http://localhost:3001/api/post/edit-draft-post?postId=${postId}`,
                     // post data
                     formData,
@@ -193,10 +194,12 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         withCredentials: true,
                     }).then((response) => {
                         onFormSuccessChange(response.data.message)
+                        onFormErrorChange(null);
                         resetPostForm();
                         navigate('/myposts')
                     }).catch((error) => {
                         onFormErrorChange(error.response.data.message);
+                        onFormSuccessChange(null);
                     })
             } else if (isEdit) {
                 axios.patch(
@@ -278,7 +281,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     {isEdit && postStatus !== "Draft" && <InputDescription inputDescriptionText="If you wish to edit the title, create a new post instead."></InputDescription>}
                     <InputError errorText={titleError} />
                 </FormItem>
-                {(postStatus === "Available" || postStatus === "In progress" || postStatus === "Archived") &&
+                {isEdit && (postStatus === "Available" || postStatus === "In progress" || postStatus === "Archived") &&
                     <FormItem>
                         <FormLabel htmlFor="postStatus">Post Status</FormLabel>
                         <DropDownMenu value={postStatus} name="currency" options={["Available", "In progress", "Archived"]} className="max-w-[200px] ml-2" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -356,7 +359,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 </FormItem>
                 <FormItem>
                     <FormLabel htmlFor="images">Images</FormLabel>
-                    <FileInput disabled={isEdit && postStatus !== "Draft"} id="images" name="images" onInputChange={onImageFilesChange} currentImageFiles={imageFiles} currentImagePreviews={imagePreviews} onImagePreviewsChange={onImagePreviewsChange} />
+                    <FileInput disabled={isEdit && postStatus !== "Draft"} id="images" name="images" onInputChange={onImageFilesChange} setFileSizeError={setFileSizeError} currentImageFiles={imageFiles} currentImagePreviews={imagePreviews} onImagePreviewsChange={onImagePreviewsChange} />
+                    <InputError errorText={fileSizeError}></InputError>
                     {
                         Array.isArray(imagePreviews) &&
                         <div className="flex justify-content flex-wrap">
@@ -380,6 +384,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         </div>
                     }
                     <InputDescription inputDescriptionText="The maximum images that can be uploaded is 10."></InputDescription>
+                    <InputDescription inputDescriptionText="The maximum image size is 2MB."></InputDescription>
                     {isEdit && postStatus !== "Draft" && <InputDescription inputDescriptionText="If you want to add or remove images, delete this post and create a new post instead."></InputDescription>}
                 </FormItem>
                 {isEdit ? <FormSuccess innerText={formSuccess} renderSpinner={false} /> :

@@ -11,6 +11,7 @@ interface FileInputProps {
     currentImagePreviews: string[];
     onImagePreviewsChange: (input:string[]) => void;
     disabled?:boolean;
+    setFileSizeError: (input: string | null) => void;
   }
 
 export default function FileInput({
@@ -24,6 +25,7 @@ export default function FileInput({
     customClassname,
     onInputChange,
     currentImagePreviews,
+    setFileSizeError,
     onImagePreviewsChange,
     currentImageFiles,
     }:FileInputProps) {
@@ -41,9 +43,18 @@ export default function FileInput({
     accept=".jpg, .jpeg, .png, .bmp, .tiff, .tif, .webp, .svg"
     multiple // multiple flag allows users to upload multiple files at a time.
     onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
-        console.log(currentImagePreviews.length);
+        const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
         const targetFiles = (e.target as HTMLInputElement).files as FileList;
         const targetFilesArray = Array.from(targetFiles);
+        setFileSizeError(null);
+        for (let file of targetFilesArray) {
+            if (file && file.size > MAX_FILE_SIZE) {
+                setFileSizeError("One or more files exceed the file size limit.");
+                return; // break out of the whole function
+            } else {
+                continue;
+            }
+        }
         const selectedFiles = targetFilesArray.map((file) => {
             const url = URL.createObjectURL(file);
             return {file, url}

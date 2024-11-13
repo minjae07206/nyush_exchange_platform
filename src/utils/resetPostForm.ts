@@ -7,6 +7,7 @@ export const useResetPostForm = () => {
         setDescription,
         setImageFiles,
         setImagePreviews,
+        setPostTypeIsSell,
         setPrice,
         setQuantity,  // Assuming you have a setter for quantity as well
         setSellBuyByDate, // If applicable
@@ -18,6 +19,7 @@ export const useResetPostForm = () => {
     const resetPostForm = () => {
         setTitle("");
         setTitleError(null);
+        setPostTypeIsSell(true);
         setDescription("");
         setPrice("");
         setCurrency("¥");

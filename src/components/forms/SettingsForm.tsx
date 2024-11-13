@@ -49,6 +49,10 @@ export default function SettingsForm() {
     const isAdmin = useSettingsFormStore((state)=>state.isAdmin);
     const setIsAdmin = useSettingsFormStore((state)=>state.setIsAdmin);
 
+    const profileImageFileSizeError: string | null = useSettingsFormStore((state)=>state.profileImageFileSizeError);
+    const setProfileImageFileSizeError = useSettingsFormStore((state)=>state.setProfileImageFileSizeError);
+    const wechatQRCodeImageFileSizeError: string | null = useSettingsFormStore((state)=>state.wechatQRCodeImageFileSizeError);
+    const setWechatQRCodeImageFileSizeError = useSettingsFormStore((state)=>state.setWechatQRCodeImageFileSizeError);
 
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -190,7 +194,7 @@ export default function SettingsForm() {
                             profileImageFileRef.current.value = ""; // Clears the first file input
                           }
                     }}></Button>
-                    <ImageInput ref={profileImageFileRef} id='profileImage' name="profileImage" currentImagePreview={profileImageURL} onImagePreviewChange={setProfileImageURL} currentImageFile={profileImageFile} onInputChange={setProfileImageFile}></ImageInput>
+                    <ImageInput ref={profileImageFileRef} id='profileImage' name="profileImage" setFileSizeError={setProfileImageFileSizeError} currentImagePreview={profileImageURL} onImagePreviewChange={setProfileImageURL} currentImageFile={profileImageFile} onInputChange={setProfileImageFile}></ImageInput>
                     <div className="flex justify-content flex-wrap">
                         <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2">
                             <a href={profileImageURL} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
@@ -199,6 +203,7 @@ export default function SettingsForm() {
                         </div>
 
                     </div>
+                    <InputError errorText={profileImageFileSizeError}></InputError>
                     <InputDescription inputDescriptionText="The profile image is optional and will first be reviewed by the admin before it gets shown on public."></InputDescription>
                 </FormItem>
                 <FormItem>
@@ -210,7 +215,7 @@ export default function SettingsForm() {
                             wechatQRCodeImageFileRef.current.value = ""; // Clears the first file input
                           }
                     }}></Button>
-                    <ImageInput ref={wechatQRCodeImageFileRef} id='wechatQRCodeImage' name="wechatQRCodeImage" currentImagePreview={wechatQRCodeImageURL} onImagePreviewChange={setWechatQRCodeImageURL} currentImageFile={wechatQRCodeImageFile} onInputChange={setWechatQRCodeImageFile}></ImageInput>
+                    <ImageInput ref={wechatQRCodeImageFileRef} id='wechatQRCodeImage' name="wechatQRCodeImage" setFileSizeError={setWechatQRCodeImageFileSizeError} currentImagePreview={wechatQRCodeImageURL} onImagePreviewChange={setWechatQRCodeImageURL} currentImageFile={wechatQRCodeImageFile} onInputChange={setWechatQRCodeImageFile}></ImageInput>
                     <div className="flex justify-content flex-wrap">
                         <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2">
                             <a href={wechatQRCodeImageURL} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
@@ -219,6 +224,7 @@ export default function SettingsForm() {
                         </div>
 
                     </div>
+                    <InputError errorText={wechatQRCodeImageFileSizeError}></InputError>
                     <InputDescription inputDescriptionText="The wechat qr code image is optional and will first be reviewed by the admin before it gets shown on public."></InputDescription>
                 </FormItem>
                 <Button disabled={disableSaveButton} buttonText="Save" customClass="p-2 bg-purple-600 hover:bg-purple-700" handleButtonClickProp={() => { }}></Button>
