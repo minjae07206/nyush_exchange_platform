@@ -24,8 +24,9 @@ router.patch('/', async (req: Request, res: Response) => {
         postType,
         openToNegotiate,
         category,
+        postStatus,
     } = req.body;
-
+    console.log(postStatus)
     let realPostType;
     if (postType === 'true') {
         realPostType = 'Sell';
@@ -43,7 +44,7 @@ router.patch('/', async (req: Request, res: Response) => {
 
     try {
         const edit_post_query = readFileSync('./src/sql_queries/edit_post.sql', 'utf-8');
-        await pool.query(edit_post_query, [postId, price, currency, quantity, sellBuyByDate, totalOrPerItem, postType, openToNegotiate, category]);
+        await pool.query(edit_post_query, [postId, price, currency, quantity, sellBuyByDate, totalOrPerItem, postType, openToNegotiate, category, postStatus]);
         res.status(200).json({message: "Post editted successfully."})
         return;
     } catch (error) {

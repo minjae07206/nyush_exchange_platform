@@ -7,7 +7,7 @@ const router = express.Router();
 router.patch('/', async (req: Request, res: Response) => {
     const userId = req.session.user?.userId;
     const { newUsername, newWechatQRCodeImage, newProfileImage, requestId, requester_user_id } = req.body;
-
+    console.log(newWechatQRCodeImage, newProfileImage)
     const client = await pool.connect(); // Connect to the pool for transaction control
 
     try {
