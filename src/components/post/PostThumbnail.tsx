@@ -93,6 +93,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
                     {<PostStatusBadge statusText={postStatus} />}
                     {open_to_negotiate_flag && <OpenToNegotiateFlagBadge/>}
                     <span className="ml-1 relative -top-1">{price}{currency}</span>
+                    <div className="md:absolute md:flex md:top-16 md:right-3 md:text-gray-400">
                     <div onClick={handleSavedClick}>
                         {
                             postSaved
@@ -101,6 +102,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
                         }
                     </div>
                     <span className="hidden md:block text-sm mt-1 ml-1 text-gray-400">{postSavedCount}</span>
+                    </div>
                 </div>
                 {/* PostList's Save number before screen size is md. */}
                 {/* Another possible solution is delete this part and play around with the css of the 4 components in the flexbox above */}

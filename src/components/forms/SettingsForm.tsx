@@ -73,6 +73,8 @@ export default function SettingsForm() {
         if (CAN_PROCEED_TO_MAKING_REQUEST) {
 
             const formData = new FormData();
+            let thereExistsOriginalImage = false;
+            let thereExistsOriginalQRCodeImage = false;
             formData.append('username', currentUsername);
             if (profileImageFile) {
                 formData.append('profileImage', profileImageFile, profileImageFile.name);
@@ -80,6 +82,20 @@ export default function SettingsForm() {
             if (wechatQRCodeImageFile) {
                 formData.append('wechatQRCodeImage', wechatQRCodeImageFile, wechatQRCodeImageFile.name);
             }
+            if (profileImageURL === "/default-profile-image.png") {
+                thereExistsOriginalImage = false
+            } else {
+                thereExistsOriginalImage = true
+            }
+
+            if (wechatQRCodeImageURL === "/default-wechat-qr-code.png") {
+                thereExistsOriginalQRCodeImage = false;
+            } else {
+                thereExistsOriginalQRCodeImage = true;
+            }
+
+            formData.append('defaultProfileImageExists', thereExistsOriginalImage.toString());
+            formData.append('defaultWechatQRCodeExists', thereExistsOriginalQRCodeImage.toString());
             try {
                 await axios.post('http://localhost:3001/api/user/request-update-user-info',
                     formData,

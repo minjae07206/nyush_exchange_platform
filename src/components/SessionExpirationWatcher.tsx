@@ -13,7 +13,7 @@ export default function SessionExpirationWatcher() {
                 console.log("SessionExpirationTime:", sessionExpirationTime)
                 const timeRemaining = sessionExpirationTime - currentTime;
                 console.log("TimeRemainign: ", timeRemaining)
-                if ( timeRemaining <= (5 * 60 * 1000)) {
+                if ( timeRemaining <= (5 * 6 * 100)) {
                     const userWantsToExtend = window.confirm("Your session is about to expire. Extend?");
                     if (userWantsToExtend) {
                         try {
