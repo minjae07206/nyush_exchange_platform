@@ -31,7 +31,7 @@ WHERE
     ($2::text IS NULL OR p.post_title ILIKE '%' || $2 || '%') -- search keyword
     AND (
         -- If postStatusOption is NULL, exclude Draft and Pending posts
-        ($3::text IS NULL AND p.post_status NOT IN ('Draft', 'Pending'))
+        ($3::text IS NULL AND p.post_status NOT IN ('Draft', 'Pending', 'Denied'))
         OR
         -- If postStatusOption is provided, match that specific status
         (p.post_status = $3)
