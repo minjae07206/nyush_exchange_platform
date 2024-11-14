@@ -23,13 +23,27 @@ const router = express.Router();
 
 router.post('/', upload, async (req: Request, res: Response) => {
     const userId = req.session.user?.userId;
-    const { username } = req.body;
+    const { username, defaultProfileImageExists, defaultWechatQRCodeExists } = req.body;
+    let originalProfileImageExists: string | null;
+    if (defaultProfileImageExists === 'true') {
+        originalProfileImageExists = "default";
+    } else {
+        originalProfileImageExists = null;
+    }
+
+    let originalWechatImageExists: string | null;
+    if (defaultWechatQRCodeExists === 'true') {
+        originalWechatImageExists = "default";
+    } else {
+        originalWechatImageExists = null;
+    }
 
     const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
     const profileImage = files?.profileImage ? files.profileImage[0] : null;
     const wechatQRCodeImage = files?.wechatQRCodeImage ? files.wechatQRCodeImage[0] : null;
-    const profileImagePath = profileImage ? profileImage.path : null;
+    const profileImagePath = profileImage ? profileImage.path : originalProfileImageExists;
     const wechatQRCodeImagePath = wechatQRCodeImage ? wechatQRCodeImage.path : null;
+
 
     let client;
     try {
