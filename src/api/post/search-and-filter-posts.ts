@@ -10,12 +10,13 @@ router.get('/', async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1; // Default to 1 if not provided
     const offset = (page - 1) * limit; // Calculate offset
 
-    let { search, postStatusOption, postCategoryOption, negotiabilityOption, orderOption } = req.query as {
+    let { search, postStatusOption, postCategoryOption, negotiabilityOption, orderOption, buySellOption } = req.query as {
         search?: string | null;
         postStatusOption?: string | null;
         postCategoryOption?: string | null;
         negotiabilityOption?: string | null;
         orderOption?: string | null;
+        buySellOption?: string | null;
     };
 
     search = search?.trim() === "" ? null : search?.trim();
@@ -23,6 +24,23 @@ router.get('/', async (req: Request, res: Response) => {
     postCategoryOption = postCategoryOption === "All categories" ? null : postCategoryOption;
     // no need to map postStatusOption
     // no need to map postCategoryOption
+
+    // map buysellOption with switch
+    switch (buySellOption) {
+        case "All post types":
+            buySellOption = null;
+            break;
+        case "Sell posts":
+            buySellOption = 'Sell';
+            break;
+        case "Buy posts":
+            buySellOption = 'Buy';
+            break;
+        default:
+            buySellOption = null;
+            break;
+    }
+
     // map negotiability option with swtich
     switch (negotiabilityOption) {
         case "Select negotiability":
@@ -75,11 +93,11 @@ router.get('/', async (req: Request, res: Response) => {
 
     try {
         const baseQuery = readFileSync('./src/sql_queries/get_search_and_filtered_posts_thumbnail.sql', 'utf-8');
-        const finalQuery = `${baseQuery} ORDER BY ${orderBy} LIMIT $6 OFFSET $7;`;
+        const finalQuery = `${baseQuery} ORDER BY ${orderBy} LIMIT $7 OFFSET $8;`;
         //const search_and_filtered_posts_thumbnail = 
         // The user themselves won't be able to save their own post.
         // I wanted this check to be on the client side, but I think it has to be done on the server side because my cookie which contains the user info is http only for secuirty reasons.
-        const queryResult = await pool.query(finalQuery, [userId, search, postStatusOption, postCategoryOption, negotiabilityOption, limit, offset]);
+        const queryResult = await pool.query(finalQuery, [userId, search, postStatusOption, postCategoryOption, negotiabilityOption, buySellOption, limit, offset]);
         const postsWithFirstImage = queryResult.rows.map(post => ({
             ...post,
             image: post.image_url || null // Store the first image URL, or null if none exists

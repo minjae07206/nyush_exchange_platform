@@ -39,4 +39,5 @@ WHERE
 
     AND ($4::text IS NULL OR p.category = $4) -- postCategoryOption
     AND ($5::boolean IS NULL OR p.open_to_negotiate_flag = $5) -- negotiabilityOption
+    AND ($6::text IS NULL or p.post_type = $6) -- postType (Sell or Buy)
 

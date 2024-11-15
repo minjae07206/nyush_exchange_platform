@@ -56,12 +56,12 @@ router.patch('/', async (req: Request, res: Response) => {
         // Step 4: Update the user's information in the `users` table
         let wechatQRCodeImage;
         let profileImage;
-        if (profileImageToDelete && newProfileImage === 'default') {
+        if (newProfileImage === 'default') {
             profileImage = profileImageToDelete;
         } else {
             profileImage = newProfileImage;
         }
-        if (wechatQRCodeImageToDelete && newWechatQRCodeImage === 'default') {
+        if (newWechatQRCodeImage === 'default') {
             wechatQRCodeImage = wechatQRCodeImageToDelete;
         } else {
             wechatQRCodeImage = newWechatQRCodeImage;

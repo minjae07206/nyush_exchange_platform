@@ -28,12 +28,14 @@ LEFT JOIN
     saved s ON s.post_id = p.post_id 
             AND s.user_id = $1
 WHERE 
-    p.post_status = $2 
-    OR p.post_status = $3
-    OR p.post_status = $4
-ORDER BY 
-    p.date_of_creation DESC 
-LIMIT 
-    $5 
-OFFSET 
-    $6;
+    (
+        -- If postStatusOption is NULL, exclude Draft and Pending posts
+        ($2::text IS NULL AND p.post_status NOT IN ('Draft', 'Pending', 'Denied'))
+        OR
+        -- If postStatusOption is provided, match that specific status
+        (p.post_status = $2)
+    )
+
+    AND ($3::text IS NULL OR p.category = $3) -- postCategoryOption
+    AND ($4::boolean IS NULL OR p.open_to_negotiate_flag = $4) -- negotiabilityOption
+    AND ($5::text IS NULL or p.post_type = $5) -- postType (Sell or Buy)
