@@ -22,6 +22,7 @@ export default function SearchPage() {
     const postStatusOption = useFilterStore((state) => state.postStatusOption);
     const postCategoryOption = useFilterStore((state) => state.postCategoryOption);
     const negotiabilityOption = useFilterStore((state) => state.negotiabilityOption);
+    const buySellOption = useFilterStore((state)=>state.buySellOption);
     const orderOption = useFilterStore((state) => state.orderOption);
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get('search');
@@ -37,6 +38,7 @@ export default function SearchPage() {
                     postCategoryOption,
                     negotiabilityOption,
                     orderOption,
+                    buySellOption,
 
                 }
             })
@@ -63,7 +65,7 @@ export default function SearchPage() {
         setCurrentPage(1);
         setHasMore(true);
         loadPosts();
-    }, [postStatusOption, postCategoryOption, negotiabilityOption, orderOption, query])
+    }, [postStatusOption, postCategoryOption, negotiabilityOption, orderOption, buySellOption, query])
 
     const handleShowMoreClick = () => {
         setExtraPostLoading(true);

@@ -9,6 +9,8 @@ interface UseFilterState {
     setNegotiabilityOption: (inputValue: string) => void;
     orderOption: string;
     setOrderOption: (inputValue: string) => void;
+    buySellOption: string;
+    setBuySellOption: (inputValue: string) => void;
 
 }
 
@@ -21,6 +23,8 @@ export const useFilterStore = create<UseFilterState>((set) => ({
     setNegotiabilityOption: (inputValue: string) => set({negotiabilityOption: inputValue}),
     orderOption: "Latest first",
     setOrderOption: (inputValue: string) => set({orderOption: inputValue}),
+    buySellOption: "All post types",
+    setBuySellOption: (inputValue:string) => set({buySellOption: inputValue}),
 
 
 }));
