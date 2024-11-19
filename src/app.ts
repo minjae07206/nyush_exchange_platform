@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import session, {Session} from "express-session";
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
-
+import './cronJob'; // The cron job to delete expired posts should work automatically.
 
 import dotenv from 'dotenv';
 dotenv.config(); // Load environment variables from .env file
