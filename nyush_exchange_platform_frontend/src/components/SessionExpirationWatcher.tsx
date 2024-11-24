@@ -17,7 +17,7 @@ export default function SessionExpirationWatcher() {
                     const userWantsToExtend = window.confirm("Your session is about to expire. Extend?");
                     if (userWantsToExtend) {
                         try {
-                            const response = await axios.post('http://localhost:3001/api/auth/keep-alive', {
+                            const response = await axios.post(`${process.env.HOST_NAME}/api/auth/keep-alive`, {
                                 withCredentials:true,
                             });
                             if (response.data.message === "session-renewed") {
@@ -31,7 +31,7 @@ export default function SessionExpirationWatcher() {
                         
                     } else {
                         try {
-                            await axios.post('http://localhost:3001/api/auth/logout', {
+                            await axios.post(`${process.env.HOST_NAME}/api/auth/logout`, {
                                 withCredentials:true,
                             });
                             setIsLoggedIn(false);

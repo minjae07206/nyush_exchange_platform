@@ -18,7 +18,7 @@ export default function ForgotPasswordForm() {
 
     const handleEmailSend = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/api/auth/create-reset-password-session', {
+        axios.post(`${process.env.HOST_NAME}/api/auth/create-reset-password-session`, {
             emailInput,
         })
         .then(()=>{

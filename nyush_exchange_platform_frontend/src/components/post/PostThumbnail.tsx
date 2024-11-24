@@ -37,24 +37,24 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
             if (postSaved) {
                 // Unsaving the post
                 await axios.post(
-                    "http://localhost:3001/api/post/unsave-post",
+                    `${process.env.HOST_NAME}/api/post/unsave-post`,
                     { postId: postId },
                     { withCredentials: true }
                 );
                 // incrementing the saved count in post table
-                await axios.patch("http://localhost:3001/api/post/decrement-saved-count", {
+                await axios.patch(`${process.env.HOST_NAME}/api/post/decrement-saved-count`, {
                     postId: postId
                 })
 
             } else {
                 // Saving the post
                 await axios.post(
-                    "http://localhost:3001/api/post/save-post",
+                    `${process.env.HOST_NAME}/api/post/save-post`,
                     { postId: postId },
                     { withCredentials: true }
                 );
                 // decrementing the saved count in post table
-                await axios.patch("http://localhost:3001/api/post/increment-saved-count", {
+                await axios.patch(`${process.env.HOST_NAME}/api/post/increment-saved-count`, {
                     postId: postId
                 })
             }
@@ -80,7 +80,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
     return (
         <div className="flex shadow-md bg-grey-100 h-32 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block cursor-pointer">
             <div className="w-full h-full larger-phones:w-5/12 md:w-full  md:h-4/6">
-                <img src={`http://localhost:3001/${imageURL}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md"  onError={(e) => {handleImageError(e);}}></img>
+                <img src={`${process.env.HOST_NAME}/${imageURL}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md"  onError={(e) => {handleImageError(e);}}></img>
             </div>
             <div className="w-2/3 larger-phones:w-7/12 px-2 md:w-full md:h-1/5 relative">
                 {/* The title can cover 2 rows, any title longer than that will be hidden. */}

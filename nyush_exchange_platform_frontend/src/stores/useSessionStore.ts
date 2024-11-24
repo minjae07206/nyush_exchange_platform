@@ -20,7 +20,7 @@ export const useSessionStore = create<UseSessionState>((set) => ({
     setSessionExpirationTime: (input:number) => set({sessionExpirationTime: input}),
     checkLoginSession: async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/auth/check-login', {
+            const response = await axios.get(`${process.env.HOST_NAME}/api/auth/check-login`, {
                 withCredentials: true,
             });
             if (response.data.message === "session-alive") {
@@ -36,7 +36,7 @@ export const useSessionStore = create<UseSessionState>((set) => ({
 
     keepLoginSessionAlive: async () => {
         try {
-            const response = await axios.post('http://localhost:3001/api/auth/keep-alive', {
+            const response = await axios.post(`${process.env.HOST_NAME}/api/auth/keep-alive`, {
                 withCredentials: true,
             });
             if (response.data.message === "session-renewed") {

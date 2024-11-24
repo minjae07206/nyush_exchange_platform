@@ -11,7 +11,7 @@ export default function AuthRelatedRoutes() {
     useEffect(() => {
         const checkSession = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/auth/check-login', 
+                const response = await axios.get(`${process.env.HOST_NAME}/api/auth/check-login`, 
                     { withCredentials:true}
                 );
                 if (response.data.message === 'session-alive') {

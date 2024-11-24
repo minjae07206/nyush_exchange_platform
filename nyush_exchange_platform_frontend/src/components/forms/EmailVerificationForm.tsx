@@ -25,7 +25,7 @@ export default function EmailVerificationForm() {
     useEffect(() => {
         const checkVerificationCodeSession = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/auth/check-verification-code-session-exists', {
+                const response = await axios.get(`${process.env.HOST_NAME}/api/auth/check-verification-code-session-exists`, {
                     withCredentials: true,
                 });
                 console.log(response)

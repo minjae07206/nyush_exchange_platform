@@ -17,7 +17,7 @@ export default function MyAvailablePostsPage() {
     const [extraPostLoading, setExtraPostLoading] = useState<boolean>(false);
 
     const loadPosts = (newPage = 1) => {
-        axios.get(`http://localhost:3001/api/post/my-available-post?page=${newPage}`, {
+        axios.get(`${process.env.HOST_NAME}/api/post/my-available-post?page=${newPage}`, {
             withCredentials: true,
         }).then((response) => {
             const responseData = JSON.parse(response.data);

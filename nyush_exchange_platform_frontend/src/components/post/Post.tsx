@@ -64,7 +64,7 @@ export default function Post() {
             setShowShare(false);
         }
 
-        axios.get(`http://localhost:3001/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
+        axios.get(`${process.env.HOST_NAME}/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
             .then((response) => {
                 const responseData = JSON.parse(response.data);
 
@@ -130,24 +130,24 @@ export default function Post() {
             if (isSaved) {
                 // Unsaving the post
                 await axios.post(
-                    "http://localhost:3001/api/post/unsave-post",
+                    `${process.env.HOST_NAME}/api/post/unsave-post`,
                     { postId: postId },
                     { withCredentials: true }
                 );
                 // incrementing the saved count in post table
-                await axios.patch("http://localhost:3001/api/post/decrement-saved-count", {
+                await axios.patch(`${process.env.HOST_NAME}/api/post/decrement-saved-count`, {
                     postId: postId
                 })
 
             } else {
                 // Saving the post
                 await axios.post(
-                    "http://localhost:3001/api/post/save-post",
+                    `${process.env.HOST_NAME}/api/post/save-post`,
                     { postId: postId },
                     { withCredentials: true }
                 );
                 // decrementing the saved count in post table
-                await axios.patch("http://localhost:3001/api/post/increment-saved-count", {
+                await axios.patch(`${process.env.HOST_NAME}/api/post/increment-saved-count`, {
                     postId: postId
                 })
             }
@@ -165,7 +165,7 @@ export default function Post() {
     }
 
     const handleDeleteButtonClick = () => {
-        axios.delete('http://localhost:3001/api/post/delete-post', {
+        axios.delete(`${process.env.HOST_NAME}/api/post/delete-post`, {
             data: { postId: postId },
             withCredentials: true
         })
@@ -183,7 +183,7 @@ export default function Post() {
     }
 
     const handleApproveButtonClick = () => {
-        axios.patch('http://localhost:3001/api/post/approve-post',
+        axios.patch(`${process.env.HOST_NAME}/api/post/approve-post`,
             { postId }, // The data you want to send
             { withCredentials: true } // The configuration option for credentials
         )
@@ -196,7 +196,7 @@ export default function Post() {
     }
 
     const handleDenyButtonClick = () => {
-        axios.patch('http://localhost:3001/api/post/deny-post', { denyReason, postId }, { withCredentials: true })
+        axios.patch(`${process.env.HOST_NAME}/api/post/deny-post`, { denyReason, postId }, { withCredentials: true })
             .then(() => {
                 navigate('/pending-post');
             })

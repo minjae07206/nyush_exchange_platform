@@ -85,7 +85,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
 
     useEffect(() => {
         if (newOrEditFlag === "edit") {
-            axios.get(`http://localhost:3001/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
+            axios.get(`${process.env.HOST_NAME}/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
                 .then((response) => {
                     const responseData = JSON.parse(response.data);
 
@@ -101,7 +101,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     const formattedDateOfExpiration = new Date(responseData.date_of_expiration).toLocaleDateString("en-CA");
                     onTitleChange(responseData.post_title);
                     onDescriptionChange(responseData.description);
-                    const baseUrl = "http://localhost:3001/";
+                    const baseUrl = `${process.env.HOST_NAME}`;
                     const imageUrls = responseData.images.map((path: string) => baseUrl + path.replace(/\\/g, "/"));
                     //(responseData.author_id);
                     onCurrencyChange(responseData.currency);
@@ -184,7 +184,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 formData.append('images', file.file, file.file.name); // Append the File with its name
             });
             if (isEdit && postStatus === "Draft") {
-                axios.patch(`http://localhost:3001/api/post/edit-draft-post?postId=${postId}`,
+                axios.patch(`${process.env.HOST_NAME}/api/post/edit-draft-post?postId=${postId}`,
                     // post data
                     formData,
                     {
@@ -203,7 +203,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     })
             } else if (isEdit) {
                 axios.patch(
-                    `http://localhost:3001/api/post/edit-post?postId=${postId}`,
+                    `${process.env.HOST_NAME}/api/post/edit-post?postId=${postId}`,
                     {
                         // Post data here, e.g.:
                         openToNegotiate: openToNegotiate,
@@ -224,7 +224,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         onFormErrorChange(error.response.data.message);
                     })
             } else {
-                axios.post('http://localhost:3001/api/post/create-post',
+                axios.post('${process.env.HOST_NAME}/api/post/create-post',
                     // post data
                     formData,
                     {

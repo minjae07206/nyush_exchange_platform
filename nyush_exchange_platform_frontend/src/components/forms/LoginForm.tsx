@@ -63,7 +63,7 @@ export default function LoginForm() {
         }
 
         if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
-            axios.post('http://localhost:3001/api/auth/login', {
+            axios.post(`${process.env.HOST_NAME}/api/auth/login`, {
                 usernameOrEmail: usernameOrEmailInput,
                 password: passwordInput,
             }).then((response) => {

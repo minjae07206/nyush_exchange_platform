@@ -97,7 +97,7 @@ export default function SettingsForm() {
             formData.append('defaultProfileImageExists', thereExistsOriginalImage.toString());
             formData.append('defaultWechatQRCodeExists', thereExistsOriginalQRCodeImage.toString());
             try {
-                await axios.post('http://localhost:3001/api/user/request-update-user-info',
+                await axios.post(`${process.env.HOST_NAME}/api/user/request-update-user-info`,
                     formData,
                     {
                         headers: {
@@ -107,7 +107,7 @@ export default function SettingsForm() {
                     }
                 )
 
-                await axios.patch('http://localhost:3001/api/user/update-user-pending-state', {pending_state:true}, {
+                await axios.patch(`${process.env.HOST_NAME}/api/user/update-user-pending-state`, {pending_state:true}, {
                     withCredentials: true,
                 });
                 setDisableSaveButton(true);
@@ -130,7 +130,7 @@ export default function SettingsForm() {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/user/get-user-info', { withCredentials: true })
+        axios.get(`${process.env.HOST_NAME}/api/user/get-user-info`, { withCredentials: true })
             .then((response) => {
                 const formattedResponseData = JSON.parse(response.data);
                 if (formattedResponseData.profile_image === null) {
@@ -167,7 +167,7 @@ export default function SettingsForm() {
 
     const handleCloseButtonClick = () => {
         
-        axios.patch('http://localhost:3001/api/user/reset-deny-info', {withCredentials: true})
+        axios.patch(`${process.env.HOST_NAME}/api/user/reset-deny-info`, {withCredentials: true})
         .then(()=>{  
             setApprovedOrDenied(null);
             setUpdateDeniedReason(null);

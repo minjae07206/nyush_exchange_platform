@@ -24,7 +24,7 @@ export default function MarketPage() {
     const orderOption = useFilterStore((state) => state.orderOption);
 
     const loadPosts = (newPage = 1) => {
-        axios.get(`http://localhost:3001/api/post/market-post?page=${newPage}`, 
+        axios.get(`${process.env.HOST_NAME}/api/post/market-post?page=${newPage}`, 
             {
                 params: {
                     page: newPage,

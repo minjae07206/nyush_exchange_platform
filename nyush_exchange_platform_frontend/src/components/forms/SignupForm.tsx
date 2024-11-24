@@ -82,7 +82,7 @@ export default function SignupForm () {
             onPasswordErrorChange(null);
         }
         if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
-            axios.post('http://localhost:3001/api/auth/signup', {
+            axios.post(`${process.env.HOST_NAME}/api/auth/signup`, {
                 email: emailInput,
                 username: usernameInput,
                 password: passwordInput,

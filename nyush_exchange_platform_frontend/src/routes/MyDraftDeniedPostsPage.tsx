@@ -16,7 +16,7 @@ export default function MyDraftDeniedPostsPage() {
     const [extraPostLoading, setExtraPostLoading] = useState<boolean>(false);
 
     const loadPosts = (newPage = 1) => {
-        axios.get(`http://localhost:3001/api/post/my-draft-denied-post?page=${newPage}`, {
+        axios.get(`${process.env.HOST_NAME}/api/post/my-draft-denied-post?page=${newPage}`, {
             withCredentials: true,
         }).then((response) => {
             const responseData = JSON.parse(response.data);

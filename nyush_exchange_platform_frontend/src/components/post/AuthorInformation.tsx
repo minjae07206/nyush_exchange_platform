@@ -30,7 +30,7 @@ export default function AuthorInformation({ username, email, profileImage, wecha
             {/* Profile Image and Username */}
             <div className="flex items-center">
                 <div className="h-8 w-8 rounded-full overflow-hidden">
-                    <img className="object-cover w-full h-full" src={`http://localhost:3001/${profileImage}`} alt="Profile" />
+                    <img className="object-cover w-full h-full" src={`${process.env.HOST_NAME}/${profileImage}`} alt="Profile" />
                 </div>
                 <p className="ml-2">{username}</p>
             </div>
@@ -73,7 +73,7 @@ export default function AuthorInformation({ username, email, profileImage, wecha
                             </div>
                         </div>
                         <div className="w-52 h-52 m-auto">
-                            <img src={`http://localhost:3001/${wechatQRCodeImage}`} alt="WeChat QR Code" className="mt-2 object-fit" />
+                            <img src={`${process.env.HOST_NAME}/${wechatQRCodeImage}`} alt="WeChat QR Code" className="mt-2 object-fit" />
                         </div>
                         <Button
                             buttonText="Close"

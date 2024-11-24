@@ -29,7 +29,7 @@ export default function SearchPage() {
     console.log(query)
 
     const loadPosts = (newPage = 1) => {
-        axios.get(`http://localhost:3001/api/post/search-and-filter-posts`,
+        axios.get(`${process.env.HOST_NAME}/api/post/search-and-filter-posts`,
             {
                 params: {
                     search: query,
