@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { readFileSync } from 'fs';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import pool from '../../db/postgres';
 import forbiddenUsernames from '../../utils/forbiddenUsernames';
 import generateRandomCode from '../../utils/generateRandomCode';

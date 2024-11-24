@@ -85,7 +85,7 @@ app.use(session({
      }, // Secure cookies in production
 }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform/build')));
+app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
@@ -127,6 +127,6 @@ app.use((req: Request, res: Response) => {
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
 });
 
-app.listen(port, function () {
+app.listen(port, '0.0.0.0',function () {
     console.log(`App is listening on port ${port} !`)
 })

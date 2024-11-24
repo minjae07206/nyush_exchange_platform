@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { readFileSync } from 'fs';
 import pool from '../../db/postgres';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 interface LoginReqBodyProps {
     usernameOrEmail: string;
     password: string;

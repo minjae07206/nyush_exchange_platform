@@ -4,14 +4,15 @@
   "description": "A server for nyush_exchange_platform using express",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app",
+    "start": "node dist/app.js",
     "dev": "nodemon src/app.ts"
   },
   "author": "Minjae Lee",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.0",
