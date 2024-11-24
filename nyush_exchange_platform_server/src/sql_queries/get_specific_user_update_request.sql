@@ -1,0 +1,1 @@
+SELECT * FROM user_update_requests WHERE request_id = $1;
