@@ -22,6 +22,8 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     # 3. Build Docker Images
+    - name: Check Docker Compose version
+      run: docker-compose --version || echo "docker-compose not installed"
     - name: Build Docker Images
       run: docker-compose -f docker-compose.yml build
 
