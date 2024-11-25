@@ -23,7 +23,7 @@ jobs:
 
     # 3. Build Docker Images
     - name: Build Docker Images
-      run: docker-compose up -d --build
+      run: docker-compose -f docker-compose.yml build
 
     # 4. Tag and Push Images to Docker Hub
     - name: Tag and Push Frontend Image
