@@ -47,3 +47,4 @@ networks:
 
 volumes:
   postgres-data:  # Define the named volume for database data
+  uploads:  # Define the named volume for image uploads
