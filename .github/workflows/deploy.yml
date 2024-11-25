@@ -20,25 +20,23 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        
+
     - name: Install Docker Compose
       run: |
         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
 
     # 3. Build Docker Images
-    - name: Check Docker Compose version
-      run: docker-compose --version || echo "docker-compose not installed"
     - name: Build Docker Images
       run: docker-compose -f docker-compose.yml build
 
     # 4. Tag and Push Images to Docker Hub
     - name: Tag and Push Frontend Image
       run: |
-        docker tag nyush_exchange_platform_frontend:latest your-dockerhub-username/nyush_frontend:latest
-        docker push your-dockerhub-username/nyush_frontend:latest
+        docker tag nyush_exchange_platform_frontend:latest minjae07206/nyush_exchange_platform_frontend:latest
+        docker push minjae07206/nyush_frontend:latest
 
     - name: Tag and Push Backend Image
       run: |
-        docker tag nyush_exchange_platform_backend:latest your-dockerhub-username/nyush_backend:latest
-        docker push your-dockerhub-username/nyush_backend:latest
+        docker tag nyush_exchange_platform_backend:latest minjae07206/nyush_exchange_platform_backend:latest
+        docker push minjae07206/nyush_backend:latest

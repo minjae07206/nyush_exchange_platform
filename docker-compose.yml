@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   frontend:
     build:
@@ -14,7 +12,7 @@ services:
 
   backend:
     build:
-      context: ./nyush_exchange_platform_backend
+      context: ./nyush_exchange_platform_server
       dockerfile: Dockerfile
     ports:
       - "5000:5000"  # Map port 3001 inside container to port 3001 on host
@@ -35,7 +33,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - "5432:5432"  # Map the PostgreSQL port to the host machine
+      - "5433:5432"  # Map the PostgreSQL port to the host machine
     networks:
       - app-network
     volumes:
