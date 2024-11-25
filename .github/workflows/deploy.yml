@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Run this workflow on pushes to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Check out the code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. Log in to Docker Hub
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    # 3. Build Docker Images
+    - name: Build Docker Images
+      run: docker-compose -f docker-compose.yml build
+
+    # 4. Tag and Push Images to Docker Hub
+    - name: Tag and Push Frontend Image
+      run: |
+        docker tag nyush_exchange_platform_frontend:latest your-dockerhub-username/nyush_frontend:latest
+        docker push your-dockerhub-username/nyush_frontend:latest
+
+    - name: Tag and Push Backend Image
+      run: |
+        docker tag nyush_exchange_platform_backend:latest your-dockerhub-username/nyush_backend:latest
+        docker push your-dockerhub-username/nyush_backend:latest
