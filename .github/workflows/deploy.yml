@@ -13,13 +13,6 @@ jobs:
     # 1. Check out the code
     - name: Checkout Code
       uses: actions/checkout@v3
-
-  - name: Set up Node.js
-  uses: actions/setup-node@v3
-  with:
-    node-version: '20'
-    cache: 'npm'
-    cache-dependency-path: ./package-lock.json
     # Install typescript
     - name: Install TypeScript globally
       run: npm install -g typescript
