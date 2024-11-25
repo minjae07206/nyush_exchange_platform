@@ -14,6 +14,23 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
+    # 2. Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    # 3. Install Frontend Dependencies
+    - name: Install Frontend Dependencies
+      working-directory: ./frontend  # Adjust path if needed
+      run: npm install
+
+    # 4. Install Backend Dependencies
+    - name: Install Backend Dependencies
+      working-directory: ./backend  # Adjust path if needed
+      run: npm install
+
     # 2. Log in to DockerHub
     - name: Login to Docker Hub
       uses: docker/login-action@v2
