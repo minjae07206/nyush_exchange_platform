@@ -20,7 +20,10 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
-
+    # Install typescript
+    - name: Install TypeScript globally
+      run: npm install -g typescript
+      
     # 3. Install Frontend Dependencies
     - name: Install Frontend Dependencies
       working-directory: ./frontend  # Adjust path if needed
