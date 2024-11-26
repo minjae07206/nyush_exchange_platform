@@ -10,8 +10,11 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Ensure that all binaries in node_modules/.bin/ have execute permission
-RUN chmod +x node_modules/.bin/tsc
+# Ensure permissions for all binaries in node_modules/.bin
+RUN chmod -R +x node_modules/.bin/
+
+# Install TypeScript globally (this ensures the tsc command is available)
+RUN npm install -g typescript
 
 # Copy the rest of the application code
 COPY . .
