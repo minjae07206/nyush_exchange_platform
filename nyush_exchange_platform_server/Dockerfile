@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Ensure permissions for binaries in node_modules/.bin
+RUN chmod +x node_modules/.bin/*
+
 # Copy the rest of the application code
 COPY . .
 
