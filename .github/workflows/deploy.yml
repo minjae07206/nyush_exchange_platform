@@ -26,12 +26,12 @@ jobs:
 
     # 4. Install Frontend Dependencies
     - name: Install Frontend Dependencies
-      working-directory: ./frontend  # Adjust path if needed
+      working-directory: ./nyush_exchange_platform_frontend  # Adjust path if needed
       run: npm install
 
     # 5. Install Backend Dependencies
     - name: Install Backend Dependencies
-      working-directory: ./backend  # Adjust path if needed
+      working-directory: ./nyush_exchange_platform_server  # Adjust path if needed
       run: npm install
 
     # 6. Log in to Docker Hub
