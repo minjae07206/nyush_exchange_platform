@@ -1,4 +1,4 @@
-name: Docker Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -79,7 +79,7 @@ jobs:
     # Step 3: Clone or pull the latest code from the repository on the server
       - name: Clone or Pull Repository on Server
         run: |
-          ssh -vT ml6722@10.214.14.9 << 'EOF'
+          ssh -v ml6722@10.214.14.9 << 'EOF'
             if [ ! -d /home/ml6722/nyush_exchange_platform ]; then
               # Clone the repo if it doesn't exist
               git clone https://github.com/minjae07206/nyush_exchange_platform.git /home/ml6722/nyush_exchange_platform
