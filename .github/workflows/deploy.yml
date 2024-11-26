@@ -55,9 +55,9 @@ jobs:
     - name: Tag and Push Frontend Image
       run: |
         docker tag nyush_exchange_platform_frontend:latest minjae07206/nyush_exchange_platform_frontend:latest
-        docker push minjae07206/nyush_frontend:latest
+        docker push minjae07206/nyush_exchange_platform_frontend:latest
 
     - name: Tag and Push Backend Image
       run: |
         docker tag nyush_exchange_platform_backend:latest minjae07206/nyush_exchange_platform_backend:latest
-        docker push minjae07206/nyush_backend:latest
+        docker push minjae07206/nyush_exchange_platform_backend:latest
