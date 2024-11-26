@@ -10,8 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Ensure permissions for binaries in node_modules/.bin
-RUN chmod +x node_modules/.bin/*
+# Ensure that all binaries in node_modules/.bin/ have execute permission
+RUN chmod +x node_modules/.bin/tsc
 
 # Copy the rest of the application code
 COPY . .
