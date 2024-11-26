@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Docker Pipeline
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # Run this workflow on pushes to the 'main' branch
 
 jobs:
-  deploy:
+  docker:
     runs-on: ubuntu-latest
 
     steps:
