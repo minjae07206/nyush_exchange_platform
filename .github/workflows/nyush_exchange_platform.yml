@@ -78,13 +78,15 @@ jobs:
 
       # 3. Clone or pull the latest code from the repository on the server
       - name: Clone or Pull Repository on Server
-        run: |
-          ssh ml6722@10.214.14.9 "
-          if [ ! -d /home/ml6722/nyush_exchange_platform ]; then
-            git clone https://github.com/minjae07206/nyush_exchange_platform.git /home/ml6722/nyush_exchange_platform;
-          else
-            cd /home/ml6722/nyush_exchange_platform && git pull;
-          fi"
+      run: |
+        ssh ml6722@10.214.14.9 << 'EOF'
+        if [ ! -d /home/ml6722/nyush_exchange_platform ]; then
+          git clone https://github.com/minjae07206/nyush_exchange_platform.git /home/ml6722/nyush_exchange_platform
+        else
+          cd /home/ml6722/nyush_exchange_platform && git pull
+        fi
+        EOF
+
 
       # 4. Pull both the frontend and backend Docker images from Docker Hub
       - name: Pull Docker Images
