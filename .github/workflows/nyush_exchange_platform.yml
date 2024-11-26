@@ -79,7 +79,7 @@ jobs:
     # Step 3: Clone or pull the latest code from the repository on the server
       - name: Clone or Pull Repository on Server
         run: |
-          ssh -T ml6722@10.214.14.9 << 'EOF'
+          ssh -vT ml6722@10.214.14.9 << 'EOF'
             if [ ! -d /home/ml6722/nyush_exchange_platform ]; then
               # Clone the repo if it doesn't exist
               git clone https://github.com/minjae07206/nyush_exchange_platform.git /home/ml6722/nyush_exchange_platform
@@ -88,6 +88,7 @@ jobs:
               cd /home/ml6722/nyush_exchange_platform && git pull
             fi
           EOF
+
 
 
 
