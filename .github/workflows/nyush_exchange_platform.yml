@@ -75,6 +75,10 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Test network connectivity
+        run: |
+          ping -c 4  ml6722@10.214.14.9
+          traceroute  ml6722@10.214.14.9
     # Step 3: Clone or pull the latest code from the repository on the server
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.2.0
