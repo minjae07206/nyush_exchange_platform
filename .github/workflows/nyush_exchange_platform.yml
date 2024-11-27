@@ -71,7 +71,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Test SSH connection
         run: |
-          ssh -vvv -o StrictHostKeyChecking=no -o ConnectTimeout=10 <your-username>@<your-server-ip> 'echo "SSH connected successfully"'
+          ssh -vvv -o StrictHostKeyChecking=no -o ConnectTimeout=10 ml6722@10.214.14.9 'echo "SSH connected successfully"'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
        # 2. Set up SSH key for secure access to the server
