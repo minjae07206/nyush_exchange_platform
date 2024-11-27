@@ -69,11 +69,10 @@ jobs:
       # 1. Checkout code from GitHub
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Test SSH connection
+      - name: Test connectivity to server
         run: |
-          ssh -vvv -o StrictHostKeyChecking=no -o ConnectTimeout=10 ml6722@10.214.14.9 'echo "SSH connected successfully"'
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          apt-get update && apt-get install -y traceroute
+          traceroute -T -p 22 <server_IP>
        # 2. Set up SSH key for secure access to the server
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.9.0
