@@ -79,7 +79,7 @@ jobs:
     # Step 3: Clone or pull the latest code from the repository on the server
       - name: Clone or Pull Repository on Server
         run: |
-          ssh ml6722@10.214.14.9 
+          ssh -v ml6722@10.214.14.9 
 
       # 4. Pull both the frontend and backend Docker images from Docker Hub
       - name: Pull Docker Images
