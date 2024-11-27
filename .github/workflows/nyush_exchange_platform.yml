@@ -90,7 +90,6 @@ jobs:
         run: |
           ssh ml6722@10.214.14.9 "docker pull minjae07206/nyush_exchange_platform_backend"
           ssh ml6722@10.214.14.9 "docker pull minjae07206/nyush_exchange_platform_frontend"
-      #
       # 5. Run all services (frontend and backend) using docker-compose
       - name: Deploy Application
         run: |
