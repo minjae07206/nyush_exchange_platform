@@ -77,9 +77,14 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     #
     # Step 3: Clone or pull the latest code from the repository on the server
-      - name: Clone or Pull Repository on Server
-        run: |
-          ssh -v ml6722@10.214.14.9 
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: whoami
 
       # 4. Pull both the frontend and backend Docker images from Docker Hub
       - name: Pull Docker Images
