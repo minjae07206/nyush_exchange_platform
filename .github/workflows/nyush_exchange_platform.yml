@@ -84,7 +84,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: whoami
-
+      
       # 4. Pull both the frontend and backend Docker images from Docker Hub
       - name: Pull Docker Images
         run: |
