@@ -76,7 +76,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Debug SSH connection
         run: |
-          ssh -vvv -o StrictHostKeyChecking=no ml6722@10.214.14.9 echo "SSH connection successful"
+          ssh -vvv -o StrictHostKeyChecking=no ConnectTimeout=300 ml6722@10.214.14.9 echo "SSH connection successful"
 
     # Step 3: Clone or pull the latest code from the repository on the server
       - name: executing remote ssh commands using ssh key
