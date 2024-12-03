@@ -10,7 +10,7 @@ COPY frontend ./
 RUN npm run build
 
 # Stage 2: Setup backend with built frontend
-FROM node:14
+FROM node:20-slim
 
 
 # Set working directory
