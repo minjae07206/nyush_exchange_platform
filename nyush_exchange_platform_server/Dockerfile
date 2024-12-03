@@ -1,8 +1,21 @@
 # Use a lightweight Node.js base image
 FROM node:20-slim
 
+WORKDIR /app
+
+# Copy frontend files and install dependencies
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm install
+COPY frontend ./
+RUN npm run build
+
+# Stage 2: Setup backend with built frontend
+FROM node:14
+
+
 # Set working directory
 WORKDIR /app
+
 
 # Copy package files and install dependencies
 COPY package*.json ./
