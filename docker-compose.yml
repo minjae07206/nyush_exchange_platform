@@ -9,11 +9,8 @@ services:
       - "3000:3000"  # Map port 3000 inside container to port 3000 on host
     networks:
       - app-network
-    environment:
-      - DB_HOST=${DB_HOST}  # Name of your database service
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DATABASE=${DB_DATABASE}
+    env_file:
+    - .env  # Make sure this points to the correct location
     depends_on:
       - postgres  # Wait for the database to be ready before starting the backend
 

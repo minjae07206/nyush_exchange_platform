@@ -37,24 +37,24 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
             if (postSaved) {
                 // Unsaving the post
                 await axios.post(
-                    `${process.env.HOST_NAME}/api/post/unsave-post`,
+                    `${process.env.REACT_APP_HOST_NAME}/api/post/unsave-post`,
                     { postId: postId },
                     { withCredentials: true }
                 );
                 // incrementing the saved count in post table
-                await axios.patch(`${process.env.HOST_NAME}/api/post/decrement-saved-count`, {
+                await axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/decrement-saved-count`, {
                     postId: postId
                 })
 
             } else {
                 // Saving the post
                 await axios.post(
-                    `${process.env.HOST_NAME}/api/post/save-post`,
+                    `${process.env.REACT_APP_HOST_NAME}/api/post/save-post`,
                     { postId: postId },
                     { withCredentials: true }
                 );
                 // decrementing the saved count in post table
-                await axios.patch(`${process.env.HOST_NAME}/api/post/increment-saved-count`, {
+                await axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/increment-saved-count`, {
                     postId: postId
                 })
             }

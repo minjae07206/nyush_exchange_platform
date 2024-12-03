@@ -5,7 +5,7 @@ import ZeroPostsPage from "./ZeroPostsPage";
 export default function PendingUserUpdatesPage() {
     const [pendingUpdatesArray, setPendingUpdatesArray] = useState([]);
     useEffect(() => {
-        axios.get(`${process.env.HOST_NAME}/api/user/get-user-updates`, { withCredentials: true })
+        axios.get(`${process.env.REACT_APP_HOST_NAME}/api/user/get-user-updates`, { withCredentials: true })
             .then((result) => {
                 console.log(result)
                 setPendingUpdatesArray(result.data);

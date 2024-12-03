@@ -11,7 +11,7 @@ export default function AuthRelatedRoutes() {
     useEffect(() => {
         const checkSession = async () => {
             try {
-                const response = await axios.get(`${process.env.HOST_NAME}/api/auth/check-login`, 
+                const response = await axios.get(`${process.env.REACT_APP_HOST_NAME}/api/auth/check-login`, 
                     { withCredentials:true}
                 );
                 if (response.data.message === 'session-alive') {
@@ -20,7 +20,7 @@ export default function AuthRelatedRoutes() {
                     setIsLoggedIn(false);
                 }
             } catch (error) {
-                
+                console.log(error)
                 console.error("Session check failed.");
                 setIsLoggedIn(false);
             } finally {

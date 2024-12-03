@@ -20,7 +20,7 @@ export const useSessionStore = create<UseSessionState>((set) => ({
     setSessionExpirationTime: (input:number) => set({sessionExpirationTime: input}),
     checkLoginSession: async () => {
         try {
-            const response = await axios.get(`${process.env.HOST_NAME}/api/auth/check-login`, {
+            const response = await axios.get(`${process.env.REACT_APP_HOST_NAME}/api/auth/check-login`, {
                 withCredentials: true,
             });
             if (response.data.message === "session-alive") {

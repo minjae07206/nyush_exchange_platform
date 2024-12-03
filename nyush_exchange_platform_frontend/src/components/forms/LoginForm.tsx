@@ -63,7 +63,8 @@ export default function LoginForm() {
         }
 
         if (CAN_PROCEED_TO_MAKING_POST_REQUEST) {
-            axios.post(`${process.env.HOST_NAME}/api/auth/login`, {
+            console.log(process.env);
+            axios.post(`${process.env.REACT_APP_HOST_NAME}/api/auth/login`, {
                 usernameOrEmail: usernameOrEmailInput,
                 password: passwordInput,
             }).then((response) => {

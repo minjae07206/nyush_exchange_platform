@@ -5,7 +5,7 @@ import RedisStore from 'connect-redis';
 import './cronJob'; // The cron job to delete expired posts should work automatically.
 
 import dotenv from 'dotenv';
-dotenv.config(); // Load environment variables from .env file
+dotenv.config({ path: '../.env' });  // Specify the correct relative path
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import loginApi from './api/auth/login';
@@ -40,7 +40,8 @@ import denyUserUpdateApi from './api/user/deny-update';
 import resetUserDenyInfoApi from './api/user/reset-deny-info';
 import checkAdminApi from './api/auth/check-admin';
 import editDraftPostApi from './api/post/edit-draft-post';
-import searchAndFilterPosts from './api/post/search-and-filter-posts';
+import searchAndFilterPosts from './api/post/search-and-filter-posts'; 
+console.log('Redis Port:', process.env.REDIS_PORT);
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -85,7 +86,7 @@ app.use(session({
      }, // Secure cookies in production
 }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use(express.static(path.join(__dirname, '../nyush_exchange_platform_frontend/build')));
+app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
@@ -120,7 +121,7 @@ app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../nyush_exchange_platform_frontend/build/index.html'));
+    res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
 })
 
 app.use((req: Request, res: Response) => {

@@ -85,7 +85,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
 
     useEffect(() => {
         if (newOrEditFlag === "edit") {
-            axios.get(`${process.env.HOST_NAME}/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
+            axios.get(`${process.env.REACT_APP_HOST_NAME}/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
                 .then((response) => {
                     const responseData = JSON.parse(response.data);
 
@@ -184,7 +184,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                 formData.append('images', file.file, file.file.name); // Append the File with its name
             });
             if (isEdit && postStatus === "Draft") {
-                axios.patch(`${process.env.HOST_NAME}/api/post/edit-draft-post?postId=${postId}`,
+                axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/edit-draft-post?postId=${postId}`,
                     // post data
                     formData,
                     {
@@ -203,7 +203,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     })
             } else if (isEdit) {
                 axios.patch(
-                    `${process.env.HOST_NAME}/api/post/edit-post?postId=${postId}`,
+                    `${process.env.REACT_APP_HOST_NAME}/api/post/edit-post?postId=${postId}`,
                     {
                         // Post data here, e.g.:
                         openToNegotiate: openToNegotiate,
@@ -224,7 +224,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         onFormErrorChange(error.response.data.message);
                     })
             } else {
-                axios.post('${process.env.HOST_NAME}/api/post/create-post',
+                axios.post(`${process.env.REACT_APP_HOST_NAME}/api/post/create-post`,
                     // post data
                     formData,
                     {

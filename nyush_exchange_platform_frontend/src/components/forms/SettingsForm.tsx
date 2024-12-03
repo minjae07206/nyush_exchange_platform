@@ -97,7 +97,7 @@ export default function SettingsForm() {
             formData.append('defaultProfileImageExists', thereExistsOriginalImage.toString());
             formData.append('defaultWechatQRCodeExists', thereExistsOriginalQRCodeImage.toString());
             try {
-                await axios.post(`${process.env.HOST_NAME}/api/user/request-update-user-info`,
+                await axios.post(`${process.env.REACT_APP_HOST_NAME}/api/user/request-update-user-info`,
                     formData,
                     {
                         headers: {
@@ -107,7 +107,7 @@ export default function SettingsForm() {
                     }
                 )
 
-                await axios.patch(`${process.env.HOST_NAME}/api/user/update-user-pending-state`, {pending_state:true}, {
+                await axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/user/update-user-pending-state`, {pending_state:true}, {
                     withCredentials: true,
                 });
                 setDisableSaveButton(true);
