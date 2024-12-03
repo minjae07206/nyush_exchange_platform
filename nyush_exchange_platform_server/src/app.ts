@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import session, {Session} from "express-session";
+import session from "express-session";
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
 import './cronJob'; // The cron job to delete expired posts should work automatically.
@@ -69,7 +69,7 @@ const redisStore = new RedisStore({
 const app: Application = express();
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 app.use(cookieParser());
-const port: number = 3001;
+const port: number = 3000;
 
 app.use(session({
     store: redisStore,
