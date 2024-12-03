@@ -120,7 +120,7 @@ app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../nyush_exchange_platform/build/index.html'));
+    res.sendFile(path.join(__dirname, '../nyush_exchange_platform_frontend/build/index.html'));
 })
 
 app.use((req: Request, res: Response) => {
