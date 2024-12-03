@@ -3,11 +3,18 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Copy frontend files and install dependencies
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install
-COPY frontend ./
-RUN npm run build
+# Copy frontend files from one level up (outside the Dockerfile directory)
+COPY ../nyush_exchange_platform_frontend/package.json ./nyush_exchange_platform_frontend/package.json
+COPY ../nyush_exchange_platform_frontend/package-lock.json ./nyush_exchange_platform_frontend/package-lock.json
+
+# Install frontend dependencies
+RUN npm install --prefix ./frontend
+
+# Copy all frontend files
+COPY ../nyush_exchange_platform_frontend ./nyush_exchange_platform_frontend/
+
+# Build the frontend
+RUN npm run build --prefix ./nyush_exchange_platform_frontend
 
 # Stage 2: Setup backend with built frontend
 FROM node:20-slim
