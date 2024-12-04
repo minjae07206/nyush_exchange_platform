@@ -39,7 +39,7 @@ COPY --from=frontend /app/nyush_exchange_platform_frontend/build ./nyush_exchang
 RUN npm run build --prefix ./nyush_exchange_platform_server
 
 # Expose the application port
-EXPOSE 3000
+EXPOSE 3889
 
 # Set environment variable
 ENV NODE_ENV=production
