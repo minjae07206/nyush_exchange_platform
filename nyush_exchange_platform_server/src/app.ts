@@ -139,7 +139,9 @@ app.use((req: Request, res: Response) => {
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
 });
 
-
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
+});
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
 app.listen(port, '0.0.0.0',function () {
