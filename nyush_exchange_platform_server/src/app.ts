@@ -120,10 +120,15 @@ app.use('/api/user/reset-deny-info', resetUserDenyInfoApi);
 app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
-app.get('*', (req: Request, res: Response) => {
-    console.log("IS  THIS WORKING?")
-    res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
-})
+app.get('*', async (req: Request, res: Response) => {
+    try {
+        console.log("Route is being hit");
+        res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
+    } catch (error) {
+        console.error("Error in app.get('*') route:", error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 app.use((req: Request, res: Response) => {
     console.log("NOTHING WORKING")
