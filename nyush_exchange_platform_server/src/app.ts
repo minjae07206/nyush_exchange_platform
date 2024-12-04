@@ -121,6 +121,7 @@ app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 app.get('*', (req: Request, res: Response) => {
+    console.log("IS  THIS WORKING?")
     res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
 })
 
