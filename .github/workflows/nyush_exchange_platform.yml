@@ -24,11 +24,6 @@ jobs:
     - name: Install TypeScript globally
       run: npm install -g typescript
 
-    # 4. Install Frontend Dependencies
-    - name: Install Frontend Dependencies
-      working-directory: ./nyush_exchange_platform_frontend  # Adjust path if needed
-      run: npm install
-
     # 5. Install Backend Dependencies
     - name: Install Backend Dependencies
       working-directory: ./nyush_exchange_platform_server  # Adjust path if needed
@@ -49,14 +44,13 @@ jobs:
 
     # 8. Build Docker Images
     - name: Build Docker Images
+      env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
       run: docker-compose -f docker-compose.yml build --no-cache
 
     # 9. Tag and Push Images to Docker Hub
-    - name: Tag and Push Frontend Image
-      run: |
-        docker tag nyush_exchange_platform_frontend:latest minjae07206/nyush_exchange_platform_frontend:latest
-        docker push minjae07206/nyush_exchange_platform_frontend:latest
-
     - name: Tag and Push Backend Image
       run: |
         docker tag nyush_exchange_platform_backend:latest minjae07206/nyush_exchange_platform_backend:latest
@@ -94,7 +88,6 @@ jobs:
       - name: Pull Docker Images
         run: |
           ssh ml6722@10.214.14.9 "docker pull minjae07206/nyush_exchange_platform_backend"
-          ssh ml6722@10.214.14.9 "docker pull minjae07206/nyush_exchange_platform_frontend"
       # 5. Run all services (frontend and backend) using docker-compose
       - name: Deploy Application
         run: |
