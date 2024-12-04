@@ -85,7 +85,6 @@ app.use(session({
 
      }, // Secure cookies in production
 }));
-console.log(app)
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.originalUrl}`);
     next();
