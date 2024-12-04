@@ -5,7 +5,7 @@ import RedisStore from 'connect-redis';
 import './cronJob'; // The cron job to delete expired posts should work automatically.
 
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });  // Specify the correct relative path
+dotenv.config({ path: '/home/ml6722/.env' });
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import loginApi from './api/auth/login';

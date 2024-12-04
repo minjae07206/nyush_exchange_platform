@@ -1,6 +1,6 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' }); // Load environment variables from .env file
+dotenv.config({ path: '/home/ml6722/.env' }); // Load environment variables from .env file
 const { Pool } = pg;
 console.log(process.env.DB_HOST)
 const pool = new Pool(
