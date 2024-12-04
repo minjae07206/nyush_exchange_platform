@@ -3,6 +3,7 @@ export default function HomePage() {
         <div className="h-[1000px]">
             <h1>
             NYU Shanghai Community Exchange Platform
+            yes
             </h1>
         </div>
     )
