@@ -6,7 +6,7 @@ services:
       context: .  # Main directory (where Dockerfile is located)
       dockerfile: Dockerfile  # Dockerfile located here
     ports:
-      - "3000:3000"  # Map port 3000 inside container to port 3000 on host
+      - "3889:3889"  # Map port 3000 inside container to port 3000 on host
     networks:
       - app-network
     depends_on:
