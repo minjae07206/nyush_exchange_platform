@@ -70,6 +70,11 @@ app.use(express.json()) // this line is needed to access req.body, which is in j
 app.use(cookieParser());
 const port: number = 3889;
 
+app.get('/', (req, res) => {
+    console.log("22231223")
+    res.send('Hello, World!');
+});
+
 app.use(session({
     store: redisStore,
     secret: process.env.COOKIE_SECRET || 'default_secret',
@@ -84,7 +89,10 @@ app.use(session({
      }, // Secure cookies in production
 }));
 
-
+app.get('/', (req, res) => {
+    console.log("22231223")
+    res.send('Hello, World!');
+});
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
@@ -133,11 +141,6 @@ app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_front
 app.use((req: Request, res: Response) => {
     console.log("NOTHING WORKING")
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
-});
-
-app.get('/', (req, res) => {
-    console.log("22231223")
-    res.send('Hello, World!');
 });
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
