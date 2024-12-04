@@ -125,6 +125,7 @@ app.get('*', (req: Request, res: Response) => {
 })
 
 app.use((req: Request, res: Response) => {
+    console.log("NOTHING WORKING")
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
 });
 
