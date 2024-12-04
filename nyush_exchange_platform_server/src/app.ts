@@ -5,7 +5,11 @@ import RedisStore from 'connect-redis';
 import './cronJob'; // The cron job to delete expired posts should work automatically.
 
 import dotenv from 'dotenv';
-dotenv.config({ path: '/home/ml6722/.env' });
+if (process.env.NODE_ENV === 'production') {
+    dotenv.config({ path: '/home/ml6722/.env' });  // Path for production
+} else {
+    dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
+}
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import loginApi from './api/auth/login';
@@ -40,18 +44,14 @@ import denyUserUpdateApi from './api/user/deny-update';
 import resetUserDenyInfoApi from './api/user/reset-deny-info';
 import checkAdminApi from './api/auth/check-admin';
 import editDraftPostApi from './api/post/edit-draft-post';
-import searchAndFilterPosts from './api/post/search-and-filter-posts'; 
+import searchAndFilterPosts from './api/post/search-and-filter-posts';
 const app: Application = express();
-app.get('/', (req, res) => {
-    console.log('Test route hit');
-    res.send('Test route works');
-});
 console.log('Redis Port:', process.env.REDIS_PORT);
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
         host: process.env.REDIS_HOST,
-        port: parseInt(process.env.REDIS_PORT as string, 10),
+        port: parseInt(process.env.REDIS_PORT as string, 10) || 12179,
     }
 });
 
@@ -63,7 +63,7 @@ redisClient.on('connect', () => {
 redisClient.on('error', (err) => {
     console.error('Redis connection error:', err);
 });
-export {redisClient};
+export { redisClient };
 // Initialize redis store
 const redisStore = new RedisStore({
     client: redisClient,
@@ -80,15 +80,16 @@ app.use(session({
     secret: process.env.COOKIE_SECRET || 'default_secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { 
+    cookie: {
         path: "/", // path that the cooke is saved
         secure: false, // false because tested in http in localhost
         httpOnly: true, // client cannot use javascript to access the cookie.
         maxAge: 1000 * 60 * 3, // 3 minutes
 
-     }, // Secure cookies in production
+    }, // Secure cookies in production
 }));
-
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
@@ -116,7 +117,7 @@ app.use('/api/post/deny-post', denyPostApi);
 app.use('/api/post/edit-post', editPostApi);
 app.use('/api/post/pending-post', pendingPostApi);
 app.use('/api/user/get-user-updates', getUserUpdatesApi);
-app.use('/api/user/approve-update',approveUserUpdateApi);
+app.use('/api/user/approve-update', approveUserUpdateApi);
 app.use('/api/user/deny-update', denyUserUpdateApi);
 app.use('/api/user/reset-deny-info', resetUserDenyInfoApi);
 app.use('/api/auth/check-admin', checkAdminApi);
@@ -124,22 +125,16 @@ app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 
 app.get('*', async (req: Request, res: Response) => {
-    try {
-        console.log("Route is being hit");
         res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
-    } catch (error) {
-        console.error("Error in app.get('*') route:", error);
-        res.status(500).send('Internal Server Error');
-    }
-});
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
+    } 
+);
+
 app.use((req: Request, res: Response) => {
     console.log("NOTHING WORKING")
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
 });
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
-app.listen(port, '127.0.0.1', function () {
+app.listen(port, '0.0.0.0', function () {
     console.log(`App is listening on port ${port} !`)
 })
