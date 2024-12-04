@@ -65,7 +65,7 @@ const redisStore = new RedisStore({
     prefix: "nyush_exchange_platform_redis",
 })
 
-
+console.log(11111111)
 
 const app: Application = express();
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
@@ -127,6 +127,9 @@ app.get('*', (req: Request, res: Response) => {
 app.use((req: Request, res: Response) => {
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
 });
+
+
+console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
 app.listen(port, '0.0.0.0',function () {
     console.log(`App is listening on port ${port} !`)
