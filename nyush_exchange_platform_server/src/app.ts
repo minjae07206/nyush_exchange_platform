@@ -85,6 +85,11 @@ app.use(session({
 
      }, // Secure cookies in production
 }));
+console.log(app)
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.originalUrl}`);
+    next();
+});
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
 app.use('/api/auth/login', loginApi);
