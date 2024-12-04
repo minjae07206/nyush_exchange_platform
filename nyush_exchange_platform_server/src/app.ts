@@ -84,8 +84,7 @@ app.use(session({
      }, // Secure cookies in production
 }));
 
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
+
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
@@ -119,6 +118,7 @@ app.use('/api/user/reset-deny-info', resetUserDenyInfoApi);
 app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
+
 app.get('*', async (req: Request, res: Response) => {
     try {
         console.log("Route is being hit");
@@ -128,17 +128,19 @@ app.get('*', async (req: Request, res: Response) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
 app.use((req: Request, res: Response) => {
     console.log("NOTHING WORKING")
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
 });
 
 app.get('/', (req, res) => {
+    console.log("22231223")
     res.send('Hello, World!');
 });
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
-app.listen(port, '0.0.0.0',function () {
+app.listen(port, '0.0.0.0', function () {
     console.log(`App is listening on port ${port} !`)
 })
