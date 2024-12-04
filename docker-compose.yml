@@ -21,7 +21,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - "5433:5432"  # Map the PostgreSQL port to the host machine
+      - "5432:5432"  # Map the PostgreSQL port to the host machine
     networks:
       - app-network
     volumes:
