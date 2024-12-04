@@ -70,9 +70,10 @@ app.use(express.json()) // this line is needed to access req.body, which is in j
 app.use(cookieParser());
 const port: number = 3889;
 
-app.get('/', (req, res) => {
-    console.log("22231223")
-    res.send('Hello, World!');
+app.use((req, res, next) => {
+    console.log('Middleware running');
+    console.log(req, res);
+    next();  // This allows the request to proceed to the next handler
 });
 
 app.use(session({
@@ -89,10 +90,6 @@ app.use(session({
      }, // Secure cookies in production
 }));
 
-app.get('/', (req, res) => {
-    console.log("22231223")
-    res.send('Hello, World!');
-});
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
 app.use('/api/auth/check-verification-code-session-exists', checkVerificationCodeSessionApi);
