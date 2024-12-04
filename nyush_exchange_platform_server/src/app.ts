@@ -71,6 +71,7 @@ app.use((req, res, next) => {
     console.log(req, res);
     next();  // This allows the request to proceed to the next handler
 });
+console.log(23912392)
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 app.use(cookieParser());
 const port: number = 3889;
