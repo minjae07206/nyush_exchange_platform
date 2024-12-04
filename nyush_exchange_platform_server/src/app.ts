@@ -70,7 +70,7 @@ console.log(11111111)
 const app: Application = express();
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 app.use(cookieParser());
-const port: number = 3000;
+const port: number = 3889;
 
 app.use(session({
     store: redisStore,
