@@ -17,6 +17,8 @@ FROM node:20-slim AS backend
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y curl  # For Debian/Ubuntu-based images
+
 # Copy backend package files and install dependencies
 COPY nyush_exchange_platform_server/package*.json ./
 RUN npm install
