@@ -142,6 +142,6 @@ app.use((req: Request, res: Response) => {
 
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
-app.listen(port, '0.0.0.0',function () {
+app.listen(port, '10.214.14.9',function () {
     console.log(`App is listening on port ${port} !`)
 })
