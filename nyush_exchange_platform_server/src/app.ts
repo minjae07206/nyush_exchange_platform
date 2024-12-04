@@ -65,8 +65,6 @@ const redisStore = new RedisStore({
     prefix: "nyush_exchange_platform_redis",
 })
 
-console.log(11111111)
-
 const app: Application = express();
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 app.use(cookieParser());
@@ -85,10 +83,7 @@ app.use(session({
 
      }, // Secure cookies in production
 }));
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.originalUrl}`);
-    next();
-});
+
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
 app.use('/api/auth/login', loginApi);
