@@ -41,6 +41,11 @@ import resetUserDenyInfoApi from './api/user/reset-deny-info';
 import checkAdminApi from './api/auth/check-admin';
 import editDraftPostApi from './api/post/edit-draft-post';
 import searchAndFilterPosts from './api/post/search-and-filter-posts'; 
+const app: Application = express();
+app.get('/test', (req, res) => {
+    console.log('Test route hit');
+    res.send('Test route works');
+});
 console.log('Redis Port:', process.env.REDIS_PORT);
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
@@ -64,14 +69,6 @@ const redisStore = new RedisStore({
     client: redisClient,
     prefix: "nyush_exchange_platform_redis",
 })
-
-const app: Application = express();
-app.use((req, res, next) => {
-    console.log('Middleware running');
-    console.log(req, res);
-    next();  // This allows the request to proceed to the next handler
-});
-console.log(23912392)
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 app.use(cookieParser());
 const port: number = 3889;
