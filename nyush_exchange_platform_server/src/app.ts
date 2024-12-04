@@ -42,7 +42,7 @@ import checkAdminApi from './api/auth/check-admin';
 import editDraftPostApi from './api/post/edit-draft-post';
 import searchAndFilterPosts from './api/post/search-and-filter-posts'; 
 const app: Application = express();
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
     console.log('Test route hit');
     res.send('Test route works');
 });
@@ -140,6 +140,6 @@ app.use((req: Request, res: Response) => {
 });
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
-app.listen(port, '0.0.0.0', function () {
+app.listen(port, '::', function () {
     console.log(`App is listening on port ${port} !`)
 })
