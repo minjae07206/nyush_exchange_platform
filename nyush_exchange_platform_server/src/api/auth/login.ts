@@ -68,7 +68,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     if (email !== "") {
         try {
-            const filePath = path.join(__dirname, '..', '..', '..', 'sql_queries', 'select_password_with_email.sql');
+            const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'select_password_with_email.sql');
             const select_password_with_email_query = readFileSync(filePath, 'utf-8');
             const getPasswordQueryResult = await pool.query(select_password_with_email_query, [email]);
             if (getPasswordQueryResult.rows.length > 0) {
