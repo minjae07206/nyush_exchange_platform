@@ -67,7 +67,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     if (email !== "") {
         try {
-            const select_password_with_email_query = readFileSync('./src/sql_queries/select_password_with_email.sql', 'utf-8');
+            const select_password_with_email_query = readFileSync('../src/sql_queries/select_password_with_email.sql', 'utf-8');
             const getPasswordQueryResult = await pool.query(select_password_with_email_query, [email]);
             if (getPasswordQueryResult.rows.length > 0) {
                 const hashedPassword = getPasswordQueryResult.rows[0].password;
