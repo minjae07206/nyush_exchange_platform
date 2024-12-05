@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import { readFileSync } from 'fs';
 import pool from '../../db/postgres';
 import bcrypt from 'bcryptjs';
+import path from 'path';
+
 interface LoginReqBodyProps {
     usernameOrEmail: string;
     password: string;
@@ -12,7 +14,6 @@ router.post('/', async (req: Request, res: Response) => {
     let username: string = "";
     let email: string = "";
 
-    console.log(usernameOrEmail, password);
     // check if usernameOrEmail exists
     if (!usernameOrEmail) {
         res.status(400).json({ message: 'Username or email is required.' });
@@ -67,7 +68,8 @@ router.post('/', async (req: Request, res: Response) => {
 
     if (email !== "") {
         try {
-            const select_password_with_email_query = readFileSync('../src/sql_queries/select_password_with_email.sql', 'utf-8');
+            const filePath = path.join(__dirname, '..', '..', '..', 'sql_queries', 'select_password_with_email.sql');
+            const select_password_with_email_query = readFileSync(filePath, 'utf-8');
             const getPasswordQueryResult = await pool.query(select_password_with_email_query, [email]);
             if (getPasswordQueryResult.rows.length > 0) {
                 const hashedPassword = getPasswordQueryResult.rows[0].password;
