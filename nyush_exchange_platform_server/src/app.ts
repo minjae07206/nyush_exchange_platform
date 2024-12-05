@@ -124,13 +124,12 @@ app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 
-app.get('*', async (req: Request, res: Response) => {
+app.get('*', (req: Request, res: Response) => {
         res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
     } 
 );
 
 app.use((req: Request, res: Response) => {
-    console.log("NOTHING WORKING")
     res.status(404).send('404 Not Found'); // Or serve a custom 404 page
 });
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));

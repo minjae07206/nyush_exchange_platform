@@ -130,7 +130,7 @@ export default function SettingsForm() {
     }
 
     useEffect(() => {
-        axios.get(`${process.env.HOST_NAME}/api/user/get-user-info`, { withCredentials: true })
+        axios.get(`${process.env.REACT_APP_HOST_NAME}/api/user/get-user-info`, { withCredentials: true })
             .then((response) => {
                 const formattedResponseData = JSON.parse(response.data);
                 if (formattedResponseData.profile_image === null) {
@@ -167,7 +167,7 @@ export default function SettingsForm() {
 
     const handleCloseButtonClick = () => {
         
-        axios.patch(`${process.env.HOST_NAME}/api/user/reset-deny-info`, {withCredentials: true})
+        axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/user/reset-deny-info`, {withCredentials: true})
         .then(()=>{  
             setApprovedOrDenied(null);
             setUpdateDeniedReason(null);
