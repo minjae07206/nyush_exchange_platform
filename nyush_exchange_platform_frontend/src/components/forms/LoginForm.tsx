@@ -77,6 +77,7 @@ export default function LoginForm() {
                 setSessionExpirationTime(response.data.sessionExpirationTime);
                 navigate('/market');
             }).catch((error) => {
+                console.log(error.response)
                 console.log(error.response.data.message)
                 onFormErrorChange(error.response.data.message);
             })
