@@ -98,6 +98,7 @@ router.post('/', async (req: Request, res: Response) => {
             }
 
         } catch (error) {
+            console.log(error)
             res.status(500).json({ message: "An error occured during database query. Please try again later." });
             return;
         }
