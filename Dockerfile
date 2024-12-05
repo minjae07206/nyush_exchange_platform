@@ -7,9 +7,10 @@ WORKDIR /app
 COPY nyush_exchange_platform_frontend/package.json ./nyush_exchange_platform_frontend/package.json
 COPY nyush_exchange_platform_frontend/package-lock.json ./nyush_exchange_platform_frontend/package-lock.json
 RUN npm install --prefix ./nyush_exchange_platform_frontend
-
+ENV REACT_APP_HOST_NAME=http://localhost:3389
 # Copy the rest of the frontend files and build it
 COPY nyush_exchange_platform_frontend ./nyush_exchange_platform_frontend/
+
 RUN npm run build --prefix ./nyush_exchange_platform_frontend
 
 # Stage 2: Setup backend with built frontend
