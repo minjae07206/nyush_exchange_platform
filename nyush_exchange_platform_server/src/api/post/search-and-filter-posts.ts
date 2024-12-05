@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import pool from '../../db/postgres';
+import path from 'path';
 import { readFileSync } from 'fs'; // Importing the file system module
 const router = express.Router();
 
@@ -92,7 +93,8 @@ router.get('/', async (req: Request, res: Response) => {
 
 
     try {
-        const baseQuery = readFileSync('./src/sql_queries/get_search_and_filtered_posts_thumbnail.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_search_and_filtered_posts_thumbnail.sql');
+        const baseQuery = readFileSync(filePath, 'utf-8');
         const finalQuery = `${baseQuery} ORDER BY ${orderBy} LIMIT $7 OFFSET $8;`;
         //const search_and_filtered_posts_thumbnail = 
         // The user themselves won't be able to save their own post.

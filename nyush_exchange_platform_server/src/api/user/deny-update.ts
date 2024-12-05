@@ -15,7 +15,8 @@ router.patch('/', async (req: Request, res: Response) => {
         await client.query('BEGIN'); // Start a transaction
 
         // Step 1: Delete the actual images that are denied, to do this we need to get the user-update-request information
-        const get_user_updates_query = readFileSync('./src/sql_queries/get_user_updates.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_user_updates.sql');
+        const get_user_updates_query = readFileSync(filePath, 'utf-8');
         const queryResult = await client.query(get_user_updates_query);
         const wechatQRCodeImageToDelete = queryResult.rows[0].new_wechat_qr_code_image;
         const profileImageToDelete = queryResult.rows[0].new_profile_image;
@@ -44,11 +45,13 @@ router.patch('/', async (req: Request, res: Response) => {
         
 
         // Step 2: Delete the user update request from the `user_update_requests` table
-        const deleteRequestQuery = readFileSync('./src/sql_queries/delete-user-update-request.sql', 'utf-8');
+        const filePath2 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'delete-user-update-request.sql');
+        const deleteRequestQuery = readFileSync(filePath2, 'utf-8');
         await client.query(deleteRequestQuery, [requestId]);
 
         // Step 3: Update the user's information in the `users` table
-        const update_user_deny_query = readFileSync('./src/sql_queries/update-user-deny.sql', 'utf-8');
+        const filePath3 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'update-user-deny.sql');
+        const update_user_deny_query = readFileSync(filePath3, 'utf-8');
         await client.query(update_user_deny_query, [
             denyReason,
             requester_user_id,

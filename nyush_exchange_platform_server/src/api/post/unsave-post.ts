@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import pool from '../../db/postgres';
+import path from 'path';
 import { readFileSync } from 'fs'; // Importing the file system module
 const router = express.Router();
 
@@ -8,7 +9,8 @@ router.post('/', async (req:Request, res: Response) => {
     const {postId} = req.body;
     
     try {
-        const unsave_post_query = readFileSync('./src/sql_queries/unsave_post.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'unsave_post.sql');
+        const unsave_post_query = readFileSync(filePath, 'utf-8');
         // The user themselves won't be able to save their own post.
         // I wanted this check to be on the client side, but I think it has to be done on the server side because my cookie which contains the user info is http only for secuirty reasons.
         await pool.query(unsave_post_query, [postId, userId]);

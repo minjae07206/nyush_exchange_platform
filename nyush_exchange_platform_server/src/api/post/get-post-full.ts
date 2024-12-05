@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import pool from '../../db/postgres';
+import path from 'path';
 import { readFileSync } from 'fs'; // Importing the file system module
 const router = express.Router();
 
@@ -7,11 +8,10 @@ router.get('/', async (req: Request, res: Response) => {
     const userId = req.session.user?.userId;
     const role = req.session.user?.role;
     const { postId } = req.query; // Extract postId from query parameters
-    const get_post_full_query = readFileSync('./src/sql_queries/get_post_full.sql', 'utf-8');
-    const queryResult = await pool.query(get_post_full_query, [postId, userId]);
-    console.log(queryResult.rows)
+
     try {
-        const get_post_full_query = readFileSync('./src/sql_queries/get_post_full.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_post_full.sql');
+        const get_post_full_query = readFileSync(filePath, 'utf-8');
         const queryResult = await pool.query(get_post_full_query, [userId, postId]);
         let isAuthor:boolean = false;
         if( queryResult.rows[0].author_id === userId) {

@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import pool from '../../db/postgres';
+import path from 'path';
 import { readFileSync } from 'fs'; // Importing the file system module
 const router = express.Router();
 
@@ -90,7 +91,8 @@ router.get('/', async (req: Request, res: Response) => {
     }
 
     try {
-        const get_market_posts_thumbnail_query = readFileSync('./src/sql_queries/get_market_posts_thumbnail.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_market_posts_thumbnail.sql');
+        const get_market_posts_thumbnail_query = readFileSync(filePath, 'utf-8');
         const finalQuery = `${get_market_posts_thumbnail_query} ORDER BY ${orderBy} LIMIT $6 OFFSET $7;`;
         const queryResult = await pool.query(finalQuery, [userId, postStatusOption, postCategoryOption, negotiabilityOption, buySellOption, limit, offset]);
         // Convert the rows to an array (queryResult.rows is already an array of objects)

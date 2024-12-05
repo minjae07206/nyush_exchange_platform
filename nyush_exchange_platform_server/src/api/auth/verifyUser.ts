@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { redisClient } from '../../app';
 import pool from '../../db/postgres';
+import path from 'path';
 import { readFileSync } from 'fs'; // Importing the file system module
 const router = express.Router();
 router.post('/', async (req: Request, res: Response) => {
@@ -24,7 +25,8 @@ router.post('/', async (req: Request, res: Response) => {
                 // send success and send success message, add user to user table. redirect them to the login page.
 
                 try {
-                    const insert_new_user_query = readFileSync('./src/sql_queries/insert_new_user.sql', 'utf-8');
+                    const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'insert_new_user.sql');
+                    const insert_new_user_query = readFileSync(filePath, 'utf-8');
                     await pool.query(insert_new_user_query, [username, email, hashedPassword, role]);
                     // The session will only be deleted if the insert query was succesful.
                     await redisClient.del(sessionId);

@@ -52,11 +52,14 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
         res.status(400).json({ message: "If you want to post to the market, price and description cannot be empty." });
         return;
     }
-
-    const updateDraftPostQuery = readFileSync('./src/sql_queries/edit_draft_post.sql', 'utf-8');
-    const getImageUrlsQuery = readFileSync('./src/sql_queries/get_image_urls.sql', 'utf-8');
-    const insertNewImageQuery = readFileSync('./src/sql_queries/insert_new_image.sql', 'utf-8');
-    const delete_image_query = readFileSync('./src/sql_queries/delete_image.sql', 'utf-8');
+    const postFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'edit_draft_post.sql');
+    const getImageFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_image_urls.sql');
+    const insertImageFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'insert_new_image.sql');
+    const deleteImageFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'delete_image.sql');
+    const updateDraftPostQuery = readFileSync(postFilePath, 'utf-8');
+    const getImageUrlsQuery = readFileSync(getImageFilePath, 'utf-8');
+    const insertNewImageQuery = readFileSync(insertImageFilePath, 'utf-8');
+    const delete_image_query = readFileSync(deleteImageFilePath, 'utf-8');
 
     let client;
     try {

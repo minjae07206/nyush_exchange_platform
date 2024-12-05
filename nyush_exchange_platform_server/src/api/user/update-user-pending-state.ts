@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import pool from '../../db/postgres';
+import path from 'path';
 import { readFileSync } from 'fs'; // Importing the file system module
 const router = express.Router();
 
@@ -10,7 +11,8 @@ router.patch('/', async (req: Request, res: Response) => {
 
     try {
         // check if username exists in the database. Moved this to the last line as it contains DB querying.
-        const update_user_pending_state_query = readFileSync('./src/sql_queries/update_user_pending_state.sql', 'utf-8'); // reading the check_email_exits.sql file
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'update_user_pending_state.sql');
+        const update_user_pending_state_query = readFileSync(filePath, 'utf-8'); // reading the check_email_exits.sql file
         await pool.query(update_user_pending_state_query, [pending_state, userId]);
         res.status(200).json({message: "User pending state has successfully been updated."})
     } catch (error) {

@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { readFileSync } from 'fs';
+import path from 'path';
 import bcrypt from 'bcryptjs';
 import pool from '../../db/postgres';
 import forbiddenUsernames from '../../utils/forbiddenUsernames';
@@ -45,8 +46,10 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const client = await pool.connect();
 
     try {
-        const checkEmailQuery = readFileSync('./src/sql_queries/check_email_exists.sql', 'utf-8');
-        const checkUsernameQuery = readFileSync('./src/sql_queries/check_username_exists.sql', 'utf-8');
+        const emailFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'check_email_exists.sql');
+        const usernameFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'check_username_exists.sql');
+        const checkEmailQuery = readFileSync(emailFilePath, 'utf-8');
+        const checkUsernameQuery = readFileSync(usernameFilePath, 'utf-8');
 
         await client.query('BEGIN');
 

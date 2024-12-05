@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import pool from '../../db/postgres';
 import { readFileSync } from 'fs';
+import path from 'path';
 
 const router = express.Router();
 
@@ -14,7 +15,8 @@ router.patch('/', async (req: Request, res: Response) => {
         await client.query('BEGIN'); // Start transaction
 
         // Check if username already exists in the database, excluding the current user
-        const checkUsernameQuery = readFileSync('./src/sql_queries/update_user_info.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'update_user_info.sql');
+        const checkUsernameQuery = readFileSync(filePath, 'utf-8');
         const usernameExistsResult = await client.query(checkUsernameQuery, [username]);
         if (usernameExistsResult.rows.length > 1) { // Length > 1 means another user has this username
             res.status(400).json({ message: "Username already exists." });
@@ -23,7 +25,8 @@ router.patch('/', async (req: Request, res: Response) => {
         }
 
         // Fetch user information
-        const getUserInfoQuery = readFileSync('./src/sql_queries/get-user-info.sql', 'utf-8');
+        const filePath2 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get-user-info.sql');
+        const getUserInfoQuery = readFileSync(filePath2, 'utf-8');
         const userInfoResult = await client.query(getUserInfoQuery, [userId]);
         const formattedQueryResult = userInfoResult.rows[0];
 

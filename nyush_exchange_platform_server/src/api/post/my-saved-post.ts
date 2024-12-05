@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import pool from '../../db/postgres';
 import { readFileSync } from 'fs'; // Importing the file system module
+import path from 'path';
 const router = express.Router();
 
 router.get('/', async (req: Request, res: Response) => {
@@ -10,7 +11,8 @@ router.get('/', async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1; // Default to 1 if not provided
     const offset = (page - 1) * limit; // Calculate offset
     try {
-        const get_my_saved_posts_thumbnail_query = readFileSync('./src/sql_queries/get_my_saved_posts_thumbnail.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_my_saved_posts_thumbnail.sql');
+        const get_my_saved_posts_thumbnail_query = readFileSync(filePath, 'utf-8');
         const queryResult = await pool.query(get_my_saved_posts_thumbnail_query, [userId, limit, offset]);
         // Convert the rows to an array (queryResult.rows is already an array of objects)
 

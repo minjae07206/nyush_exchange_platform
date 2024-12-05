@@ -43,7 +43,8 @@ router.patch('/', async (req: Request, res: Response) => {
     }
 
     try {
-        const edit_post_query = readFileSync('./src/sql_queries/edit_post.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'edit_post.sql');
+        const edit_post_query = readFileSync(filePath, 'utf-8');
         await pool.query(edit_post_query, [postId, price, currency, quantity, sellBuyByDate, totalOrPerItem, realPostType, openToNegotiate, category, postStatus]);
         res.status(200).json({message: "Post editted successfully."})
         return;

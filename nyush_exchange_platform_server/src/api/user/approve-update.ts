@@ -15,15 +15,18 @@ router.patch('/', async (req: Request, res: Response) => {
         await client.query('BEGIN'); // Start a transaction
 
         //Step 1: Get user update request and check if the image is default or null or something new.
-        const get_specific_user_update_request_query = readFileSync('./src/sql_queries/get_specific_user_update_request.sql', 'utf-8');
+        const filePath1 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_specific_user_update_request.sql');
+        const get_specific_user_update_request_query = readFileSync(filePath1, 'utf-8');
         const getUserUpdateQuery = await client.query(get_specific_user_update_request_query, [requestId]);
 
         // Step 2: Delete the user update request from the `user_update_requests` table
-        const deleteRequestQuery = readFileSync('./src/sql_queries/delete-user-update-request.sql', 'utf-8');
+        const filePath2 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'delete-user-update-request.sql');
+        const deleteRequestQuery = readFileSync(filePath2, 'utf-8');
         await client.query(deleteRequestQuery, [requestId]);
         // Step 3: check if the username is the same as the old one, if not we also need to change the last_username_updated date.
         // also delete the original images.
-        const get_user_info_query = readFileSync('./src/sql_queries/get-user-info.sql', 'utf-8');
+        const filePath3 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get-user-info.sql');
+        const get_user_info_query = readFileSync(filePath3, 'utf-8');
         const queryResult = await client.query(get_user_info_query, [requester_user_id]);
         // checking if the username is the same as the old one is directly done in the update-user-approve.sql query.
         const wechatQRCodeImageToDelete = queryResult.rows[0].wechat_qr_code_image;
@@ -66,7 +69,8 @@ router.patch('/', async (req: Request, res: Response) => {
         } else {
             wechatQRCodeImage = newWechatQRCodeImage;
         }
-        const update_user_approve_query = readFileSync('./src/sql_queries/update-user-approve.sql', 'utf-8');
+        const filePath4 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'update-user-approve.sql');
+        const update_user_approve_query = readFileSync(filePath4, 'utf-8');
         await client.query(update_user_approve_query, [
             newUsername,
             profileImage,

@@ -107,7 +107,8 @@ router.post('/', async (req: Request, res: Response) => {
     } else {
         // try with username
         try {
-            const select_password_with_username_query = readFileSync('./src/sql_queries/select_password_with_username.sql', 'utf-8');
+            const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'select_password_with_username.sql');
+            const select_password_with_username_query = readFileSync(filePath, 'utf-8');
             const getPasswordQueryResult = await pool.query(select_password_with_username_query, [username]);
             if (getPasswordQueryResult.rows.length > 0) {
                 const hashedPassword = getPasswordQueryResult.rows[0].password;

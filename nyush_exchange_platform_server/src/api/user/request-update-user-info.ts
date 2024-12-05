@@ -51,7 +51,8 @@ router.post('/', upload, async (req: Request, res: Response) => {
         await client.query('BEGIN'); // Start transaction
 
         // Check if username already exists
-        const checkUsernameQuery = readFileSync('./src/sql_queries/check_username_exists.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'check_username_exists.sql');
+        const checkUsernameQuery = readFileSync(filePath, 'utf-8');
         const usernameExistsResult = await client.query(checkUsernameQuery, [username, 2]);
         if (usernameExistsResult.rows.length > 1) {
             res.status(400).json({ message: "Username already exists." });
@@ -60,7 +61,8 @@ router.post('/', upload, async (req: Request, res: Response) => {
         }
 
         // Check if the username was updated in the past year
-        const lastUpdateQuery = readFileSync('./src/sql_queries/get_last_username_updated_query.sql', 'utf-8');
+        const filePath2 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_last_username_updated_query.sql');
+        const lastUpdateQuery = readFileSync(filePath2, 'utf-8');
         const lastUpdateResult = await client.query(lastUpdateQuery, [userId]);
         const lastUsernameUpdated = lastUpdateResult.rows[0]?.last_username_updated;
 
@@ -76,7 +78,8 @@ router.post('/', upload, async (req: Request, res: Response) => {
         }
 
         // Insert request into user_update_requests table
-        const insertRequestQuery = readFileSync('./src/sql_queries/insert_user_update_requests.sql', 'utf-8');
+        const filePath3 = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'insert_user_update_requests.sql');
+        const insertRequestQuery = readFileSync(filePath3, 'utf-8');
         await client.query(insertRequestQuery, [userId, username, profileImagePath, wechatQRCodeImagePath]);
 
         await client.query('COMMIT'); // Commit transaction if all queries are successful

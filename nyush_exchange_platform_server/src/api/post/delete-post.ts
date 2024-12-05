@@ -12,7 +12,8 @@ router.delete('/', async (req: Request, res: Response) => {
         await pool.query('BEGIN');
 
         // Retrieve the image URL first
-        const get_image_urls_query = readFileSync('./src/sql_queries/get_image_urls.sql', 'utf-8');
+        const imageFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_image_urls_post.sql');
+        const get_image_urls_query = readFileSync(imageFilePath, 'utf-8');
         const result = await pool.query(get_image_urls_query, [postId]);
         if (result.rows.length > 0) {
             const imageUrls = result.rows.map((row: any) => row.image_url);
@@ -32,7 +33,8 @@ router.delete('/', async (req: Request, res: Response) => {
         // Extract image URLs and remove associated files
 
         // Delete the post from the database
-        const delete_post_query = readFileSync('./src/sql_queries/delete_post.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'delete_post.sql');
+        const delete_post_query = readFileSync(filePath, 'utf-8');
         await pool.query(delete_post_query, [postId]);
 
         await pool.query('COMMIT');

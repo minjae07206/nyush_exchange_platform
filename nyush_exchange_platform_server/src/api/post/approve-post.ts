@@ -10,7 +10,8 @@ router.patch('/', async (req: Request, res: Response) => {
     try {
 
         // Update the post status to approved
-        const approve_post_query = readFileSync('./src/sql_queries/approve_post.sql', 'utf-8');
+        const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'approve_post.sql');
+        const approve_post_query = readFileSync(filePath, 'utf-8');
         await pool.query(approve_post_query, [postId]);
 
         res.status(200).json({ message: "Post approved successfully" });
