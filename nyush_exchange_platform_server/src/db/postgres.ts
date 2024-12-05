@@ -9,10 +9,10 @@ const { Pool } = pg;
 console.log(process.env.DB_HOST)
 const pool = new Pool(
     {
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        database: process.env.DB_DATABASE,
-        password: process.env.DB_PASSWORD,
+        host: process.env.POSTGRES_HOST,
+        user: process.env.POSTGRES_USER,
+        database: process.env.POSTGRES_DATABASE,
+        password: process.env.POSTGRES_PASSWORD,
         max: 20,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,

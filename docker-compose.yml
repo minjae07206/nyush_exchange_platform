@@ -13,7 +13,7 @@ services:
       - postgres  # Wait for the database to be ready before starting the backend
 
   postgres:
-    image: postgres:13  # Use the official PostgreSQL image
+    image: postgres:17  # Use the official PostgreSQL image
     ports:
       - "5432:5432"  # Map the PostgreSQL port to the host machine
     networks:
