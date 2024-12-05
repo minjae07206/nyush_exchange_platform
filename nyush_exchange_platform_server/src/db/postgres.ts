@@ -1,15 +1,19 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+let POSTGRES_HOST = "";
 if (process.env.NODE_ENV === 'production') {
     dotenv.config({ path: '/home/ml6722/.env' });  // Path for production
 } else {
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
+    POSTGRES_HOST = "localhost"
 }// Load environment variables from .env file
 const { Pool } = pg;
 console.log(process.env.POSTGRES_HOST)
+
+
 const pool = new Pool(
     {
-        host: process.env.POSTGRES_HOST,
+        host: POSTGRES_HOST,
         user: process.env.POSTGRES_USER,
         database: process.env.POSTGRES_DATABASE,
         password: process.env.POSTGRES_PASSWORD,
