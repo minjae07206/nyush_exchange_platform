@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
 }// Load environment variables from .env file
 const { Pool } = pg;
-console.log(process.env.DB_HOST)
+console.log(process.env.POSTGRES_HOST)
 const pool = new Pool(
     {
         host: process.env.POSTGRES_HOST,

@@ -11,6 +11,8 @@ router.post('/', async (req: Request, res: Response) => {
     const { usernameOrEmail, password }: LoginReqBodyProps = req.body;
     let username: string = "";
     let email: string = "";
+
+    console.log(usernameOrEmail, password);
     // check if usernameOrEmail exists
     if (!usernameOrEmail) {
         res.status(400).json({ message: 'Username or email is required.' });
