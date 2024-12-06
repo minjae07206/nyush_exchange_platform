@@ -71,7 +71,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
         }
     }
 
-    function formatImagePath(fullPath: string): string {
+    function formatImagePath(fullPath: any): any {
         // Replace the directory part with '/uploads'
         return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
     }
