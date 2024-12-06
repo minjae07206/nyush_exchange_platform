@@ -11,7 +11,7 @@ export default function Footer() {
                 <span className={spanCommonClass}>Please email the developer if you find bugs in the website. Thank you!</span>
             </div>
             <div className="">
-                <span className={spanCommonClass}>Hosted on: Somewhere</span>
+                <span className={spanCommonClass}>Hosted on: NYUSH</span>
             </div>
             <div className="">
                 <a href="https://shanghai.nyu.edu/campuslife/community-standards" target="_blank"><span className={spanCommonClass}><b>Community guidelines</b></span></a>

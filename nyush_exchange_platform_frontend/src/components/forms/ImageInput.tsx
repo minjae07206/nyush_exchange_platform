@@ -1,5 +1,4 @@
 import React, { forwardRef } from "react";
-import { setEmitFlags } from "typescript";
 
 interface ImageInputProps {
   name: string;
