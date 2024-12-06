@@ -60,7 +60,8 @@ export default function Post() {
     // When this component is rendered, send a request to the server to get the full information for this post.
     useEffect(() => {
         if (typeof navigator.share === 'undefined') {
-            // 공유하기 버튼을 지원하지 않는 경우에 대한 폴백 처리
+            console.log("Navigator type:", typeof navigator.share)
+            // if web share api is not available, fallback to not showing the share button.
             setShowShare(false);
         }
 
