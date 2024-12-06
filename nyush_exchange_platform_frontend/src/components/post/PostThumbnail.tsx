@@ -77,8 +77,6 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
     }
 
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        const formattedPath = formatImagePath(imageURL)
-        console.log(`${process.env.REACT_APP_HOST_NAME}${formattedPath}`)
         const target = e.target as HTMLImageElement;
         target.src = "/default-post-image.png"; // Replace the image source on error
       };
@@ -87,7 +85,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
     return (
         <div className="flex shadow-md bg-grey-100 h-32 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block cursor-pointer">
             <div className="w-full h-full larger-phones:w-5/12 md:w-full  md:h-4/6">
-                <img src={`${process.env.REACT_APP_HOST_NAME}/${imageURL}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md"  onError={(e) => {handleImageError(e);}}></img>
+                <img src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(imageURL)}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md"  onError={(e) => {handleImageError(e);}}></img>
             </div>
             <div className="w-2/3 larger-phones:w-7/12 px-2 md:w-full md:h-1/5 relative">
                 {/* The title can cover 2 rows, any title longer than that will be hidden. */}
