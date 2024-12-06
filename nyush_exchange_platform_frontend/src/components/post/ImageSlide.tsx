@@ -36,10 +36,14 @@ export default function ImageSlide ({images}:ImageSlideProp) {
             }}>
                 {
                     images.map((imageURL) => {
-                        console.log(imageURL)
+                        function formatImagePath(fullPath: string): string {
+                            // Replace the directory part with '/uploads'
+                            console.log("Formatting image path: ", fullPath)
+                            return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                        }
                         return (
-                            <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={imageURL} target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${imageURL}`}>
-                                <img className="object-cover" src={`${process.env.REACT_APP_HOST_NAME}/${imageURL}`}></img>
+                            <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={imageURL} target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(imageURL)}`}>
+                                <img className="object-cover" src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(imageURL)}`}></img>
                             </Link>
                         )
                     })
