@@ -88,7 +88,7 @@ app.use(session({
 
     }, // Secure cookies in production
 }));
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'var', 'www', 'uploads')));
 app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
 app.use('/api/auth/login', loginApi);
 app.use('/api/auth/signup', signupApi);
