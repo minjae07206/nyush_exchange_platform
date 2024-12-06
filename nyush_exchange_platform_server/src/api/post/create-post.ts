@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { readFileSync } from 'fs'; // Importing the file system module
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadPath = path.resolve(__dirname, 'nyush_exchange_platform_server', 'var', 'www', 'uploads');
+        const uploadPath = '/nyush_exchange_platform_server/var/www/uploads';
         cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
