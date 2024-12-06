@@ -17,7 +17,6 @@ interface PostThumbnailProps {
     open_to_negotiate_flag: boolean;
 }
 export default function PostThumbnail({ postId, postStatus, postTitle, currency, price, savedCount, time, imageURL, authorId, open_to_negotiate_flag, isSaved }: PostThumbnailProps) {
-    console.log(imageURL)
     const [postSaved, setPostSaved] = useState<boolean>(isSaved);
     const [postSavedCount, setPostSavedCount] = useState<number>(savedCount);
     const handleSavedClick = async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -71,7 +70,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
         }
     }
 
-    function formatImagePath(fullPath: any): any {
+    function formatImagePath(fullPath: string): string {
         // Replace the directory part with '/uploads'
         return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
     }
