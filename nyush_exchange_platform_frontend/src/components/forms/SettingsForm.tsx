@@ -162,6 +162,7 @@ export default function SettingsForm() {
             })
             .finally(() => {
                 setLoading(false);
+                console.log(profileImageURL, wechatQRCodeImageURL)
             });
     }, [])
 
