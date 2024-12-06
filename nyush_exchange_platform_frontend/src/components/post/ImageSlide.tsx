@@ -36,7 +36,10 @@ export default function ImageSlide ({images}:ImageSlideProp) {
             }}>
                 {
                     images.map((imageURL) => {
-                        function formatImagePath(fullPath: string): string {
+                        function formatImagePath(fullPath: any): any {
+                            if (fullPath == null) {
+                                return null;
+                            }
                             // Replace the directory part with '/uploads'
                             console.log("Formatting image path: ", fullPath)
                             return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
