@@ -72,7 +72,7 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
     }
 
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        console.log(`${process.env.REACT_APP_HOST_NAME}/${imageURL}`)
+        console.log(`${process.env.REACT_APP_HOST_NAME}${imageURL}`)
         const target = e.target as HTMLImageElement;
         target.src = "/default-post-image.png"; // Replace the image source on error
       };
