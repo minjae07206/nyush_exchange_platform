@@ -72,11 +72,13 @@ export default function PostThumbnail({ postId, postStatus, postTitle, currency,
 
     function formatImagePath(fullPath: string): string {
         // Replace the directory part with '/uploads'
+        console.log("Formatting image path: ", fullPath)
         return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
     }
 
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         const target = e.target as HTMLImageElement;
+        console.log(e)
         target.src = "/default-post-image.png"; // Replace the image source on error
       };
 
