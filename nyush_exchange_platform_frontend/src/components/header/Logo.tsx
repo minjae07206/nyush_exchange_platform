@@ -6,7 +6,7 @@ interface LogoProps {
 export default function Logo ({className}:LogoProps): JSX.Element {
     return <Link className={`flex justify-center items-center ${className}`}  to="/">
          <img 
-                src={`${process.env.PUBLIC_URL}/second_life_logo.png`} 
+                src={`${process.env.PUBLIC_URL}/logo2.png`} 
                 alt="Logo" 
                 className="h-12 w-auto" // Example styles; adjust as needed
             />
