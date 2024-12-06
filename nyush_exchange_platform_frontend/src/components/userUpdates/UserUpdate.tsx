@@ -49,6 +49,9 @@ export default function UserUpdate({ requester_user_id, newWechatQRCodeImage, ne
 
     const formatImagePath = (fullPath: any): any => {
         // Replace the directory part with '/uploads'
+        if (fullPath == null) {
+            return null
+        }
         console.log("Formatting image path: ", fullPath)
         return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
     }
