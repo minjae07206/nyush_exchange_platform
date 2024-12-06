@@ -23,6 +23,7 @@ router.get('/', async (req: Request, res: Response) => {
         }));
         // Convert the array to JSON format
         const resultJson = JSON.stringify(postsWithFirstImage);
+        console.log(resultJson)
         res.status(200).json(resultJson);
         return;
     } catch (error) {
