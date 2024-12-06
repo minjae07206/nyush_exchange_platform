@@ -136,13 +136,23 @@ export default function SettingsForm() {
                 if (formattedResponseData.profile_image === null) {
                     setProfileImageURL("/default-profile-image.png");
                 } else {
-                    setProfileImageURL(formattedResponseData.profile_image);
+                    const formatImagePath = (fullPath: string): string => {
+                        // Replace the directory part with '/uploads'
+                        console.log("Formatting image path: ", fullPath)
+                        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                    }
+                    setProfileImageURL(formatImagePath(formattedResponseData.profile_image));
                 }
 
                 if (formattedResponseData.wechat_qr_code_image === null) {
                     setWechatQRCodeImageURL("/default-wechat-qr-code.png");
                 } else {
-                    setWechatQRCodeImageURL(formattedResponseData.wechat_qr_code_image);
+                    const formatImagePath = (fullPath: string): string => {
+                        // Replace the directory part with '/uploads'
+                        console.log("Formatting image path: ", fullPath)
+                        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                    }
+                    setWechatQRCodeImageURL(formatImagePath(formattedResponseData.wechat_qr_code_image));
                 }
                 setCurrentUsername(formattedResponseData.username);
                 setEmail(formattedResponseData.email);
@@ -162,7 +172,6 @@ export default function SettingsForm() {
             })
             .finally(() => {
                 setLoading(false);
-                console.log(profileImageURL, wechatQRCodeImageURL)
             });
     }, [])
 

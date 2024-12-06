@@ -25,12 +25,17 @@ export default function AuthorInformation({ username, email, profileImage, wecha
             }, 3000)
         }
     }
+    const formatImagePath = (fullPath: string): string => {
+        // Replace the directory part with '/uploads'
+        console.log("Formatting image path: ", fullPath)
+        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+    }
     return (
         <div className="flex relative items-center justify-between w-full px-2">
             {/* Profile Image and Username */}
             <div className="flex items-center">
                 <div className="h-8 w-8 rounded-full overflow-hidden">
-                    <img className="object-cover w-full h-full" src={`${process.env.REACT_APP_HOST_NAME}/${profileImage}`} alt="Profile" />
+                    <img className="object-cover w-full h-full" src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(profileImage)}`} alt="Profile" />
                 </div>
                 <p className="ml-2">{username}</p>
             </div>
@@ -73,7 +78,7 @@ export default function AuthorInformation({ username, email, profileImage, wecha
                             </div>
                         </div>
                         <div className="w-52 h-52 m-auto">
-                            <img src={`${process.env.REACT_APP_HOST_NAME}/${wechatQRCodeImage}`} alt="WeChat QR Code" className="mt-2 object-fit" />
+                            <img src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(wechatQRCodeImage)}`} alt="WeChat QR Code" className="mt-2 object-fit" />
                         </div>
                         <Button
                             buttonText="Close"

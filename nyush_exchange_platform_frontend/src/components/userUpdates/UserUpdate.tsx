@@ -46,17 +46,23 @@ export default function UserUpdate({ requester_user_id, newWechatQRCodeImage, ne
         .then(()=>{navigate('/pending-user-updates')})
         .catch((error)=>{console.log(error)});
     };
+
+    const formatImagePath = (fullPath: any): any => {
+        // Replace the directory part with '/uploads'
+        console.log("Formatting image path: ", fullPath)
+        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+    }
     return (
         <div className="flex shadow-md bg-grey-100 h-32 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block cursor-pointer">
             <div className="flex w-full md:h-1/2">
                 <div className="w-1/2 h-full larger-phones:w-5/12 md:h-full md:w-full">
-                    <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${newProfileImage ? newProfileImage : "/default-profile-image.png"}`}>
-                        <img src={`${process.env.REACT_APP_HOST_NAME}/${newProfileImage}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleProfileImageError}></img>
+                    <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(newProfileImage) ? formatImagePath(newProfileImage) : "/default-profile-image.png"}`}>
+                        <img src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(newProfileImage)}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleProfileImageError}></img>
                     </Link>
                 </div>
                 <div className="w-1/2 h-full larger-phones:w-5/12 md:h-full md:w-full">
-                    <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={newWechatQRCodeImage} target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${newWechatQRCodeImage ? newWechatQRCodeImage : "/default-wechat-qr-code.png"}`}>
-                        <img src={`${process.env.REACT_APP_HOST_NAME}/${newWechatQRCodeImage}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleWechatQRCodeImageError}></img>
+                    <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={newWechatQRCodeImage} target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(newWechatQRCodeImage) ? formatImagePath(newWechatQRCodeImage) : "/default-wechat-qr-code.png"}`}>
+                        <img src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(newWechatQRCodeImage)}`} alt="not available" className="object-cover w-full h-full p-1 rounded-md" onError={handleWechatQRCodeImageError}></img>
                     </Link>
                 </div>
             </div>
