@@ -12,7 +12,7 @@ router.delete('/', async (req: Request, res: Response) => {
         await pool.query('BEGIN');
 
         // Retrieve the image URL first
-        const imageFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_image_urls_post.sql');
+        const imageFilePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'get_image_urls.sql');
         const get_image_urls_query = readFileSync(imageFilePath, 'utf-8');
         const result = await pool.query(get_image_urls_query, [postId]);
         if (result.rows.length > 0) {
