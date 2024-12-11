@@ -115,6 +115,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     onQuantityChange(responseData.quantity);
                     setCategory(responseData.category);
                     setPostStatus(responseData.post_status);
+                    
                     //setIsAuthor(responseData.isAuthor);
                     setLoading(false);
 
@@ -127,6 +128,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
             resetPostForm();
         }
         onFormErrorChange(null);
+        setFileSizeError(null)
         onFormSuccessChange(null);
         onImageFilesChange([]);
     }, [])
