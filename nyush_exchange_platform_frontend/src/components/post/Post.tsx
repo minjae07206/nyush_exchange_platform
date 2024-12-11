@@ -175,7 +175,7 @@ export default function Post() {
                 navigate('/myposts');
             })
             .catch((error) => {
-
+                console.log(error)
             });
     }
 
