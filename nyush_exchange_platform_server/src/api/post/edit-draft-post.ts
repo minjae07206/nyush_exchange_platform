@@ -7,7 +7,8 @@ import { readFileSync, unlink } from 'fs'; // Importing the file system module
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'uploads/');
+        const uploadPath = '/nyush_exchange_platform_server/var/www/uploads';
+        cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -86,11 +87,12 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
         const result = await client.query(getImageUrlsQuery, [postId]);
         if (result.rows.length > 0) {
             const validImageURLs = Array.isArray(imageURLs) ? imageURLs : [];
-            const imagesToBeDeleted = result.rows.filter((row: any) => !validImageURLs.includes(`http://localhost:3001/${row.image_url}`));
+            const imagesToBeDeleted = result.rows.filter((row: any) => !validImageURLs.includes(`${process.env.HOST_NAME}/${row.image_url}`));
             console.log('images to be deleted', imagesToBeDeleted)
             const imageUrls = imagesToBeDeleted.map((row: any) => row.image_url);
             for (const imageURL of imageUrls) {
                 await client.query(delete_image_query, [imageURL]);
+                console.log(imageURL);
                 const imagePath = path.resolve(__dirname,'../../../', imageURL); // resolve not path.join()
                 unlink(imagePath, (err) => {
                     if (err) console.error("Failed to delete image file:", err);
