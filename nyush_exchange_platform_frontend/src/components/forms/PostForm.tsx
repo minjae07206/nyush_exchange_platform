@@ -88,6 +88,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
             axios.get(`${process.env.REACT_APP_HOST_NAME}/api/post/get-post-full?postId=${postId}`, { withCredentials: true })
                 .then((response) => {
                     const responseData = JSON.parse(response.data);
+                    console.log(responseData);
 
                     // Important to check if the user is the author.
                     if (responseData.isAuthor === false) {
@@ -198,7 +199,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         onFormSuccessChange(response.data.message)
                         onFormErrorChange(null);
                         resetPostForm();
-                        navigate('/myposts')
+                        navigate('/myposts');
                     }).catch((error) => {
                         onFormErrorChange(error.response.data.message);
                         onFormSuccessChange(null);
