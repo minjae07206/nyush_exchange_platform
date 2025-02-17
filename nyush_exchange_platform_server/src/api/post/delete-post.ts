@@ -18,7 +18,7 @@ router.delete('/', async (req: Request, res: Response) => {
         if (result.rows.length > 0) {
             const imageUrls = result.rows.map((row: any) => row.image_url);
             imageUrls.forEach((imageURL) => {
-                const imagePath = path.resolve(__dirname, '/var/www/uploads', path.basename(imageURL)); // Adjust path based on storage
+                const imagePath = path.resolve(__dirname, 'nyush_exchange_platform_server/var/www/uploads', path.basename(imageURL)); // Adjust path based on storage
                 unlink(imagePath, (err) => {
                     if (err) {
                         console.error("Failed to delete image file:", err);
