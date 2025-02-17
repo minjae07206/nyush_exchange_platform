@@ -11,9 +11,9 @@ const storage = multer.diskStorage({
         cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      const extension = path.extname(file.originalname); // Get original extension
-      cb(null, file.fieldname + '-' + uniqueSuffix + extension); // Save with extension
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const extension = path.extname(file.originalname); // Get original extension
+        cb(null, file.fieldname + '-' + uniqueSuffix + extension); // Save with extension
     }
 });
 const upload = multer({ storage: storage });
@@ -92,11 +92,13 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
             const imageUrls = imagesToBeDeleted.map((row: any) => row.image_url);
             for (const imageURL of imageUrls) {
                 await client.query(delete_image_query, [imageURL]);
-                console.log(imageURL);
-                const imagePath = path.resolve(__dirname,'../../../', imageURL); // resolve not path.join()
+                const imagePath = path.resolve('/nyush_exchange_platform_server/var/www/uploads', path.basename(imageURL)); // Adjust path based on storage
                 unlink(imagePath, (err) => {
-                    if (err) console.error("Failed to delete image file:", err);
-                    else console.log("Image file deleted successfully:", imageURL);
+                    if (err) {
+                        console.error("Failed to delete image file:", err);
+                    } else {
+                        console.log("Image file deleted successfully:", imageURL);
+                    }
                 });
             }
         }
@@ -121,7 +123,7 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
             res.status(200).json({ message: 'Post successfully updated in draft.' });
             return;
         }
-        
+
     } catch (error) {
         if (client) await client.query('ROLLBACK');
         console.error(error);
