@@ -103,7 +103,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     onTitleChange(responseData.post_title);
                     onDescriptionChange(responseData.description);
                     const baseUrl = `${process.env.HOST_NAME}`;
-                    const imageUrls = responseData.images.map((path: string) => baseUrl + path.replace(/\\/g, "/"));
+                    const imageUrls = responseData.images //.map((path: string) => baseUrl + path.replace(/\\/g, "/"));
                     //(responseData.author_id);
                     onCurrencyChange(responseData.currency);
                     onSellBuyByDateChange(formattedDateOfExpiration);
