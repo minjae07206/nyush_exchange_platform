@@ -373,6 +373,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                     function formatImagePath(fullPath: any): any {
                                         if (fullPath == null) {
                                             return null;
+                                        } else if (url.slice(0, 4) === "blob") {
+                                            return fullPath.replace('\n', '');
                                         }
                                         // Replace the directory part with '/uploads'
                                         console.log("Formatting image path: ", fullPath)
