@@ -374,6 +374,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                         if (fullPath == null) {
                                             return null;
                                         } else if (url.slice(0, 4) === "blob") {
+                                            console.log('blob is working.')
                                             return fullPath.replace('\n', '');
                                         }
                                         // Replace the directory part with '/uploads'
