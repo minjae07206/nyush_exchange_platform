@@ -373,18 +373,19 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                     function formatImagePath(fullPath: any): any {
                                         if (fullPath == null) {
                                             return null;
-                                        } else if (url.slice(0, 4) === "blob") {
-                                            console.log('blob is working.')
-                                            return fullPath.replace('\n', '');
                                         }
                                         // Replace the directory part with '/uploads'
-                                        console.log("Formatting image path: ", fullPath)
-                                        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                                        console.log("Formatting image path: ", fullPath);
+                                        let result:string | undefined = fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                                        if (isEdit) {
+                                            result = process.env.REACT_APP_HOST_NAME + '/' + result;
+                                        }
+                                        return result;
                                     }
                                     return (
                                         <div className="relative w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2" key={url}>
-                                            <a href={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(url)}`} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
-                                                <img className="w-full h-full object-cover rounded-md" src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(url)}`}></img>
+                                            <a href={`${formatImagePath(url)}`} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
+                                                <img className="w-full h-full object-cover rounded-md" src={`${formatImagePath(url)}`}></img>
                                             </a>
                                             {!isEdit || postStatus === "Draft" && <button className="absolute rounded-full bg-gray-400 pl-1 pb-1 pr-1 -top-2 -right-1" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                                                 event.preventDefault();
