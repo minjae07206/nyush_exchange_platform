@@ -387,7 +387,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                             <a href={`${formatImagePath(url)}`} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
                                                 <img className="w-full h-full object-cover rounded-md" src={`${formatImagePath(url)}`}></img>
                                             </a>
-                                            {!isEdit || postStatus === "Draft" && <button className="absolute rounded-full bg-gray-400 pl-1 pb-1 pr-1 -top-2 -right-1" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                                            {(!isEdit || postStatus === "Draft") && <button className="absolute rounded-full bg-gray-400 pl-1 pb-1 pr-1 -top-2 -right-1" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                                                 event.preventDefault();
                                                 handleEraseImage(url);
                                             }}>🗙</button>}
