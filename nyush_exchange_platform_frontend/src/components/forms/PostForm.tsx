@@ -369,6 +369,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         <div className="flex justify-content flex-wrap">
                             {
                                 imagePreviews.map((url) => {
+                                    console.log(url)
                                     function formatImagePath(fullPath: any): any {
                                         if (fullPath == null) {
                                             return null;
