@@ -43,10 +43,9 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
     const images = req.files as Express.Multer.File[];
     console.log(images)
     let realPostType;
-    console.log('posttype: ', postType)
-    if (postType === 'true') {
+    if (postType[1] === 'true') {
         realPostType = 'Sell';
-    } else if (postType === 'false') {
+    } else if (postType[1] === 'false') {
         realPostType = "Buy";
     }
 
