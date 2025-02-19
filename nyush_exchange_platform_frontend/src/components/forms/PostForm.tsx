@@ -385,7 +385,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                             result = fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
                                         } else {
                                             // This means that the image is newly uploaded, so is a blob
-                                            result = process.env.REACT_APP_HOST_NAME + '/' + fullPath;
+                                            result = fullPath;
                                         }
     
                                         console.log("imageformat: ", result)
