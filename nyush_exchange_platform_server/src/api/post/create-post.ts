@@ -50,7 +50,7 @@ router.post('/', upload.array('images', 10), async (req: Request, res: Response)
         realPostType = "Buy";
     }
     if (postStatus === "Pending") { // If it is meant for the market, then there should be no empty values.
-        if (price === "" || description === "") {
+        if (price === "" || description === "" || price === null || description === null) {
             res.status(400).json({message: "If you want to post to the market, price and description cannot be empty."});
             return;
         }
