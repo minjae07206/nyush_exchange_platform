@@ -148,12 +148,6 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
         }
         // the price should have up to 2 decimal places, and be between 0 and 99999999
         const priceFormat: RegExp = /^\d+(\.\d{0,2})?$/;
-        if (priceInput === "") {
-            onPriceErrorChange("price cannot be empty")
-            CAN_PROCEED_TO_MAKING_REQUEST = false;
-        } else {
-            onPriceErrorChange(null);
-        }
         if (priceInput && (parseFloat(priceInput) < 0 || priceInput.length > 8 || !priceFormat.test(priceInput)) || priceInput !== "") {
             onPriceErrorChange("price should be between 0 and 99999999, and up to 2 decimal places.")
             CAN_PROCEED_TO_MAKING_REQUEST = false;
@@ -326,7 +320,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     <div className="flex relative">
                         <span className="absolute top-2 left-3">{currencyInput}</span>
                         {/**Something to conisder, the user can type "e" to the input, so can write things like 1e3. How will this be shown on the server?*/}
-                        <Input type="number" id="price" name="price" placeholder="0" value={priceInput} customClassname="pl-5 w-1/3 sm:w-1/6" onInputChange={onPriceChange} />
+                        <Input type="number" id="price" required name="price" placeholder="0" value={priceInput} customClassname="pl-5 w-1/3 sm:w-1/6" onInputChange={onPriceChange} />
                         <DropDownMenu value={currencyInput} name="currency" options={["CNY", "USD"]} className="max-w-[70px]" handleSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                             if (e.target.value === "CNY") {
                                 onCurrencyChange("¥");
