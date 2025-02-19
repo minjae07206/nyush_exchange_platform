@@ -87,7 +87,10 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
         const result = await client.query(getImageUrlsQuery, [postId]);
         if (result.rows.length > 0) {
             const validImageURLs = Array.isArray(imageURLs) ? imageURLs : [];
-            const imagesToBeDeleted = result.rows.filter((row: any) => !validImageURLs.includes(`/nyush_exchange_platform_server/var/www/uploads/${row.image_url}`));
+            const imagesToBeDeleted = result.rows.filter((row: any) => {
+                console.log("row image url:", row.image_url);
+                return !validImageURLs.includes(`/nyush_exchange_platform_server/var/www/uploads/${row.image_url}`)
+            });
             console.log('images to be deleted', imagesToBeDeleted)
             const imageUrls = imagesToBeDeleted.map((row: any) => row.image_url);
             for (const imageURL of imageUrls) {
