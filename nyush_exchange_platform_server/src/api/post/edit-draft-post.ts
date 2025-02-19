@@ -90,12 +90,12 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
             const imagesToBeDeleted = result.rows.filter((row: any) => {
                 for (let image of validImageURLs) {
                     if (encodeURI(image) === encodeURI(row.image_url)) {
-                        return true;
+                        return false;
                     } else {
                         continue
                     }
                 }
-                return false;
+                return true;
                 //return !validImageURLs.includes(encodeURI(`/nyush_exchange_platform_server/var/www/uploads/${row.image_url}`));
             });
             console.log('images to be deleted', imagesToBeDeleted)
