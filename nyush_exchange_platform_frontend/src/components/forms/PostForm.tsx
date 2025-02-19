@@ -381,6 +381,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                         if (isEdit && postStatus !== "Draft") {
                                             result = process.env.REACT_APP_HOST_NAME + '/' + result;
                                         }
+                                        console.log("imageformat: ", result)
                                         return result;
                                     }
                                     return (
