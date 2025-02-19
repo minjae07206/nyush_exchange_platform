@@ -380,6 +380,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                         // For the images that are already there, use the url. For newly uploaded images, we need to use blob.
                                         let result:string | undefined = ""
                                         console.log([...fullPath])
+                                        console.log(fullPath.includes("www"))
                                         if (fullPath.includes("uploads")) {
                                             result = fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
                                         } else {
