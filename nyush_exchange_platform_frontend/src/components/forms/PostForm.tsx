@@ -186,6 +186,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
             imageFiles.forEach((file: any) => {
                 formData.append('images', file.file, file.file.name); // Append the File with its name
             });
+            console.log(imageFiles);
+            console.log(imagePreviews);
             if (isEdit && postStatus === "Draft") {
                 axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/edit-draft-post?postId=${postId}`,
                     // post data
@@ -369,7 +371,6 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                         <div className="flex justify-content flex-wrap">
                             {
                                 imagePreviews.map((url) => {
-                                    console.log(url)
                                     function formatImagePath(fullPath: any): any {
                                         if (fullPath == null) {
                                             return null;
