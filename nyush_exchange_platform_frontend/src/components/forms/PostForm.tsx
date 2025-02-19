@@ -378,7 +378,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                         // Replace the directory part with '/uploads'
                                         console.log("Formatting image path: ", fullPath);
                                         let result:string | undefined = fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
-                                        if (isEdit) {
+                                        if (isEdit && postStatus !== "Draft") {
                                             result = process.env.REACT_APP_HOST_NAME + '/' + result;
                                         }
                                         return result;
