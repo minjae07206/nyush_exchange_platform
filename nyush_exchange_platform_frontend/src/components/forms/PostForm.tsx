@@ -378,8 +378,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                         // Replace the directory part with '/uploads'
                                         console.log("Formatting image path: ", fullPath);
                                         // For the images that are already there, use the url. For newly uploaded images, we need to use blob.
-                                        let result:string | undefined = ""
-                                        console.log([...fullPath])
+                                        let result:string | undefined = "";
                                         console.log(fullPath.includes("var/www"))
                                         console.log(fullPath.includes("uploads"))
                                         if (fullPath.includes("uploads")) {
@@ -392,10 +391,11 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                                         console.log("imageformat: ", result)
                                         return result;
                                     }
+                                    const formattedUrl:string = formatImagePath(url)
                                     return (
                                         <div className="relative w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md m-2" key={url}>
-                                            <a href={`${formatImagePath(url)}`} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
-                                                <img className="w-full h-full object-cover rounded-md" src={`${formatImagePath(url)}`}></img>
+                                            <a href={formattedUrl} target="_blank" rel="noopener noreferrer" className="w-full h-full"> {/* Open in a new tab */}
+                                                <img className="w-full h-full object-cover rounded-md" src={formattedUrl}></img>
                                             </a>
                                             {(!isEdit || postStatus === "Draft") && <button className="absolute rounded-full bg-gray-400 pl-1 pb-1 pr-1 -top-2 -right-1" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                                                 event.preventDefault();
