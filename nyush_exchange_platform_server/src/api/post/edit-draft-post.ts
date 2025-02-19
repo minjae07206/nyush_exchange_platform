@@ -87,6 +87,7 @@ router.patch('/', upload.array('images', 10), async (req: Request, res: Response
         const result = await client.query(getImageUrlsQuery, [postId]);
         if (result.rows.length > 0) {
             const validImageURLs = Array.isArray(imageURLs) ? imageURLs : [];
+            console.log("valid image urls:", validImageURLs);
             const imagesToBeDeleted = result.rows.filter((row: any) => {
                 console.log("row image url:", row.image_url);
                 return !validImageURLs.includes(`/nyush_exchange_platform_server/var/www/uploads/${row.image_url}`)
