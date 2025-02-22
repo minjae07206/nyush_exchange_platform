@@ -47,11 +47,15 @@ import editDraftPostApi from './api/post/edit-draft-post';
 import searchAndFilterPosts from './api/post/search-and-filter-posts';
 const app: Application = express();
 console.log('Redis Port:', process.env.REDIS_PORT);
+console.log('REDIS_HOST:', process.env.REDIS_HOST);
+console.log('REDIS_PORT:', process.env.REDIS_PORT);
+console.log('REDIS_PASSWORD:', process.env.REDIS_PASSWORD);
+
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
         host: process.env.REDIS_HOST,
-        port: parseInt(process.env.REDIS_PORT as string, 10) || 12179,
+        port: parseInt(process.env.REDIS_PORT as string, 10) || 12175,
     }
 });
 
