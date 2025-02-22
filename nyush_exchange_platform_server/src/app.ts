@@ -67,7 +67,7 @@ export { redisClient };
 // Initialize redis store
 const redisStore = new RedisStore({
     client: redisClient,
-    prefix: "nyush_exchange_platform_redis",
+    prefix: "nyush-exchange-platform-redis",
 })
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 app.use(cookieParser());
