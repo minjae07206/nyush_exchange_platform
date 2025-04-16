@@ -88,7 +88,7 @@ app.use(session({
         maxAge: 1000 * 60 * 3, // 3 minutes
 
     }, // Secure cookies in production
-    rolling: false     // Reset cookie/session timeout on each request           
+    rolling: true     // Reset cookie/session timeout on each request           
 }));
 app.use('/uploads', express.static('/nyush_exchange_platform_server/var/www/uploads'));
 app.use(express.static(path.join(__dirname, '../../nyush_exchange_platform_frontend/build')));
