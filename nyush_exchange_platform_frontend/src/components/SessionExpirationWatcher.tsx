@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSessionStore } from "stores/useSessionStore";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import UserWantsToExtendPopup from "./userWantsToExtendPopup";
 
-export default function SessionExpirationWatcher() {
-  const navigate = useNavigate();
+export default function SessionExpirationWatcher({
+  onSessionExpired,
+}: {
+  onSessionExpired: () => void;
+}) {
   const {
     sessionExpirationTime,
     serverTimeOffset,
@@ -16,10 +18,9 @@ export default function SessionExpirationWatcher() {
 
   const [showExtendPrompt, setShowExtendPrompt] = useState(false);
 
-  // Get adjusted time using server offset
   const getAdjustedTime = () => Date.now() - (serverTimeOffset || 0);
 
-  // Immediate logout if session already expired
+  // Initial session expiration check on mount
   useEffect(() => {
     if (sessionExpirationTime && getAdjustedTime() >= sessionExpirationTime) {
       handleTimeout();
@@ -27,7 +28,7 @@ export default function SessionExpirationWatcher() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Visibility change handler
+  // Check session again when tab becomes visible
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
@@ -43,14 +44,13 @@ export default function SessionExpirationWatcher() {
     };
   }, [sessionExpirationTime, serverTimeOffset]);
 
-  // Poll every 10s to check if we need to show the extend prompt
+  // Poll to determine when to show the popup or trigger timeout
   useEffect(() => {
     const interval = setInterval(() => {
       const currentTime = getAdjustedTime();
 
       if (sessionExpirationTime && sessionExpirationTime >= currentTime) {
         const timeRemaining = sessionExpirationTime - currentTime;
-        console.log("TimeRemaining: ", timeRemaining);
 
         if (timeRemaining <= 60_000 && !showExtendPrompt) {
           setShowExtendPrompt(true);
@@ -63,7 +63,6 @@ export default function SessionExpirationWatcher() {
     return () => clearInterval(interval);
   }, [sessionExpirationTime, showExtendPrompt, serverTimeOffset]);
 
-  // User chooses to extend session
   const handleExtend = async () => {
     try {
       const response = await axios.post(
@@ -86,7 +85,6 @@ export default function SessionExpirationWatcher() {
     }
   };
 
-  // Session expired
   const handleTimeout = async () => {
     try {
       await axios.post(
@@ -97,9 +95,9 @@ export default function SessionExpirationWatcher() {
     } catch (error) {
       console.error("Logout failed", error);
     }
-    setIsLoggedIn(false);
+
     setShowExtendPrompt(false);
-    navigate("/login");
+    onSessionExpired(); // <--- This is the key part!
   };
 
   return (
