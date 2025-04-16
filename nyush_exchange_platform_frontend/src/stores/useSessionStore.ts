@@ -36,7 +36,7 @@ export const useSessionStore = create<UseSessionState>((set) => ({
 
     keepLoginSessionAlive: async () => {
         try {
-            const response = await axios.post(`${process.env.HOST_NAME}/api/auth/keep-alive`, {
+            const response = await axios.post(`${process.env.REACT_APP_HOST_NAME}/api/auth/keep-alive`, {
                 withCredentials: true,
             });
             if (response.data.message === "session-renewed") {
