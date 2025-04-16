@@ -124,7 +124,7 @@ router.post('/', async (req: Request, res: Response) => {
                     }
                     // setting the maxAge for this session's cookie
                     const sessionMaxAge = req.session.cookie.maxAge ?? 0;
-                    console.log(sessionMaxAge);
+                    console.log("SessionMaxAge:", sessionMaxAge);
                     const sessionExpirationTime = Date.now() + sessionMaxAge;
                     res.status(200).json({ message: 'Login successful! Redirecting to market page',
                         sessionExpirationTime,
