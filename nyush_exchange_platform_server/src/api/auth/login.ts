@@ -87,6 +87,7 @@ router.post('/', async (req: Request, res: Response) => {
                     const sessionExpirationTime = Date.now() + sessionMaxAge;
                     res.status(200).json({ message: 'Login successful! Redirecting to market page',
                         sessionExpirationTime,
+                        serverNow: Date.now(),
                      });
                     return;
                 } else {

@@ -8,6 +8,8 @@ interface UseSessionState {
     checkLoginSession: () => void;
     sessionExpirationTime: number;
     setSessionExpirationTime: (input:number)=>void;
+    setServerTimeOffset: (input:number)=>void;
+    serverTimeOffset: number;
   }
   
 
@@ -17,6 +19,8 @@ export const useSessionStore = create<UseSessionState>((set) => ({
     isAdmin: false,
     setIsAdmin: (input:boolean) => set({isAdmin: input}),
     sessionExpirationTime: Date.now(),
+    serverTimeOffset: 0,
+    setServerTimeOffset: (offset:number) => set({ serverTimeOffset: offset }),
     setSessionExpirationTime: (input:number) => set({sessionExpirationTime: input}),
     checkLoginSession: async () => {
         try {

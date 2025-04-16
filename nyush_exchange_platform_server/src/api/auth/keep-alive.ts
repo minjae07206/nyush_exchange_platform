@@ -9,7 +9,8 @@ router.post('/', async (req: Request, res: Response) => {
         console.log(req.session.cookie.maxAge)
         const sessionExpirationTime = Date.now() + (req.session.cookie.maxAge ?? 0);
         res.status(200).json({message:'session-renewed', 
-            sessionExpirationTime
+            sessionExpirationTime,
+            serverNow: Date.now(),
         });
     } else {
         // User is not logged in
