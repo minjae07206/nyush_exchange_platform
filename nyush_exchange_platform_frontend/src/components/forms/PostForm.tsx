@@ -148,7 +148,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
         }
         // the price should have up to 2 decimal places, and be between 0 and 99999999
         const priceFormat: RegExp = /^\d+(\.\d{0,2})?$/;
-        if (priceInput && (parseFloat(priceInput) < 0 || priceInput.length > 8 || !priceFormat.test(priceInput)) || priceInput !== "") {
+        if (priceInput && (parseFloat(priceInput) < 0 || priceInput.length > 8 || !priceFormat.test(priceInput)) || priceInput == "") {
             onPriceErrorChange("price should be between 0 and 99999999, and up to 2 decimal places.")
             console.log("finding error:")
             console.log(priceInput)
