@@ -15,6 +15,7 @@ import PostStatusBadge from "./PostStatusBadge";
 import { useNavigate } from "react-router-dom";
 import DenyReason from "./DenyReason";
 import AuthorInformation from "./AuthorInformation";
+import ArchivePopup from "./ArchivePopup";
 export default function Post() {
     const navigate = useNavigate();
     const commonClassName = 'min-w-[280px] max-w-[780px] m-auto border bg-white rounded-md mt-12 md:flex';
@@ -56,6 +57,9 @@ export default function Post() {
 
     // Make the share button hidden if the browser doesn't support share API
     const [showShare, setShowShare] = useState<boolean>(true);
+
+    // State to show and hide the popup component to show archiving option
+    const [showArchivePopup, setShowArchivePopup] = useState<boolean>(false);
 
     // When this component is rendered, send a request to the server to get the full information for this post.
     useEffect(() => {
@@ -175,12 +179,21 @@ export default function Post() {
                 navigate('/myposts');
             })
             .catch((error) => {
-                console.log(error)
+                console.log(error);
             });
     }
 
+    const handleArchiveButtonClick = () => {
+        //
+    }
+
     const handleEditButtonClick = () => {
-        navigate(`/edit-post/${postId}`)
+        navigate(`/edit-post/${postId}`);
+    }
+
+    const handleDealMadeButtonClick = () => {
+        // Show the popup component asking the user to choose between deleting the post or archiving it.
+        setShowArchivePopup(true);
     }
 
     const handleApproveButtonClick = () => {
@@ -257,6 +270,9 @@ export default function Post() {
                     {/**Edit button shouldn't appear in Archived. */}
                     {isAuthor && postStatus !== "Denied" && postStatus !== "Archived" && <Button customClass="p-1 bg-purple-600 hover:bg-purple-700" buttonText="Edit" handleButtonClickProp={() => { handleEditButtonClick(); }}></Button>}
                     {isAuthor && <Button customClass="p-1 bg-red-600 hover:bg-red-700" buttonText="Delete" handleButtonClickProp={() => { handleDeleteButtonClick(); }}></Button>}
+                    {/** Deal made! button, when clicked a popup should showup if they wanna archive it or delete it. */}
+                    {/** Post status should be available */}
+                    {isAuthor && postStatus === "Available" && <Button customClass="p-1 bg-green-600 hover:bg-green-700" buttonText="Deal made!" handleButtonClickProp={() => { handleDealMadeButtonClick(); }}></Button>}
                     <div className="flex items-center mb-2 md:justify-end md:absolute md:bottom-2 md:right-4 text-gray-400">
                         <div onClick={handleSavedClick}>
                             {
@@ -291,6 +307,7 @@ export default function Post() {
                         <Button customClass="p-1 bg-red-700 hover:bg-red-800" buttonText="Deny" handleButtonClickProp={() => { handleDenyButtonClick(); }}></Button>
                     </Form>}
             </div>
+            {showArchivePopup && <ArchivePopup handleDeleteButtonClick={handleDeleteButtonClick} handleArchiveButtonClick={handleArchiveButtonClick}></ArchivePopup>}
         </>
     )
 

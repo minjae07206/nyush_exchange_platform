@@ -45,6 +45,7 @@ import resetUserDenyInfoApi from './api/user/reset-deny-info';
 import checkAdminApi from './api/auth/check-admin';
 import editDraftPostApi from './api/post/edit-draft-post';
 import searchAndFilterPosts from './api/post/search-and-filter-posts';
+import archivePostApi from './api/post/archive-post';
 const app: Application = express();
 
 const redisClient = createClient({
@@ -125,6 +126,7 @@ app.use('/api/user/reset-deny-info', resetUserDenyInfoApi);
 app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
+app.use('/api/post/archive-post', archivePostApi);
 
 app.get('*', (req: Request, res: Response) => {
         res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
