@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.patch('/', async (req: Request, res: Response) => {
     const { postId } = req.body;
+    console.log(req.body);
     console.log(postId);
     try {
         const filePath = path.join(__dirname, '..', '..', '..', 'src', 'sql_queries', 'archive_post.sql');
