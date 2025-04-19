@@ -307,7 +307,7 @@ export default function Post() {
                         <Button customClass="p-1 bg-red-700 hover:bg-red-800" buttonText="Deny" handleButtonClickProp={() => { handleDenyButtonClick(); }}></Button>
                     </Form>}
             </div>
-            {showArchivePopup && <ArchivePopup handleDeleteButtonClick={handleDeleteButtonClick} handleArchiveButtonClick={handleArchiveButtonClick}></ArchivePopup>}
+            {showArchivePopup && <ArchivePopup handleDeleteButtonClick={handleDeleteButtonClick} handleArchiveButtonClick={handleArchiveButtonClick} setShowArchivePopup={setShowArchivePopup}></ArchivePopup>}
         </>
     )
 
