@@ -184,7 +184,7 @@ export default function Post() {
     }
 
     const handleArchiveButtonClick = () => {
-        //
+        axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/archive-post`)
     }
 
     const handleEditButtonClick = () => {
