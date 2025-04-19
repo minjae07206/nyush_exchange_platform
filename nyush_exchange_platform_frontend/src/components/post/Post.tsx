@@ -185,6 +185,13 @@ export default function Post() {
 
     const handleArchiveButtonClick = () => {
         axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/archive-post`)
+        .then(()=>{
+            // redirect to another page
+            navigate('/myposts/archived')
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
     const handleEditButtonClick = () => {
