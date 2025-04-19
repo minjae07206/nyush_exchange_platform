@@ -5,7 +5,7 @@ import path from 'path';
 const router = express.Router();
 
 router.patch('/', async (req: Request, res: Response) => {
-    const { postId } = req.body;
+    const { postId } = req.body.data;
     console.log(req.body);
     console.log(postId);
     try {

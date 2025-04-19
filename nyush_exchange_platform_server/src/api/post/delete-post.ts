@@ -5,7 +5,7 @@ import path from 'path';
 const router = express.Router();
 
 router.delete('/', async (req: Request, res: Response) => {
-    const { postId } = req.body;
+    const { postId } = req.body.data;
 
     try {
         // Begin transaction
