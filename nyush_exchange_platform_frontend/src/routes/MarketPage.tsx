@@ -72,10 +72,6 @@ export default function MarketPage() {
         // change to server error page.
         return <NotFoundPage></NotFoundPage>
     }
-
-    if (postList.length === 0) {
-        return <ZeroPostsPage></ZeroPostsPage>
-    }
     return (
         <section>
             <FilterBar></FilterBar>
