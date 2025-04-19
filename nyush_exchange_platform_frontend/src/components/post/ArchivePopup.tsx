@@ -1,9 +1,10 @@
+import Button from "components/Button";
 interface ArchivePopupProps {
     handleDeleteButtonClick: () => void;
     handleArchiveButtonClick: () => void;
 }
 
-import Button from "components/Button";
+
 
 
 export default function ArchivePopup({handleDeleteButtonClick, handleArchiveButtonClick}:ArchivePopupProps) {
