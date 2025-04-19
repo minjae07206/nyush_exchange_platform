@@ -184,7 +184,10 @@ export default function Post() {
     }
 
     const handleArchiveButtonClick = () => {
-        axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/archive-post`)
+        axios.patch(`${process.env.REACT_APP_HOST_NAME}/api/post/archive-post`, {
+            data: {postId: postId},
+            withCredentials: true
+        })
         .then(()=>{
             // redirect to another page
             navigate('/myposts/archived')
