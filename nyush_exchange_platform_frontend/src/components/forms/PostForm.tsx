@@ -157,7 +157,7 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
         ) {
             onPriceErrorChange("price should be between 0 and 99999999, and up to 2 decimal places.")
             console.log("finding error:")
-            console.log(priceInput)
+            console.log(priceInput);
             console.log(priceInput.length)
             console.log(parseFloat(priceInput));
             CAN_PROCEED_TO_MAKING_REQUEST = false;
