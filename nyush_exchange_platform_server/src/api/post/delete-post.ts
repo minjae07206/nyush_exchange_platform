@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.delete('/', async (req: Request, res: Response) => {
     const { postId } = req.body;
+    console.log("postId", postId)
 
     try {
         // Begin transaction
