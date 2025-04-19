@@ -173,6 +173,8 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
         if (formattedCurrentDate >= sellBuyByDateInput) {
             onSellBuyByDateErrorChange("Sell/Buy by date can't be in the past or the day of posting.")
             CAN_PROCEED_TO_MAKING_REQUEST = false;
+        } else {
+            onSellBuyByDateErrorChange(null);
         }
         if (CAN_PROCEED_TO_MAKING_REQUEST) {
             const formData = new FormData();
