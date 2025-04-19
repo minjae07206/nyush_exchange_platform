@@ -13,7 +13,7 @@ export default function HomePage() {
                 </div>
             </div>
             <div className=" bg-violet-200 pb-10">
-                <h1 className="mx-20 pt-16 text-2xl md:text-5xl font-extrabold">Know who you buy from, sell to</h1>
+                <h1 className="mx-20 pt-16 text-2xl md:text-5xl font-extrabold">NYU Shanghai Community</h1>
                 <h3 className="mx-20 pt-4 text-sm larger-phones:text-sm md:text-xl">Can only be accessed within the NYU network or VPN, requires a NYU email to create an account. So you can guarantee that everyone is a part of the NYU Shanghai community, reducing the likelyhood of scams.</h3>
             </div>
             <div className=" bg-violet-100 pb-10">
