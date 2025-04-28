@@ -53,7 +53,7 @@ const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
         host: process.env.REDIS_HOST,
-        port: parseInt(process.env.REDIS_PORT as string, 10) || 17618,
+        port: 17618//parseInt(process.env.REDIS_PORT as string, 10) || 17618,
     }
 });
 
@@ -129,6 +129,8 @@ app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 app.use('/api/post/archive-post', archivePostApi);
 
 app.get('*', (req: Request, res: Response) => {
+        console.log(__dirname)
+        //res.sendFile(path.join(__dirname, 'nyush_exchange_platform_frontend/build/index.html'));
         res.sendFile(path.join(__dirname, '../../nyush_exchange_platform_frontend/build/index.html'));
     } 
 );
@@ -139,5 +141,5 @@ app.use((req: Request, res: Response) => {
 console.log('Serving frontend build from:', path.join(__dirname, '../../nyush_exchange_platform_frontend/build'));
 
 app.listen(port, '0.0.0.0', function () {
-    console.log(`App is listening on port ${port} !`)
+    console.log(`App is listening on port ${port} !`);
 })
