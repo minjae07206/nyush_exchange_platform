@@ -2,4 +2,4 @@ const forbiddenUsernames:string[] = [
     "admin",
 ] 
 
-export default forbiddenUsernames
+export default forbiddenUsernames;
