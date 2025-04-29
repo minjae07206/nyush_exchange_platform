@@ -19,7 +19,7 @@ router.post('/', async (req: Request, res: Response) => {
             const username = sessionData.unverifiedUser.username;
             const hashedPassword = sessionData.unverifiedUser.hashedPassword;
             const email = sessionData.unverifiedUser.email;
-            const role = 'user';
+            const role = 'user'; // To make a admin user, change 'user' to 'admin'.
             if (sessionData.unverifiedUser.verificationCode == req.body.verificationCode) {
                 // user verfied
                 // send success and send success message, add user to user table. redirect them to the login page.

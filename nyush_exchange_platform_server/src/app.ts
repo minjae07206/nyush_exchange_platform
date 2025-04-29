@@ -83,7 +83,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        path: "/", // path that the cooke is saved
+        path: "/", // path that the cookie is saved
         secure: false, // false because tested in http in localhost
         httpOnly: true, // client cannot use javascript to access the cookie.
         maxAge: 1000 * 60 * 3, // 3 minutes
