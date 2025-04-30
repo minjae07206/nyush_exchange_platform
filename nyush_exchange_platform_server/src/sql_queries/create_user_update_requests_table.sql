@@ -5,5 +5,5 @@ CREATE TABLE user_update_requests (
     new_profile_image VARCHAR(255), -- Optional new profile image URL
     new_wechat_qr_code_image VARCHAR(255), -- Optional new WeChat QR code URL
     request_status VARCHAR(20) DEFAULT 'pending', -- Status: 'pending', 'approved', 'denied'
-    requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- When the request was created
+    requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- When the request was created
 );
