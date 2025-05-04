@@ -73,7 +73,7 @@ const redisStore = new RedisStore({
 })
 app.use(express.json()) // this line is needed to access req.body, which is in json form.
 app.use(cookieParser());
-const port: number = 8080;
+const port: number = Number(process.env.PORT_NUMBER);
 
 
 
