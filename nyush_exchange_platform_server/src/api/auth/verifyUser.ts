@@ -10,8 +10,8 @@ router.post('/', async (req: Request, res: Response) => {
         // 'connect.sid' is the key of the sessionId(cookie) that is passed on from the client to the server.
         const rawSessionId = req.cookies['connect.sid'];
         // We need to format the sessionId in this way so that it matches the way it is stored in the Redis database.
-        // the nyush_exchange_platform_redis is because that is what is set as the prefix in initializing redisStore in app.ts file.
-        const sessionId = "nyush_exchange_platform_redis" + rawSessionId.slice(2).split(".")[0];
+        // the nyush-exchange-platform-redis is because that is what is set as the prefix in initializing redisStore in app.ts file.
+        const sessionId = "nyush-exchange-platform-redis" + rawSessionId.slice(2).split(".")[0];
         // We search the redis database if the sessionId exists.
         const replyFromRedis = await redisClient.get(sessionId);
         if (replyFromRedis) {

@@ -12,5 +12,6 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_denied_reason TEXT,            -- Column to store the reason for denial if an update is denied
-    update_result VARCHAR(10) DEFAULT NULL -- Column to indicate the result of an update request (NULL, "Denied", or "Approved")
+    update_result VARCHAR(10) DEFAULT NULL, -- Column to indicate the result of an update request (NULL, "Denied", or "Approved")
+    role VARCHAR(20) DEFAULT 'user' --
 );
