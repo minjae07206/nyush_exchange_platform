@@ -102,7 +102,6 @@ export default function PostForm({ newOrEditFlag, postId }: PostFormProps) {
                     const formattedDateOfExpiration = new Date(responseData.date_of_expiration).toLocaleDateString("en-CA");
                     onTitleChange(responseData.post_title);
                     onDescriptionChange(responseData.description);
-                    const baseUrl = `${process.env.HOST_NAME}`;
                     const imageUrls = responseData.images //.map((path: string) => baseUrl + path.replace(/\\/g, "/"));
                     //(responseData.author_id);
                     onCurrencyChange(responseData.currency);

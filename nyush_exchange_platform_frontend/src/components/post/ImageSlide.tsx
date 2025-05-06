@@ -45,7 +45,7 @@ export default function ImageSlide ({images}:ImageSlideProp) {
                             return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
                         }
                         return (
-                            <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={imageURL} target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(imageURL)}`}>
+                            <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={imageURL} target="_blank" to={`${formatImagePath(imageURL)}`}>
                                 <img className="object-cover" src={`${formatImagePath(imageURL)}`}></img>
                             </Link>
                         )
