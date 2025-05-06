@@ -11,10 +11,6 @@ import dotenv from 'dotenv';
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
 }*/
 dotenv.config({path: '../.env'})
-if (process.env.NODE_ENV !== 'production') {
-    // Only load .env when not in production
-    import('dotenv').then(dotenv => dotenv.config({path: '../.env'}));
-  }
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import loginApi from './api/auth/login';
