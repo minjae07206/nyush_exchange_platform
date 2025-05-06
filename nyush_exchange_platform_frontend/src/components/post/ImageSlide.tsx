@@ -46,7 +46,7 @@ export default function ImageSlide ({images}:ImageSlideProp) {
                         }
                         return (
                             <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={imageURL} target="_blank" to={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(imageURL)}`}>
-                                <img className="object-cover" src={`${process.env.REACT_APP_HOST_NAME}/${formatImagePath(imageURL)}`}></img>
+                                <img className="object-cover" src={`${formatImagePath(imageURL)}`}></img>
                             </Link>
                         )
                     })
