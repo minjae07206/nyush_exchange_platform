@@ -5,8 +5,10 @@ services:
     build:
       context: .  # Main directory (where Dockerfile is located)
       dockerfile: Dockerfile  # Dockerfile located here
+      args:
+        REACT_APP_HOST_NAME: ${REACT_APP_HOST_NAME}
     ports:
-      - "${PORT_NUMBER}:${PORT_NUMBER}" 
+      - "${PORT_NUMBER}:3389" 
     networks:
       - app-network
     depends_on:
