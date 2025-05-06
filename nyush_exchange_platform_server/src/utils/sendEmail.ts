@@ -8,7 +8,10 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
 }*/
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  // Only load .env when not in production
+  import('dotenv').then(dotenv => dotenv.config({path: '../.env'}));
+}
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

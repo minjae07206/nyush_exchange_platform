@@ -4,13 +4,16 @@ import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
 import './cronJob'; // The cron job to delete expired posts should work automatically.
 
-import dotenv from 'dotenv';
+//
 /*if (process.env.NODE_ENV === 'production') {
     dotenv.config({ path: '/home/ml6722/.env' });  // Path for production
 } else {
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
 }*/
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+    // Only load .env when not in production
+    import('dotenv').then(dotenv => dotenv.config({path: '../.env'}));
+  }
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import loginApi from './api/auth/login';
