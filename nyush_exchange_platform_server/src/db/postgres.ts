@@ -1,4 +1,5 @@
 import pg from 'pg';
+import dotenv from 'dotenv'
 //
 /*if (process.env.NODE_ENV === 'production') {
     dotenv.config({ path: '/home/ml6722/.env' });  // Path for production
@@ -6,10 +7,12 @@ import pg from 'pg';
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
 }// Load environment variables from .env file
 */ 
-if (process.env.NODE_ENV !== 'production') {
+/*if (process.env.NODE_ENV !== 'production') {
     // Only load .env when not in production
     import('dotenv').then(dotenv => dotenv.config({path: '../.env'}));
   }
+*/
+dotenv.config({path: '../.env'})
 const { Pool } = pg;
 console.log(process.env.POSTGRES_HOST)
 

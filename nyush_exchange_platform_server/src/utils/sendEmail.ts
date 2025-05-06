@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
 }*/
+dotenv.config({path: '../.env'})
 if (process.env.NODE_ENV !== 'production') {
   // Only load .env when not in production
   import('dotenv').then(dotenv => dotenv.config({path: '../.env'}));
