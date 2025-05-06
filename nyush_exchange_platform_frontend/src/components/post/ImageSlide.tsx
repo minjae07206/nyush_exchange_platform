@@ -42,11 +42,11 @@ export default function ImageSlide ({images}:ImageSlideProp) {
                             }
                             // Replace the directory part with '/uploads'
                             console.log("Formatting image path: ", fullPath)
-                            return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                            return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
                         }
                         return (
                             <Link className="flex-shrink-0 w-full h-full" rel="noopener noreferrer" key={imageURL} target="_blank" to={`${formatImagePath(imageURL)}`}>
-                                <img className="object-cover" src={formatImagePath(imageURL)}></img>
+                                <img className="object-cover" src={`${formatImagePath(imageURL)}`}></img>
                             </Link>
                         )
                     })
