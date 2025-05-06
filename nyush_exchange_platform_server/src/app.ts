@@ -58,7 +58,7 @@ const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
         host: process.env.REDIS_HOST,
-        port: 17618//parseInt(process.env.REDIS_PORT as string, 10) || 17618,
+        port: parseInt(process.env.REDIS_PORT as string, 10) || 17618,
     }
 });
 
