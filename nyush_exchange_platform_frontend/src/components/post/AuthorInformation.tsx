@@ -28,7 +28,7 @@ export default function AuthorInformation({ username, email, profileImage, wecha
     const formatImagePath = (fullPath: string): string => {
         // Replace the directory part with '/uploads'
         console.log("Formatting image path: ", fullPath)
-        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
     }
     return (
         <div className="flex relative items-center justify-between w-full px-2">

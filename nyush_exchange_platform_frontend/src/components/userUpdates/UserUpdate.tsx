@@ -53,7 +53,7 @@ export default function UserUpdate({ requester_user_id, newWechatQRCodeImage, ne
             return null
         }
         console.log("Formatting image path: ", fullPath)
-        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
     }
     return (
         <div className="flex shadow-md bg-grey-100 h-32 larger-phones:h-40 md:h-80 md:w-60 md:rounded-md md:block cursor-pointer">

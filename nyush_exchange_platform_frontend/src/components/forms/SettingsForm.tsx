@@ -139,7 +139,8 @@ export default function SettingsForm() {
                     const formatImagePath = (fullPath: string): string => {
                         // Replace the directory part with '/uploads'
                         console.log("Formatting image path: ", fullPath)
-                        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                        // "/" in /uploads makes the path absolute, without it it continues from relative path
+                        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
                     }
                     setProfileImageURL(formatImagePath(formattedResponseData.profile_image));
                 }
@@ -150,7 +151,8 @@ export default function SettingsForm() {
                     const formatImagePath = (fullPath: string): string => {
                         // Replace the directory part with '/uploads'
                         console.log("Formatting image path: ", fullPath)
-                        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', 'uploads');
+                        // "/" in /uploads makes the path absolute, without it it continues from relative path
+                        return fullPath.replace('/nyush_exchange_platform_server/var/www/uploads', '/uploads');
                     }
                     setWechatQRCodeImageURL(formatImagePath(formattedResponseData.wechat_qr_code_image));
                 }
