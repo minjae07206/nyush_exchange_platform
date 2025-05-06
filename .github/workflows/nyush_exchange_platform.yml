@@ -44,10 +44,6 @@ jobs:
 
     # 8. Build Docker Images
     - name: Build Docker Images
-      env:
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_DATABASE: ${{ secrets.DB_DATABASE }}
       run: docker-compose -f docker-compose.yml build --no-cache
 
     # 9. Tag and Push Images to Docker Hub

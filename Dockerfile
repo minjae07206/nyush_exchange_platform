@@ -4,8 +4,6 @@ FROM node:23-slim AS frontend
 WORKDIR /app
 
 # Using value from .env file that can be changed instead of hard coding the HOST name, because the host name can change and I want to deploy the image to different servers.
-ARG REACT_APP_HOST_NAME
-ENV REACT_APP_HOST_NAME=$REACT_APP_HOST_NAME
 
 # Copy frontend files and install dependencies
 COPY nyush_exchange_platform_frontend/package.json ./nyush_exchange_platform_frontend/package.json
