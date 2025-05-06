@@ -2,11 +2,13 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
+/*
 if (process.env.NODE_ENV === 'production') {
     dotenv.config({ path: '/home/ml6722/.env' });  // Path for production
 } else {
     dotenv.config({ path: '../.env' });  // Default, loads from the root .env file for development
-}
+}*/
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
