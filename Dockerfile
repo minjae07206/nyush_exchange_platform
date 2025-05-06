@@ -6,6 +6,7 @@ WORKDIR /app
 # Using value from .env file that can be changed instead of hard coding the HOST name, because the host name can change and I want to deploy the image to different servers.
 
 # Copy frontend files and install dependencies
+COPY nyush_exchange_platform_frontend/.env ./nyush_exchange_platform_frontend/.env
 COPY nyush_exchange_platform_frontend/package.json ./nyush_exchange_platform_frontend/package.json
 COPY nyush_exchange_platform_frontend/package-lock.json ./nyush_exchange_platform_frontend/package-lock.json
 RUN npm install --prefix ./nyush_exchange_platform_frontend

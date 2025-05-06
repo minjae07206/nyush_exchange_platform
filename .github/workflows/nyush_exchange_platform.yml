@@ -41,7 +41,11 @@ jobs:
       run: |
         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
-
+    # 7.5 Add REACT_APP_HOST_NAME  
+    - name: Create .env file
+      run: |
+        echo "REACT_APP_HOST_NAME=${{ secrets.REACT_APP_HOST_NAME }}" > nyush_exchange_platform_frontend/.env
+      
     # 8. Build Docker Images
     - name: Build Docker Images
       run: docker-compose -f docker-compose.yml build --no-cache
