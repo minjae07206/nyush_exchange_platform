@@ -55,40 +55,40 @@ jobs:
       run: |
         docker tag nyush_exchange_platform_backend:latest minjae07206/nyush_exchange_platform_backend:latest
         docker push minjae07206/nyush_exchange_platform_backend:latest
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-docker-image  # Ensures this job only runs after the `Docker Pipeline` workflow completes
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build-docker-image  # Ensures this job only runs after the `Docker Pipeline` workflow completes
 
-    steps:
-      # 1. Checkout code from GitHub
-      - name: Checkout code
-        uses: actions/checkout@v4
-       # 2. Set up SSH key for secure access to the server
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Debug SSH connection
-        run: |
-          ssh -o ConnectTimeout=300 -o StrictHostKeyChecking=no ml6722@10.214.14.9 'echo "SSH connected successfully"'
+  #   steps:
+  #     # 1. Checkout code from GitHub
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #      # 2. Set up SSH key for secure access to the server
+  #     - name: Set up SSH key
+  #       uses: webfactory/ssh-agent@v0.9.0
+  #       with:
+  #         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #     - name: Debug SSH connection
+  #       run: |
+  #         ssh -o ConnectTimeout=300 -o StrictHostKeyChecking=no ml6722@10.214.14.9 'echo "SSH connected successfully"'
 
 
 
-    # Step 3: Clone or pull the latest code from the repository on the server
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
-          script: whoami
+  #   # Step 3: Clone or pull the latest code from the repository on the server
+  #     - name: executing remote ssh commands using ssh key
+  #       uses: appleboy/ssh-action@v1.2.0
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         username: ${{ secrets.USERNAME }}
+  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #         port: ${{ secrets.PORT }}
+  #         script: whoami
 
-      # 4. Pull both the frontend and backend Docker images from Docker Hub
-      - name: Pull Docker Images
-        run: |
-          ssh ml6722@10.214.14.9 "docker pull minjae07206/nyush_exchange_platform_backend"
-      # 5. Run all services (frontend and backend) using docker-compose
-      - name: Deploy Application
-        run: |
-          ssh ml6722@10.214.14.9 "docker-compose -f /home/ml6722/nyush_exchange_platform/docker-compose.yml up -d"
+  #     # 4. Pull both the frontend and backend Docker images from Docker Hub
+  #     - name: Pull Docker Images
+  #       run: |
+  #         ssh ml6722@10.214.14.9 "docker pull minjae07206/nyush_exchange_platform_backend"
+  #     # 5. Run all services (frontend and backend) using docker-compose
+  #     - name: Deploy Application
+  #       run: |
+  #         ssh ml6722@10.214.14.9 "docker-compose -f /home/ml6722/nyush_exchange_platform/docker-compose.yml up -d"
