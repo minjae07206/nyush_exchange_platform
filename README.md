@@ -1,3 +1,5 @@
+[![CI Pipeline](https://github.com/minjae07206/nyush_exchange_platform/actions/workflows/nyush_exchange_platform.yml/badge.svg)](https://github.com/minjae07206/nyush_exchange_platform/actions/workflows/nyush_exchange_platform.yml)
+
 # 🏫 NYUSH Exchange Platform
 
 A platform for facilitating student exchange-related communications and resources at NYU Shanghai.
