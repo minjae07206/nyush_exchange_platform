@@ -34,3 +34,4 @@ To pull new Docker images and restart services on your deployment server:
 
 - 🖼️ [**Image URL Formatting Guide**](https://wood-ocarina-506.notion.site/Image-URL-formatting-1db44b84016680d8a358f5da19376a55)  
 - 🛠️ [**Working with Postgres from a Container**](https://wood-ocarina-506.notion.site/Manipulating-the-Postgres-database-from-a-container-1d844b84016680659391e8908f627986)
+- [**Using Loading page**](https://wood-ocarina-506.notion.site/Using-Loading-Page-1ec44b8401668025a7d9c39556f66625)
