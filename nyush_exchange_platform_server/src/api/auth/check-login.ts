@@ -5,7 +5,7 @@ router.get('/', async (req: Request, res: Response) => {
     console.log("COOKIE", req.session.cookie);
     console.log("req.session.user", req.session.user)
     // It turns out I don't need to check the redis sessionDB, req.session.user is already checking the db for me.
-    if (req.session.cookie) {
+    if (req.session.user) {
         res.status(200).json({message:'session-alive'});
     } else {
         // User is not logged in
