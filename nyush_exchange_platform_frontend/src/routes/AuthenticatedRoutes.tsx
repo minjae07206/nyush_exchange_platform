@@ -16,6 +16,7 @@ export default function AuthenticatedRoutes() {
                     withCredentials: true,
                 });
                 if (response.data.message === 'session-alive') {
+                    console.log("Session is still alive!")
                     setIsLoggedIn(true);
                 } else {
                     setIsLoggedIn(false);
@@ -29,12 +30,13 @@ export default function AuthenticatedRoutes() {
         };
 
         // Only check session if `isLoggedIn` is unknown (false or null)
-        if (!isLoggedIn) {
+        /*if (!isLoggedIn) {
             checkSession();
         } else {
             setLoading(false); // Session already known to be valid
-        }
-    }, [isLoggedIn, setIsLoggedIn]);
+        }*/
+        checkSession();
+    }, [setIsLoggedIn]);
 
     // Show loading screen or spinner until session check completes
     if (loading) {
