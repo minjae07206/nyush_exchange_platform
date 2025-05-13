@@ -87,7 +87,7 @@ app.use(session({
         path: "/", // path that the cookie is saved
         secure: false, // false because tested in http in localhost
         httpOnly: true, // client cannot use javascript to access the cookie.
-        maxAge: 1000 * 60 * 3, // 3 minutes
+        maxAge: 1000 * 60 * 20, // 20 minutes
 
     }, // Secure cookies in production
     rolling: true     // Reset cookie/session timeout on each request           
