@@ -50,7 +50,7 @@ export default function AuthenticatedRoutes() {
 
     return (
         <>
-            <SessionExpirationWatcher  onSessionExpired={() => setIsLoggedIn(false)} />
+            {/*<SessionExpirationWatcher  onSessionExpired={() => setIsLoggedIn(false)} />*/}
             <Outlet />
         </>
     );
