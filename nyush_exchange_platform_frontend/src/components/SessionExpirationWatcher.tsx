@@ -25,24 +25,7 @@ export default function SessionExpirationWatcher({
     if (sessionExpirationTime && getAdjustedTime() >= sessionExpirationTime) {
       handleTimeout();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Check session again when tab becomes visible
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        if (sessionExpirationTime && getAdjustedTime() >= sessionExpirationTime) {
-          handleTimeout();
-        }
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [sessionExpirationTime, serverTimeOffset]);
 
   // Poll to determine when to show the popup or trigger timeout
   useEffect(() => {
