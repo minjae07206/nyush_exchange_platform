@@ -6,7 +6,7 @@ services:
       context: .  # Main directory (where Dockerfile is located)
       dockerfile: Dockerfile  # Dockerfile located here
     ports:
-      - "80:3389" 
+      - "3389:3389" 
     networks:
       - app-network
     depends_on:
