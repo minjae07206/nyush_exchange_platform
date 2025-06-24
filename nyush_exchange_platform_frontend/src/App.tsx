@@ -24,6 +24,7 @@ import AdminRoutes from 'routes/AdminRoutes';
 import ForgotPasswordPage from 'routes/ForgotPasswordPage';
 import UnauthorizedPage from 'routes/UnauthorizedPage';
 import SearchPage from 'routes/SearchPage';
+import OAuthPage from 'routes/OAuthPage';
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +33,9 @@ function App() {
         <Routes>
           {/*Home route */}
           <Route path='/' element={<HomePage />}></Route>
+
+          {/** Oauth Page */}
+          <Route path="/oauth" element={<OAuthPage></OAuthPage>}/>
           {/*Routes for that require login */}
           <Route element={<AuthenticatedRoutes />}>
             <Route path="/market" element={<MarketPage />} />
