@@ -35,7 +35,7 @@ function App() {
           <Route path='/' element={<HomePage />}></Route>
 
           {/** Oauth Page */}
-          <Route path="/oauth" element={<OAuthPage></OAuthPage>}/>
+          <Route path="/oauth" element={<OAuthPage/>}/>
           {/*Routes for that require login */}
           <Route element={<AuthenticatedRoutes />}>
             <Route path="/market" element={<MarketPage />} />
