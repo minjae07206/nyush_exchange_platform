@@ -47,6 +47,7 @@ import checkAdminApi from './api/auth/check-admin';
 import editDraftPostApi from './api/post/edit-draft-post';
 import searchAndFilterPosts from './api/post/search-and-filter-posts';
 import archivePostApi from './api/post/archive-post';
+import nyuLoginApi from './api/auth/nyu-login';
 const app: Application = express();
 
 const redisClient = createClient({
@@ -128,6 +129,8 @@ app.use('/api/auth/check-admin', checkAdminApi);
 app.use('/api/post/edit-draft-post', editDraftPostApi);
 app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 app.use('/api/post/archive-post', archivePostApi);
+
+app.use('/api/auth/nyu-login', nyuLoginApi);
 
 app.get('*', (req: Request, res: Response) => {
         console.log(__dirname)
