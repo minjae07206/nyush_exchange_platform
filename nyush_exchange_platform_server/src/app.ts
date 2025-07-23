@@ -131,6 +131,7 @@ app.use('/api/post/search-and-filter-posts', searchAndFilterPosts);
 app.use('/api/post/archive-post', archivePostApi);
 
 app.use('/api/auth/nyu-login', nyuLoginApi);
+// comment to test
 
 app.get('*', (req: Request, res: Response) => {
         console.log(__dirname)
