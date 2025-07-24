@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y curl  # For Debian/Ubuntu-based images
 # Copy backend package files and install dependencies
 COPY nyush_exchange_platform_server/package*.json ./
 RUN npm install
+RUN npm install gopd
 
 # Ensure permissions for all binaries in node_modules/.bin
 RUN chmod -R +x node_modules/.bin/
