@@ -3,53 +3,27 @@ FROM node:20-slim AS frontend
 
 WORKDIR /app
 
-# Using value from .env file that can be changed instead of hard coding the HOST name, because the host name can change and I want to deploy the image to different servers.
-
-# Copy frontend files and install dependencies
-COPY nyush_exchange_platform_frontend/.env ./nyush_exchange_platform_frontend/.env
-COPY nyush_exchange_platform_frontend/package.json ./nyush_exchange_platform_frontend/package.json
-COPY nyush_exchange_platform_frontend/package-lock.json ./nyush_exchange_platform_frontend/package-lock.json
+COPY nyush_exchange_platform_frontend/package*.json ./nyush_exchange_platform_frontend/
 RUN npm install --prefix ./nyush_exchange_platform_frontend
 
-
-# Copy the rest of the frontend files and build it
 COPY nyush_exchange_platform_frontend ./nyush_exchange_platform_frontend/
-
 RUN npm run build --prefix ./nyush_exchange_platform_frontend
 
-# Stage 2: Setup backend with built frontend
+# Stage 2: Setup backend
 FROM node:20-slim AS backend
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y curl  # For Debian/Ubuntu-based images
+RUN apt-get update && apt-get install -y curl
 
-# Copy backend package files and install dependencies
 COPY nyush_exchange_platform_server/package*.json ./
 RUN npm install
-RUN npm install gopd
 
-# Ensure permissions for all binaries in node_modules/.bin
-RUN chmod -R +x node_modules/.bin/
-
-# Install TypeScript globally
-RUN npm install -g typescript
-
-# Copy the rest of the backend application code
 COPY nyush_exchange_platform_server ./nyush_exchange_platform_server/
-
-# Copy the built frontend from the frontend stage
 COPY --from=frontend /app/nyush_exchange_platform_frontend/build ./nyush_exchange_platform_frontend/build
 
-# Build the backend application (for TypeScript projects)
 RUN npm run build --prefix ./nyush_exchange_platform_server
 
-# Expose the application port
-# This only tells Docker what port the app inside the container listens on
 EXPOSE 3889
-
-# Set environment variable
 ENV NODE_ENV=production
-
-# Start the application
 CMD ["node", "nyush_exchange_platform_server/dist/app.js"]
