@@ -1,5 +1,5 @@
 # Stage 1: Build frontend
-FROM node:23-slim AS frontend
+FROM node:20-slim AS frontend
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ COPY nyush_exchange_platform_frontend ./nyush_exchange_platform_frontend/
 RUN npm run build --prefix ./nyush_exchange_platform_frontend
 
 # Stage 2: Setup backend with built frontend
-FROM node:23-slim AS backend
+FROM node:20-slim AS backend
 
 WORKDIR /app
 
