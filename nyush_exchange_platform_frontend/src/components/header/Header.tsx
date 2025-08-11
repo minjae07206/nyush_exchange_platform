@@ -20,7 +20,11 @@ export default function Header () {
             <NavigationBar className="w-8/12 text-center content-center hidden sm:block"></NavigationBar>
             <SearchBar className="w-6/12 sm:w-1/12 text-center content-center sm:ml-3 md:ml-10"></SearchBar>
             {
-                isLoggedIn ? <LogoutButton className={LoginOutClassname}/> : <LoginButton className={LoginOutClassname}/>
+                isLoggedIn ? <LogoutButton className={LoginOutClassname}/> : 
+                <>
+                <LoginButton LoginButtonText="Login" className={LoginOutClassname}/>
+                <LoginButton LoginButtonText="NYU Login" className={LoginOutClassname}/>
+                </>
             }
         </header>
     )
